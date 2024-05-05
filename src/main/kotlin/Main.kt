@@ -1,4 +1,4 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
+gimport androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,8 +24,9 @@ fun App() {
     }
 }
 
-fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
-        App()
+fun main() =
+    application {
+        Window(onCloseRequest = ::exitApplication) {
+            App()
+        }
     }
-}

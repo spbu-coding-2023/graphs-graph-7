@@ -1,4 +1,3 @@
 package graph.model
 
-class Graph {
-}
+class Graph

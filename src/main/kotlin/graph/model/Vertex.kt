@@ -1,4 +1,3 @@
 package graph.model
 
-class Vertex {
-}
+class Vertex
