@@ -1,3 +1,5 @@
 package graph.model
 
-class Vertex
+abstract class Vertex<V> {
+    abstract var element: V
+}
