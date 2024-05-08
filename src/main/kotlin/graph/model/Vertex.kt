@@ -1,5 +1,6 @@
 package graph.model
 
-abstract class Vertex<V> {
-    abstract var element: V
-}
+class Vertex<V> (
+    var element: V,
+    var community: Int = -1
+){}
