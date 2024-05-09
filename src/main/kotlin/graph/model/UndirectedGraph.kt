@@ -1,7 +1,7 @@
 package graph.model
 
 class Graph<V>{
-    open var isDirected: Boolean = false
+    var isDirected: Boolean = false
     val vertices = hashMapOf<Int, Vertex<V>>()
     val edges = hashMapOf<Int, Edge<V>>()
 
