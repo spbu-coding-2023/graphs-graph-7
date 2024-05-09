@@ -1,20 +1,24 @@
 package graph.model
 
-class Graph<V,E>{
+class Graph<V>{
     open var isDirected: Boolean = false
-    private val vertices = hashMapOf<V, Vertex<V>>()
-    private val edges = hashMapOf<E, Edge<E,V>>()
+    private val vertices = hashMapOf<Int, Vertex<V>>()
+    private val edges = hashMapOf<Int, Edge<V>>()
 
     fun vertices(): Collection<Vertex<V>> = vertices.values
 
-    fun edges(): Collection<Edge<E,V>> = edges.values
+    fun edges(): Collection<Edge<V>> = edges.values
 
-    fun addVertex(v: V): Vertex<V> = vertices.getOrPut(v) { Vertex(v, -1) }
+    fun addVertex(id: Int, v: V): Vertex<V> = vertices.getOrPut(id) { Vertex(v, -1) }
 
-    fun addEdge(u: V, v: V, e: E, weight: Long=1L,): Edge<E,V> {
-        val first = addVertex(u)
-        val second = addVertex(v)
-        return edges.getOrPut(e) { Edge(e, Pair(first,second), weight) }
+    fun addEdge(u: Int, v: Int, weight: Long=1L, id:Int): Edge<V> {
+        val first = addVertex(u,vertices[u]?.element ?: throw Exception("cringe") )
+        val second = addVertex(v, vertices[v]?.element?: throw Exception("cringe") )
+        if (!isDirected){
+            second.incidentEdges.add(id)
+        }
+        first.incidentEdges.add(id)
+        return edges.getOrPut(id) { Edge(Pair(first,second), weight) }
     }
 
 }
