@@ -1,0 +1,4 @@
+package algorithms
+
+class Algo {
+}
