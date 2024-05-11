@@ -8,7 +8,7 @@ class BridgeFinder<V>(graph: Graph<V>) {
     private val visitedVertices = Array(arraySize) {false}
     private val timeIn = Array(arraySize) {0}
     private val fUp = Array(arraySize) {0}
-
+    //TODO: adapt this algorithm to multiple edges
     fun findBridges(graph: Graph<V>){
         var timer = 0
 
