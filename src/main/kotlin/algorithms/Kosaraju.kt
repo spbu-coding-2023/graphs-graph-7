@@ -32,9 +32,25 @@ class Kosaraju<V>(private val graph: Graph<V>) {
             val edge = transposedGraph.edges[edgeID] ?: continue
             val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
             if (used[nextVertexID] != true) {
-                dfs2(transposedGraph, nextVertexID)
+                dfs2(transposedGraph, nextVertexID) // Изменено
             }
         }
     }
 
+    private fun transposeGraph(): Graph<V> {
+        val transposedGraph = Graph<V>()
+        transposedGraph.isDirected = graph.isDirected
+
+        // Добавление вершин
+        graph.vertices.forEach { (id, vertex) ->
+            transposedGraph.addVertex(id, vertex.data)
+        }
+
+        // Добавление рёбер с изменённым направлением
+        graph.edges.forEach { (id, edge) ->
+            transposedGraph.addEdge(edge.vertices.second, edge.vertices.first, edge.weight, id)
+        }
+
+        return transposedGraph
+    }
 }
