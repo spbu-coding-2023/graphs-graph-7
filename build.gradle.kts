@@ -15,6 +15,8 @@ repositories {
 }
 val exposedVersion: String by project
 dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
@@ -30,5 +32,15 @@ compose.desktop {
             packageName = "graphhw"
             packageVersion = "1.0.0"
         }
+    }
+}
+
+tasks.named<Test>("test") {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+tasks.withType<Test> {
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED")
     }
 }
