@@ -27,7 +27,7 @@ class Kosaraju<V>(private val graph: Graph<V>) {
             if (used[vertexID] != true) {
                 component.clear()
                 dfs2(transposedGraph,vertexID)
-                // TODO (println("Компонента сильной связности: $component"))
+                    // todo println("Компонента сильной связности: $component")
             }
         }
     }
@@ -58,7 +58,7 @@ class Kosaraju<V>(private val graph: Graph<V>) {
             val edge = transposedGraph.edges[edgeID] ?: continue
             val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
             if (used[nextVertexID] != true) {
-                dfs2(transposedGraph, nextVertexID) // Изменено
+                dfs2(transposedGraph, nextVertexID)
             }
         }
     }
@@ -79,4 +79,41 @@ class Kosaraju<V>(private val graph: Graph<V>) {
 
         return transposedGraph
     }
+}
+
+fun createSampleGraph() : Graph<Int> {
+    // Добавление вершин
+    val graph = Graph<Int>()
+    for (i in 0..11) {
+        graph.addVertex(i, i)
+    }
+
+    // Добавление рёбер
+    graph.addEdge(0, 7, 1L, 0)
+    graph.addEdge(7, 6, 1L, 1)
+    graph.addEdge(6, 0, 1L, 2)
+    graph.addEdge(6, 1, 1L, 3)
+    graph.addEdge(6, 4, 1L, 4)
+    graph.addEdge(7, 1, 1L, 5)
+    graph.addEdge(1, 9, 1L, 6)
+    graph.addEdge(9, 4, 1L, 7)
+    graph.addEdge(4, 2, 1L, 8)
+    graph.addEdge(2, 9, 1L, 9)
+    graph.addEdge(2, 10, 1L, 10)
+    graph.addEdge(11, 9, 1L, 11)
+    graph.addEdge(11, 2, 1L, 12)
+    graph.addEdge(11, 5, 1L, 13)
+    graph.addEdge(10, 8, 1L, 14)
+    graph.addEdge(8, 5, 1L, 15)
+    graph.addEdge(5, 10, 1L, 16)
+    graph.addEdge(5, 3, 1L, 17)
+    graph.addEdge(3, 8, 1L, 18)
+
+    return graph
+}
+
+fun main() {
+    val graph = createSampleGraph()
+    val algorithm = Kosaraju(graph)
+    algorithm.findStronglyConnectedComponents()
 }
