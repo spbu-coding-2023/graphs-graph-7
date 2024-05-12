@@ -11,12 +11,12 @@ class Graph<V>{
 
     fun addVertex(id: Int, v: V): Vertex<V> = vertices.getOrPut(id) { Vertex(v) }
 
-    fun addEdge(first: Int, second: Int, weight: Long=1L, id:Int): Edge<V> {
+    fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge<V> {
         if (!isDirected){
-            vertices[second]?.incidentEdges?.add(id) ?: throw Exception("cringe")
+            vertices[secondVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
         }
-        vertices[first]?.incidentEdges?.add(id) ?: throw Exception("cringe")
-        return edges.getOrPut(id) { Edge(Pair(first,second), weight) }
+        vertices[firstVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
+        return edges.getOrPut(edgeID) { Edge(Pair(firstVertexID,secondVertexID), weight, edgeID) }
     }
 
 }

@@ -1,10 +1,7 @@
 package graph.model
 
-import algorithms.KruskalsMST
-import androidx.compose.runtime.MutableDoubleState
-
 class Vertex<V> (
-    var element: V,
+    var data: V,
     var incidentEdges: MutableList<Int> = mutableListOf()
 ){
     var id: Int = 0
