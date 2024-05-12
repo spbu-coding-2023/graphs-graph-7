@@ -74,4 +74,19 @@ class KosarajuTest {
         // Проверьте результаты
         assertTrue(expected == currently)
     }
+
+    @Test
+    fun `test dfs1 with sample graph start from 4 component`() {
+        // graph and algo initialization
+        val graph = createSampleGraph()
+        val algo = Kosaraju(graph)
+        val expected = mutableListOf(0, 7, 11, 3, 5, 8, 10, 2, 4, 6, 1, 9)
+
+        // algo start from different positions
+        val currently = algo.Test_dfs1(9)
+
+        // Проверьте результаты
+        assertTrue(expected == currently)
+    }
+    
 }
