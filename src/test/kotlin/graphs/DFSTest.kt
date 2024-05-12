@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions.*
 //  ↖ ↓ ↗          ↘   ↗            ↘ ↑ ↙
 //    6 → → → → → →  4                8
 //
-//
+// components: (0,7,1,6) (11) (9,2,4) (10,8,3,5)
 
 fun createSampleGraph() : Graph<Int> {
     // Добавление вершин
@@ -46,18 +46,32 @@ fun createSampleGraph() : Graph<Int> {
     return graph
 }
 
-class DFSTest {
+class KosarajuTest {
     @Test
-    fun `test dfs1 with sample graph start from 0`() {
+    fun `test dfs1 with sample graph start from 0 component`() {
         // graph and algo initialization
         val graph = createSampleGraph()
         val algo = Kosaraju(graph)
         val expected = mutableListOf(11, 3, 5, 8, 10, 2, 4, 9, 1, 6, 7, 0)
 
         // algo start from different positions
-        val currently0 = algo.Test_dfs1(0)
+        val currently = algo.Test_dfs1(0)
 
         // Проверьте результаты
-        assertTrue(expected == currently0)
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test dfs1 with sample graph start from 5 component`() {
+        // graph and algo initialization
+        val graph = createSampleGraph()
+        val algo = Kosaraju(graph)
+        val expected = mutableListOf(0, 7, 3, 8, 10, 2, 4, 6, 1, 9, 11, 5)
+
+        // algo start from different positions
+        val currently = algo.Test_dfs1(5)
+
+        // Проверьте результаты
+        assertTrue(expected == currently)
     }
 }
