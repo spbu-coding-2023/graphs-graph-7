@@ -19,10 +19,22 @@ class Kosaraju<V>(private val graph: Graph<V>) {
         }
         order.add(vertexID)
     }
-     fun Test_dfs1(vertexID: Int) : MutableList<Int> {
+    fun Test_dfs1(vertexID: Int) : MutableList<Int> {
         dfs1(vertexID)
         return order
     }
 
+    private fun dfs2(transposedGraph: Graph<V>, vertexID: Int) {
+        used[vertexID] = true
+        component.add(vertexID)
+        val vertex = transposedGraph.vertices[vertexID] ?: return
+        for (edgeID in vertex.incidentEdges) {
+            val edge = transposedGraph.edges[edgeID] ?: continue
+            val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
+            if (used[nextVertexID] != true) {
+                dfs2(transposedGraph, nextVertexID)
+            }
+        }
+    }
 
 }
