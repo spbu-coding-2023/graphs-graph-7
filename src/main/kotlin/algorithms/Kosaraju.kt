@@ -7,6 +7,31 @@ class Kosaraju<V>(private val graph: Graph<V>) {
     private val order = mutableListOf<Int>()
     private val component = mutableListOf<Int>()
 
+    fun findStronglyConnectedComponents() {
+        graph.vertices.keys.forEach { used[it] = false }
+
+        // 1-st dfs for topology sort
+        for (vertexID in graph.vertices.keys) {
+            if (used[vertexID] != true) {
+                dfs1(vertexID)
+            }
+        }
+
+        val transposedGraph = transposeGraph()
+
+        // clear is visited
+        used.keys.forEach { used[it] = false }
+
+        // 2-nd dfs for component search
+        for (vertexID in order.reversed()) {
+            if (used[vertexID] != true) {
+                component.clear()
+                dfs2(transposedGraph,vertexID)
+                // TODO (println("Компонента сильной связности: $component"))
+            }
+        }
+    }
+
     private fun dfs1(vertexID: Int) {
         used[vertexID] = true
         val vertex = graph.vertices[vertexID] ?: return
@@ -19,6 +44,7 @@ class Kosaraju<V>(private val graph: Graph<V>) {
         }
         order.add(vertexID)
     }
+
     fun Test_dfs1(vertexID: Int) : MutableList<Int> {
         dfs1(vertexID)
         return order
