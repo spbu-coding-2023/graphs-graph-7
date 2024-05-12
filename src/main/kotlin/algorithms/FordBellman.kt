@@ -14,7 +14,7 @@ class FordBellman<V>(graph: Graph<V>) {
 
     fun shortestPath(graph: Graph<V>) {
         pathsLength[0] = 0
-        var cycleFlag: Int
+        var cycleFlag = -1
         for (i in 1 until verticesNumber) {
             cycleFlag = -1
             for (j in 1 until edgesNumber) {
@@ -29,7 +29,32 @@ class FordBellman<V>(graph: Graph<V>) {
                 }
             }
         }
+        negativeCycleCheck(graph, cycleFlag)
     }
 
+    private fun negativeCycleCheck(graph: Graph<V>, cycleFlag: Int) {
+        if (cycleFlag == -1) {
+            println("No negative cycles")
+        } else {
+            var tmpCycleFlag = cycleFlag
+            for (i in 1 until verticesNumber) {
+                tmpCycleFlag = resultPath[tmpCycleFlag]
+            }
+            val path: MutableList<Int> = mutableListOf()
+            var current = tmpCycleFlag
+            var cycleEndFlag = true
+            while(cycleEndFlag){
+                path.add(current)
+                if (current == tmpCycleFlag && path.size >1){
+                    cycleEndFlag = false
+                }
+                current=resultPath[current]
+            }
+            println("Negative cycle:")
+            path.forEach {
+                print("$it ")
+            }
+        }
+    }
 
 }
