@@ -19,7 +19,10 @@ class Kosaraju<V>(private val graph: Graph<V>) {
         }
         order.add(vertexID)
     }
-
+     fun Test_dfs1(vertexID: Int) : MutableList<Int> {
+        dfs1(vertexID)
+        return order
+    }
 
 
 }
