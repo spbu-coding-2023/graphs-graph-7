@@ -1,4 +1,8 @@
 package databases.sqlite.dao.vertices
 
-object Vertices {
+import org.jetbrains.exposed.dao.id.IntIdTable
+
+object Vertices: IntIdTable("Vertices") {
+    val element = varchar("element", 255)
+    val community = integer("community")
 }
