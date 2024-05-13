@@ -3,15 +3,15 @@ package algorithms
 import graph.model.Edge
 import graph.model.Graph
 
-class KruskalsMST <V> {
-    private fun kruskals(graph: Graph<V>) {
+class KruskalsMST  {
+    private fun kruskals(graph: Graph) {
         var j = 0
         var noOfEdges = 0
         val V = graph.vertices().size
 
         val subsets = arrayOfNulls<Subset>(V)
 
-        val results = arrayOfNulls<Edge<V>>(V)
+        val results = arrayOfNulls<Edge>(V)
 
         for (i in 0 ..< V) {
             subsets[i] = Subset(i, 0)

@@ -5,14 +5,14 @@ import java.math.BigInteger
 import kotlin.math.max
 
 
-class FordBellman<V>(graph: Graph<V>) {
+class FordBellman(graph: Graph) {
     val INF = Long.MAX_VALUE
     private val verticesNumber = graph.vertices.size
     private val edgesNumber = graph.edges.size
     private val pathsLength = Array(verticesNumber) { INF }
     private val resultPath = Array(verticesNumber) { -1 }
 
-    fun shortestPath(graph: Graph<V>) {
+    fun shortestPath(graph: Graph) {
         pathsLength[0] = 0
         var cycleFlag = -1
         for (i in 1 until verticesNumber) {
@@ -32,7 +32,7 @@ class FordBellman<V>(graph: Graph<V>) {
         negativeCycleCheck(graph, cycleFlag)
     }
 
-    private fun negativeCycleCheck(graph: Graph<V>, cycleFlag: Int) {
+    private fun negativeCycleCheck(graph: Graph, cycleFlag: Int) {
         if (cycleFlag == -1) {
             println("No negative cycles")
         } else {

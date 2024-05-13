@@ -2,7 +2,7 @@ package algorithms
 
 import graph.model.Graph
 
-class Kosaraju<V>(private val graph: Graph<V>) {
+class Kosaraju<V>(private val graph: Graph) {
     private val used = hashMapOf<Int, Boolean>()
     private val order = mutableListOf<Int>()
     private val component = mutableListOf<Int>()
@@ -50,7 +50,7 @@ class Kosaraju<V>(private val graph: Graph<V>) {
         return order
     }
 
-    private fun dfs2(transposedGraph: Graph<V>, vertexID: Int) {
+    private fun dfs2(transposedGraph: Graph, vertexID: Int) {
         used[vertexID] = true
         component.add(vertexID)
         val vertex = transposedGraph.vertices[vertexID] ?: return
@@ -63,8 +63,8 @@ class Kosaraju<V>(private val graph: Graph<V>) {
         }
     }
 
-    private fun transposeGraph(): Graph<V> {
-        val transposedGraph = Graph<V>()
+    private fun transposeGraph(): Graph {
+        val transposedGraph = Graph()
         transposedGraph.isDirected = graph.isDirected
 
         // Добавление вершин

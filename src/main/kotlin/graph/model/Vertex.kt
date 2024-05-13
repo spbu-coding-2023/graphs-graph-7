@@ -1,7 +1,7 @@
 package graph.model
 
-class Vertex<V> (
-    var data: V,
+class Vertex(
+    var data: String,
     var incidentEdges: MutableList<Int> = mutableListOf()
 ){
     var id: Int = 0
