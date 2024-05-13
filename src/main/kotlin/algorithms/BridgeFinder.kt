@@ -3,13 +3,13 @@ package algorithms
 import graph.model.Graph
 import kotlin.math.min
 
-class BridgeFinder<V>(graph: Graph<V>) {
+class BridgeFinder(graph: Graph) {
     private val arraySize = graph.vertices.size
     private val visitedVertices = Array(arraySize) {false}
     private val timeIn = Array(arraySize) {0}
     private val fUp = Array(arraySize) {0}
     //TODO: adapt this algorithm to multiple edges
-    fun findBridges(graph: Graph<V>){
+    fun findBridges(graph: Graph){
         var timer = 0
 
         fun isBridge(edgeID: Int){

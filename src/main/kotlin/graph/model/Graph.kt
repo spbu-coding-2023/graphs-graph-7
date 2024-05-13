@@ -1,17 +1,17 @@
 package graph.model
 
-class Graph<V>{
+class Graph{
     var isDirected: Boolean = false
-    val vertices = hashMapOf<Int, Vertex<V>>()
-    val edges = hashMapOf<Int, Edge<V>>()
+    val vertices = hashMapOf<Int, Vertex>()
+    val edges = hashMapOf<Int, Edge>()
 
-    fun vertices(): Collection<Vertex<V>> = vertices.values
+    fun vertices(): Collection<Vertex> = vertices.values
 
-    fun edges(): Collection<Edge<V>> = edges.values
+    fun edges(): Collection<Edge> = edges.values
 
-    fun addVertex(id: Int, v: V): Vertex<V> = vertices.getOrPut(id) { Vertex(v) }
+    fun addVertex(id: Int, v: String): Vertex = vertices.getOrPut(id) { Vertex(v) }
 
-    fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge<V> {
+    fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge {
         if (!isDirected){
             vertices[secondVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
         }

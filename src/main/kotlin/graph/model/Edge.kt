@@ -1,6 +1,6 @@
 package graph.model
 
-class Edge<V> (
+class Edge (
     val vertices: Pair<Int, Int>,
     var weight: Long = 1L,
     var id: Int = 1,
