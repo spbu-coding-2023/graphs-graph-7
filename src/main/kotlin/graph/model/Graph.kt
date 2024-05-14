@@ -5,9 +5,9 @@ class Graph{
     val vertices = hashMapOf<Int, Vertex>()
     val edges = hashMapOf<Int, Edge>()
 
-    fun vertices(): Collection<Vertex> = vertices.values
+    fun getVertices(): Collection<Vertex> = vertices.values
 
-    fun edges(): Collection<Edge> = edges.values
+    fun getEdges(): Collection<Edge> = edges.values
 
     fun addVertex(id: Int, v: String): Vertex = vertices.getOrPut(id) { Vertex(v) }
 
