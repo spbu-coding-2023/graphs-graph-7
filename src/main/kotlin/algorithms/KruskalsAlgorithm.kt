@@ -7,7 +7,7 @@ class KruskalsMST  {
     private fun kruskals(graph: Graph) {
         var j = 0
         var noOfEdges = 0
-        val V = graph.vertices().size
+        val V = graph.getVertices().size
 
         val subsets = arrayOfNulls<Subset>(V)
 
