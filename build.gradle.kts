@@ -3,6 +3,12 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    id("com.ncorti.ktfmt.gradle") version "0.18.0"
+}
+
+ktfmt {
+    // KotlinLang style - 4 space indentation - From kotlinlang.org/docs/coding-conventions.html
+    kotlinLangStyle()
 }
 
 group = "com.graph"
@@ -42,5 +48,16 @@ tasks.named<Test>("test") {
 tasks.withType<Test> {
     testLogging {
         events("PASSED", "SKIPPED", "FAILED")
+    }
+
+    tasks.register<Copy>("copyPreCommitHook") {
+        description = "Copy pre-commit git hook from the scripts to the .git/hooks folder."
+        group = "git hooks"
+        outputs.upToDateWhen { false }
+        from("$rootDir/scripts/pre-commit")
+        into("$rootDir/.git/hooks/")
+    }
+    tasks.build {
+        dependsOn("copyPreCommitHook")
     }
 }
