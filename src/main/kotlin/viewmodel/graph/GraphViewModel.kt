@@ -27,8 +27,10 @@ class GraphViewModel(
                 ?: throw IllegalStateException("VertexView for vertex with id: ${edge.vertices.first} not found")
             val snd = verticesView[graph.vertices[edge.vertices.second]]
                 ?: throw IllegalStateException("VertexView for vertex with id: ${edge.vertices.second} not found")
-            EdgeViewModel(fst, snd, edge, showEdgesLabels)
+            val currentEdgeView = EdgeViewModel(fst, snd, edge, showEdgesLabels)
+            edgesView[edge]=currentEdgeView
         }
+
     }
 
 
