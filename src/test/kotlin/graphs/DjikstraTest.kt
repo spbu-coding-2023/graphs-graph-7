@@ -154,4 +154,60 @@ class DjikstraTest {
 
         assertTrue(expected == currently)
     }
+
+    @Test
+    fun `test findShortestPaths no start position`() {
+        // graph and algo initialization
+        val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(graph, -11)
+
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(5)
+
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths no end position and start position`() {
+        // graph and algo initialization
+        val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(graph)
+
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(-4)
+
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths no end position start exist`() {
+        // graph and algo initialization
+        val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(graph, 2)
+
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(-4)
+
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths start and end pos equals`() {
+        // graph and algo initialization
+        val expected = mutableListOf(2)
+        val algorithm = Djikstra(graph, 2)
+
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(2)
+
+        assertTrue(expected == currently)
+    }
 }
