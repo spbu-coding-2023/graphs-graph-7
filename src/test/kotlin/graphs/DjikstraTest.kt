@@ -15,8 +15,9 @@ import org.junit.jupiter.api.Assertions.*
 // |_____4_____|_1,2,4,3,5|__5__|__10__|__50__|__30__|__60__|
 //
 
-fun createSampleGraphDjikstra(): Graph {
+fun createSampleGraphDjikstraDirected(): Graph {
     val graph = Graph()
+    graph.isDirected = true
 
     graph.addVertex(1, "A")
     graph.addVertex(2, "B")
@@ -36,8 +37,7 @@ fun createSampleGraphDjikstra(): Graph {
 }
 
 class DjikstraTest {
-    private val graph = createSampleGraphDjikstra()
-
+    private val graph = createSampleGraphDjikstraDirected()
     @Test
     fun `test findShortestPaths with sample graph start from 1 to 5 started from 1`() {
         // graph and algo initialization
@@ -47,10 +47,8 @@ class DjikstraTest {
         algorithm.findShortestPaths(1)
 
 
-        // algo start from different positions
         val currently = algorithm.reconstructPath(1,5)
 
-        // Проверьте результаты
         assertTrue(expected == currently)
     }
 
@@ -61,12 +59,24 @@ class DjikstraTest {
         val algorithm = Djikstra(graph)
         algorithm.findShortestPaths(1)
 
+        val currently = algorithm.reconstructPath(1,2)
+
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths with sample graph start from 2 to 3 started from 2`() {
+        // graph and algo initialization
+        val expected = mutableListOf(2,3)
+        val algorithm = Djikstra(graph)
+        // path created from 2
+        algorithm.findShortestPaths(2)
+
 
         // algo start from different positions
-        val currently = algorithm.reconstructPath(1,2)
+        val currently = algorithm.reconstructPath(2,3)
 
         // Проверьте результаты
         assertTrue(expected == currently)
     }
-
 }
