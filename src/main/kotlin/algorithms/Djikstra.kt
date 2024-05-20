@@ -9,7 +9,7 @@ class Djikstra(private val graph: Graph, private val startVertexID: Int = -1) {
     private val n = graph.vertices.size
 
     fun findShortestPaths() {
-        if (n == 0) return
+        if (n == 0 || startVertexID <= -1) return
 
         for ((id, _) in graph.vertices) {
             distance[id] = Long.MAX_VALUE
@@ -47,7 +47,7 @@ class Djikstra(private val graph: Graph, private val startVertexID: Int = -1) {
     fun reconstructPath(endVertexID: Int): List<Int> {
         val path = mutableListOf<Int>()
         var finish = endVertexID
-        if (n == 0) return path
+        if ((n == 0 || startVertexID <= -1) || (endVertexID <= 0))return path
 
         while (finish != startVertexID) {
             path.add(finish)
