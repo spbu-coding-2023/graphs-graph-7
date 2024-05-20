@@ -8,6 +8,9 @@ class Kosaraju(private val graph: Graph) {
     private val component = mutableListOf<Int>()
 
     fun findStronglyConnectedComponents(): List<List<Int>> {
+        if (!graph.isDirected) {
+            return emptyList<List<Int>>()
+        }
 
         // Step 1: Transpose the graph
         val transposedGraph = transposeGraph()

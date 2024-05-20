@@ -131,4 +131,19 @@ class KosarajuTest {
         // Проверьте результаты
         assertTrue(expected == currently)
     }
+
+    @Test
+    fun `test components output non-directed graph`() {
+        // graph and algo initialization
+        val graph = createSampleGraph()
+        graph.isDirected = false
+        val algo = Kosaraju(graph)
+        val expected = emptyList<List<Int>>()
+
+        // algo start from different positions
+        val currently = algo.findStronglyConnectedComponents()
+
+        // Проверьте результаты
+        assertTrue(expected == currently)
+    }
 }
