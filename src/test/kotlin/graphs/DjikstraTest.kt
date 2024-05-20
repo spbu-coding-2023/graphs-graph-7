@@ -54,4 +54,19 @@ class DjikstraTest {
         assertTrue(expected == currently)
     }
 
+    @Test
+    fun `test findShortestPaths with sample graph start from 1 to 2`() {
+        // graph and algo initialization
+        val expected = mutableListOf(1,2)
+        val algorithm = Djikstra(graph)
+        algorithm.findShortestPaths(1)
+
+
+        // algo start from different positions
+        val currently = algorithm.reconstructPath(1,2)
+
+        // Проверьте результаты
+        assertTrue(expected == currently)
+    }
+
 }
