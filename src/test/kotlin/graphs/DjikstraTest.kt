@@ -139,4 +139,19 @@ class DjikstraTest {
 
         assertTrue(expected == currently)
     }
+
+    @Test
+    fun `test findShortestPaths empty-edged graph`() {
+        // graph and algo initialization
+        val emptyGraph = Graph()
+        val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(emptyGraph)
+
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(1)
+
+        assertTrue(expected == currently)
+    }
 }
