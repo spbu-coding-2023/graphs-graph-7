@@ -42,12 +42,12 @@ class DjikstraTest {
     fun `test findShortestPaths with sample graph start from 1 to 5 started from 1`() {
         // graph and algo initialization
         val expected = mutableListOf(1,4,3,5)
-        val algorithm = Djikstra(graph)
+        val algorithm = Djikstra(graph,1)
         // path created from 1
-        algorithm.findShortestPaths(1)
+        algorithm.findShortestPaths()
 
 
-        val currently = algorithm.reconstructPath(1,5)
+        val currently = algorithm.reconstructPath(5)
 
         assertTrue(expected == currently)
     }
@@ -56,10 +56,10 @@ class DjikstraTest {
     fun `test findShortestPaths with sample graph start from 1 to 2`() {
         // graph and algo initialization
         val expected = mutableListOf(1,2)
-        val algorithm = Djikstra(graph)
-        algorithm.findShortestPaths(1)
+        val algorithm = Djikstra(graph, 1)
+        algorithm.findShortestPaths()
 
-        val currently = algorithm.reconstructPath(1,2)
+        val currently = algorithm.reconstructPath(2)
 
         assertTrue(expected == currently)
     }
@@ -68,13 +68,13 @@ class DjikstraTest {
     fun `test findShortestPaths with sample graph start from 2 to 3 started from 2`() {
         // graph and algo initialization
         val expected = mutableListOf(2,3)
-        val algorithm = Djikstra(graph)
+        val algorithm = Djikstra(graph,2)
         // path created from 2
-        algorithm.findShortestPaths(2)
+        algorithm.findShortestPaths()
 
 
         // algo start from different positions
-        val currently = algorithm.reconstructPath(2,3)
+        val currently = algorithm.reconstructPath(3)
 
         // Проверьте результаты
         assertTrue(expected == currently)
