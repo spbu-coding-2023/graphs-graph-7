@@ -2,12 +2,12 @@ package algorithms
 
 import graph.model.Graph
 
-class Djikstra(private val graph: Graph) {
+class Djikstra(private val graph: Graph, private val startVertexID: Int) {
     private val distance = hashMapOf<Int, Long>()
     private val visited = hashMapOf<Int, Boolean>()
     private val from = hashMapOf<Int, Int>()
 
-    fun findShortestPaths(startVertexID: Int) {
+    fun findShortestPaths() {
         val n = graph.vertices.size
 
         for ((id, _) in graph.vertices) {
@@ -21,7 +21,7 @@ class Djikstra(private val graph: Graph) {
 
             var nearest = -1
             for ((vertexID, _) in graph.vertices) {
-                if (!visited.getOrDefault(vertexID, false) && (nearest == -1 || distance[vertexID]!! < distance[vertexID]!!)) {
+                if (!visited.getOrDefault(vertexID, false) && (nearest == -1 || distance[vertexID]!! < distance[nearest]!!)) {
                     nearest = vertexID
                 }
             }
@@ -43,12 +43,16 @@ class Djikstra(private val graph: Graph) {
         }
     }
 
-    fun reconstructPath(startVertexID: Int, endVertexID: Int): List<Int> {
+    fun reconstructPath(endVertexID: Int): List<Int> {
         val path = mutableListOf<Int>()
         var finish = endVertexID
 
         while (finish != startVertexID) {
             path.add(finish)
+            if (finish == -1) {
+                path.clear()
+                return path
+            }
             finish = from[finish] ?: break
         }
 
