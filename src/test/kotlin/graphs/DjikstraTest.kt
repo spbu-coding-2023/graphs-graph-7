@@ -36,15 +36,36 @@ fun createSampleGraphDjikstraDirected(): Graph {
     return graph
 }
 
+fun createSampleGraphDjikstra(): Graph {
+    val graph = Graph()
+    graph.isDirected = false
 
+    graph.addVertex(1, "A")
+    graph.addVertex(2, "B")
+    graph.addVertex(3, "C")
+    graph.addVertex(4, "D")
+    graph.addVertex(5, "E")
+
+    graph.addEdge(1, 2, 10L, 0)
+    graph.addEdge(1, 5, 100L, 1)
+    graph.addEdge(1, 4, 30L, 2)
+    graph.addEdge(2, 3, 50L, 3)
+    graph.addEdge(3, 5, 10L, 4)
+    graph.addEdge(4, 3, 20L, 5)
+    graph.addEdge(4, 5, 60L, 6)
+
+    return graph
+}
 
 class DjikstraTest {
-    private val graph = createSampleGraphDjikstraDirected()
+    private val graphD = createSampleGraphDjikstraDirected()
+    private val graph = createSampleGraphDjikstra()
+
     @Test
     fun `test findShortestPaths with sample graph start from 1 to 5 started from 1`() {
         // graph and algo initialization
         val expected = mutableListOf(1,4,3,5)
-        val algorithm = Djikstra(graph,1)
+        val algorithm = Djikstra(graphD,1)
         // path created from 1
         algorithm.findShortestPaths()
 
@@ -58,7 +79,7 @@ class DjikstraTest {
     fun `test findShortestPaths with sample graph start from 1 to 2`() {
         // graph and algo initialization
         val expected = mutableListOf(1,2)
-        val algorithm = Djikstra(graph, 1)
+        val algorithm = Djikstra(graphD, 1)
         algorithm.findShortestPaths()
 
         val currently = algorithm.reconstructPath(2)
@@ -70,7 +91,7 @@ class DjikstraTest {
     fun `test findShortestPaths with sample graph start from 2 to 3 started from 2`() {
         // graph and algo initialization
         val expected = mutableListOf(2,3)
-        val algorithm = Djikstra(graph,2)
+        val algorithm = Djikstra(graphD,2)
         // path created from 2
         algorithm.findShortestPaths()
 
@@ -84,12 +105,25 @@ class DjikstraTest {
     fun `test findShortestPaths path does not exist`() {
         // graph and algo initialization
         val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(graphD,2)
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(1)
+
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths from 2 to 1 not directed graph`() {
+        // graph and algo initialization
+        val expected = mutableListOf(2,1)
         val algorithm = Djikstra(graph,2)
         // path created from 2
         algorithm.findShortestPaths()
 
         val currently = algorithm.reconstructPath(1)
-        
+
         assertTrue(expected == currently)
     }
 }
