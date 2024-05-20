@@ -8,6 +8,9 @@ class Kosaraju(private val graph: Graph) {
     private val component = mutableListOf<Int>()
 
     fun findStronglyConnectedComponents(): List<List<Int>> {
+        if (!graph.isDirected) {
+            return emptyList<List<Int>>()
+        }
 
         // Step 1: Transpose the graph
         val transposedGraph = transposeGraph()
@@ -33,7 +36,7 @@ class Kosaraju(private val graph: Graph) {
         return components
     }
 
-    private fun topologySort(graph: Graph, vertexID: Int) {
+     private fun topologySort(graph: Graph, vertexID: Int) {
         used[vertexID] = true
         val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
@@ -44,6 +47,11 @@ class Kosaraju(private val graph: Graph) {
             }
         }
         order.add(vertexID)
+    }
+
+    fun test_TopologySort(graph: Graph, vertexID: Int): List<Int> {
+        topologySort(graph, vertexID)
+        return order
     }
 
     private fun dfs(vertexID: Int) {
