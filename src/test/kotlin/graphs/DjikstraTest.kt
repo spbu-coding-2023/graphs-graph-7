@@ -36,6 +36,8 @@ fun createSampleGraphDjikstraDirected(): Graph {
     return graph
 }
 
+
+
 class DjikstraTest {
     private val graph = createSampleGraphDjikstraDirected()
     @Test
@@ -73,10 +75,21 @@ class DjikstraTest {
         algorithm.findShortestPaths()
 
 
-        // algo start from different positions
         val currently = algorithm.reconstructPath(3)
 
-        // Проверьте результаты
+        assertTrue(expected == currently)
+    }
+
+    @Test
+    fun `test findShortestPaths path does not exist`() {
+        // graph and algo initialization
+        val expected = mutableListOf<Int>()
+        val algorithm = Djikstra(graph,2)
+        // path created from 2
+        algorithm.findShortestPaths()
+
+        val currently = algorithm.reconstructPath(1)
+        
         assertTrue(expected == currently)
     }
 }
