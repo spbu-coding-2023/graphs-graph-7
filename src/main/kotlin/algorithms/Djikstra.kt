@@ -42,4 +42,18 @@ class Djikstra(private val graph: Graph) {
             }
         }
     }
+
+    fun reconstructPath(startVertexID: Int, endVertexID: Int): List<Int> {
+        val path = mutableListOf<Int>()
+        var finish = endVertexID
+
+        while (finish != startVertexID) {
+            path.add(finish)
+            finish = from[finish] ?: break
+        }
+
+        path.add(startVertexID)
+        path.reverse()
+        return path
+    }
 }
