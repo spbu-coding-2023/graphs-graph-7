@@ -2,79 +2,76 @@ package algorithms
 
 import graph.model.Graph
 
-class Kosaraju<V>(private val graph: Graph) {
+class Kosaraju(private val graph: Graph) {
     private val used = hashMapOf<Int, Boolean>()
     private val order = mutableListOf<Int>()
     private val component = mutableListOf<Int>()
 
-    fun findStronglyConnectedComponents() {
-        graph.vertices.keys.forEach { used[it] = false }
+    fun findStronglyConnectedComponents(): List<List<Int>> {
 
-        // 1-st dfs for topology sort
-        for (vertexID in graph.vertices.keys) {
+        // Step 1: Transpose the graph
+        val transposedGraph = transposeGraph()
+
+        // Step 2: Topology sort transposed graph
+        for (vertexID in transposedGraph.vertices.keys) {
             if (used[vertexID] != true) {
-                dfs1(vertexID)
+                topologySort(transposedGraph, vertexID)
             }
         }
 
-        val transposedGraph = transposeGraph()
-
-        // clear is visited
-        used.keys.forEach { used[it] = false }
-
-        // 2-nd dfs for component search
+        // Step 3:  DFS to find strongly connected components
+        val components = mutableListOf<List<Int>>()
+        used.clear()
         for (vertexID in order.reversed()) {
             if (used[vertexID] != true) {
                 component.clear()
-                dfs2(transposedGraph,vertexID)
-                    // todo println("Компонента сильной связности: $component")
+                dfs(vertexID)
+                components.add(component.toList())
             }
         }
+
+        return components
     }
 
-    private fun dfs1(vertexID: Int) {
+    private fun topologySort(graph: Graph, vertexID: Int) {
         used[vertexID] = true
         val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
             val edge = graph.edges[edgeID] ?: continue
             val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
             if (used[nextVertexID] != true) {
-                dfs1(nextVertexID)
+                topologySort(graph, nextVertexID)
             }
         }
         order.add(vertexID)
     }
 
-    fun Test_dfs1(vertexID: Int) : MutableList<Int> {
-        dfs1(vertexID)
-        return order
-    }
-
-    private fun dfs2(transposedGraph: Graph, vertexID: Int) {
+    private fun dfs(vertexID: Int) {
         used[vertexID] = true
         component.add(vertexID)
-        val vertex = transposedGraph.vertices[vertexID] ?: return
+        val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
-            val edge = transposedGraph.edges[edgeID] ?: continue
-            val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
+            val edge = graph.edges[edgeID] ?: continue
+            val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else continue
             if (used[nextVertexID] != true) {
-                dfs2(transposedGraph, nextVertexID)
+                dfs(nextVertexID)
             }
         }
     }
 
     private fun transposeGraph(): Graph {
         val transposedGraph = Graph()
-        transposedGraph.isDirected = graph.isDirected
+        transposedGraph.isDirected = true // Transposed graph is always directed
 
-        // Добавление вершин
-        graph.vertices.forEach { (id, vertex) ->
+        // Add vertices to the transposed graph
+        for ((id, vertex) in graph.vertices) {
             transposedGraph.addVertex(id, vertex.data)
         }
 
-        // Добавление рёбер с изменённым направлением
-        graph.edges.forEach { (id, edge) ->
-            transposedGraph.addEdge(edge.vertices.second, edge.vertices.first, edge.weight, id)
+        // Add edges with reversed direction to the transposed graph
+        for ((id, edge) in graph.edges) {
+            val (firstVertexID, secondVertexID) = edge.vertices
+            transposedGraph.addEdge(secondVertexID, firstVertexID, edge.weight, id)
         }
 
         return transposedGraph
