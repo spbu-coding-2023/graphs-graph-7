@@ -12,7 +12,7 @@ class GraphViewModel(
     private val graph: Graph,
 
 ) {
-    private val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
+    val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
     init {
         graph.getVertices().forEach { vertex ->
             verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Blue, vertex)
