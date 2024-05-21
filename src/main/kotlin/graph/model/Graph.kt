@@ -9,7 +9,11 @@ class Graph{
 
     fun getEdges(): Collection<Edge> = edges.values
 
-    fun addVertex(id: Int, v: String): Vertex = vertices.getOrPut(id) { Vertex(v) }
+    fun addVertex(id: Int, v: String): Vertex{
+        val vertex = Vertex(v)
+        vertex.id=id
+        return vertices.getOrPut(id) { vertex }
+    }
 
     fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge {
         if (!isDirected){
