@@ -13,7 +13,6 @@ class VertexViewModel(
     y: Dp = 0.dp,
     color: Color,
     private val v: Vertex,
-    private val _labelVisible: State<Boolean>,
     val radius: Dp = 25.dp
 ) {
     private var _x = mutableStateOf(x)
@@ -37,9 +36,6 @@ class VertexViewModel(
 
     val label
         get() = v.data
-
-    val labelVisible
-        get() = _labelVisible.value
 
     fun onDrag(offset: Offset) {
         _x.value += offset.x.dp

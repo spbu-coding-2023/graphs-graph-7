@@ -28,14 +28,14 @@ fun EdgeView(
             color = Color.Black
         )
     }
-    if (viewModel.labelVisible) {
-        Text(
-            modifier = Modifier
-                .offset(
-                    viewModel.u.x + (viewModel.v.x - viewModel.u.x) / 2,
-                    viewModel.u.y + (viewModel.v.y - viewModel.u.y) / 2
-                ),
-            text = viewModel.weight,
-        )
-    }
+//    if (viewModel.labelVisible) {
+//        Text(
+//            modifier = Modifier
+//                .offset(
+//                    viewModel.u.x + (viewModel.v.x - viewModel.u.x) / 2,
+//                    viewModel.u.y + (viewModel.v.y - viewModel.u.y) / 2
+//                ),
+//            text = viewModel.weight,
+//        )
+//    }
 }
