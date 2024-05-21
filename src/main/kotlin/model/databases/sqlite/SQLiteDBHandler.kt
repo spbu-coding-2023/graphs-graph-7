@@ -1,14 +1,14 @@
-package databases.sqlite
+package model.databases.sqlite
 
 import androidx.compose.ui.graphics.Color
-import databases.sqlite.dao.edge.Edge
-import databases.sqlite.dao.vertices.Vertex
-import databases.sqlite.dao.vertices.Vertices
-import databases.sqlite.dao.verticesView.VertexView
-import databases.sqlite.dao.verticesView.VerticesView
+import model.databases.sqlite.dao.edge.Edge
+import model.databases.sqlite.dao.vertices.Vertex
+import model.databases.sqlite.dao.vertices.Vertices
+import model.databases.sqlite.dao.verticesView.VertexView
+import model.databases.sqlite.dao.verticesView.VerticesView
 import androidx.compose.ui.unit.dp
 
-import graph.model.Graph
+import model.graph.Graph
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.exists
 import org.jetbrains.exposed.sql.transactions.transaction

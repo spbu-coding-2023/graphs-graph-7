@@ -1,4 +1,4 @@
-package graph.model
+package model.graph
 
 class Vertex(
     var data: String,

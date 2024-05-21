@@ -1,4 +1,4 @@
-package databases.sqlite.dao.vertices
+package model.databases.sqlite.dao.vertices
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

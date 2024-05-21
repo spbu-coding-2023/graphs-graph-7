@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import graph.model.Vertex
+import model.graph.Vertex
 
 class VertexViewModel(
     x: Dp = 0.dp,

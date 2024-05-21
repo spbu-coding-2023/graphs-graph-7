@@ -1,6 +1,6 @@
-package databases.sqlite.dao.edge
+package model.databases.sqlite.dao.edge
 
-import databases.sqlite.dao.vertices.Vertices
+import model.databases.sqlite.dao.vertices.Vertices
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object Edges: IntIdTable("Edge") {

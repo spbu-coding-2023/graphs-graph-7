@@ -1,6 +1,6 @@
-package databases.sqlite.dao.verticesView
+package model.databases.sqlite.dao.verticesView
 
-import databases.sqlite.dao.vertices.Vertices
+import model.databases.sqlite.dao.vertices.Vertices
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object VerticesView: IntIdTable("VerticesView") {

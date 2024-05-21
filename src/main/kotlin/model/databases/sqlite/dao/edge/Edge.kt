@@ -1,6 +1,6 @@
-package databases.sqlite.dao.edge
+package model.databases.sqlite.dao.edge
 
-import databases.sqlite.dao.vertices.Vertex
+import model.databases.sqlite.dao.vertices.Vertex
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

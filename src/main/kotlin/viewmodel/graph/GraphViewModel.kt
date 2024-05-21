@@ -3,15 +3,15 @@ package viewmodel.graph
 import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import graph.model.Edge
-import graph.model.Graph
-import graph.model.Vertex
+import model.graph.Edge
+import model.graph.Graph
+import model.graph.Vertex
 
 
 class GraphViewModel(
     private val graph: Graph,
 
-) {
+    ) {
     val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
     init {
         graph.getVertices().forEach { vertex ->

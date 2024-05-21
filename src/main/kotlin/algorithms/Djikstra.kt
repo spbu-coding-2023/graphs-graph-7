@@ -1,6 +1,6 @@
 package algorithms
 
-import graph.model.Graph
+import model.graph.Graph
 
 class Djikstra(private val graph: Graph, private val startVertexID: Int = -1) {
     private val distance = hashMapOf<Int, Long>()

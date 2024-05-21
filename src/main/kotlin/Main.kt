@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import graph.model.Graph
+import model.graph.Graph
 import view.Canvas
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout

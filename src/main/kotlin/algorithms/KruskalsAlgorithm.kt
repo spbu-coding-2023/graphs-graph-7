@@ -1,7 +1,7 @@
 package algorithms
 
-import graph.model.Edge
-import graph.model.Graph
+import model.graph.Edge
+import model.graph.Graph
 
 class KruskalsMST  {
     private fun kruskals(graph: Graph) {
