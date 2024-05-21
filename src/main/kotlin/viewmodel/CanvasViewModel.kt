@@ -17,7 +17,7 @@ class CanvasViewModel(graph: Graph, private val representationStrategy: Represen
 
     fun resetGraphView() {
         representationStrategy.place(800.0, 600.0, graphViewModel.verticesViewValues)
-        graphViewModel.verticesViewValues.forEach{ v -> v.color = Color.Gray}
+        graphViewModel.verticesViewValues.forEach{ v -> v.color = Color.Blue}
     }
 
     fun setVerticesColor() {

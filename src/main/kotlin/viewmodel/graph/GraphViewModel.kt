@@ -15,7 +15,7 @@ class GraphViewModel(
     val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
     init {
         graph.getVertices().forEach { vertex ->
-            verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Blue, vertex)
+            verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Black, vertex)
         }
     }
 

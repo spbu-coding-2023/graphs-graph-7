@@ -1,5 +1,6 @@
 package viewmodel.graph
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -14,6 +15,8 @@ class VertexViewModel(
     val vertex: Vertex,
     var radius: Dp = 25.dp
 ) {
+    private val _labelVisible: State<Boolean> = mutableStateOf(true)
+
     private var _x = mutableStateOf(x)
     var x: Dp
         get() = _x.value
@@ -35,6 +38,8 @@ class VertexViewModel(
 
     val label
         get() = vertex.data
+    val labelVisible
+        get() = _labelVisible.value
 
     fun onDrag(offset: Offset) {
         _x.value += offset.x.dp
