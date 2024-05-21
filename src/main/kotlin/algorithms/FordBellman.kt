@@ -11,50 +11,53 @@ class FordBellman(graph: Graph) {
     private val edgesNumber = graph.edges.size
     private val pathsLength = Array(verticesNumber) { INF }
     private val resultPath = Array(verticesNumber) { -1 }
-
-    fun shortestPath(graph: Graph) {
+    private val curGraph = graph
+    val edgesPath = mutableListOf<Int>()
+    val verticesPath = mutableListOf<Int>()
+    fun shortestPath() {
         pathsLength[0] = 0
         var cycleFlag = -1
         for (i in 1 until verticesNumber) {
             cycleFlag = -1
             for (j in 1 until edgesNumber) {
-                val firstVertexPath = pathsLength[graph.edges[j]!!.vertices.first]
-                var secondVertexPath = pathsLength[graph.edges[j]!!.vertices.second]
+                val firstVertexPath = pathsLength[curGraph.edges[j]!!.vertices.first]
+                var secondVertexPath = pathsLength[curGraph.edges[j]!!.vertices.second]
                 if (firstVertexPath < INF) {
-                    if (secondVertexPath > firstVertexPath + graph.edges[j]!!.weight) {
-                        secondVertexPath = max(-INF, INF + graph.edges[j]!!.weight)
-                        resultPath[graph.edges[j]!!.vertices.second] = graph.edges[j]!!.vertices.first
-                        cycleFlag = graph.edges[j]!!.vertices.second
+                    if (secondVertexPath > firstVertexPath + curGraph.edges[j]!!.weight) {
+                        secondVertexPath = max(-INF, INF + curGraph.edges[j]!!.weight)
+                        resultPath[curGraph.edges[j]!!.vertices.second] = curGraph.edges[j]!!.vertices.first
+                        cycleFlag = curGraph.edges[j]!!.vertices.second
                     }
                 }
             }
         }
-        negativeCycleCheck(graph, cycleFlag)
+        if (cycleFlag==-1){
+
+        }
+        else{
+            negativeCycleCheck()
+        }
+
     }
 
-    private fun negativeCycleCheck(graph: Graph, cycleFlag: Int) {
-        if (cycleFlag == -1) {
-            println("No negative cycles")
-        } else {
-            var tmpCycleFlag = cycleFlag
-            for (i in 1 until verticesNumber) {
-                tmpCycleFlag = resultPath[tmpCycleFlag]
+    private fun negativeCycleCheck() {
+        var tmpCycleFlag = cycleFlag
+        for (i in 1 until verticesNumber) {
+            tmpCycleFlag = resultPath[tmpCycleFlag]
+        }
+        val path: MutableList<Int> = mutableListOf()
+        var current = tmpCycleFlag
+        var cycleEndFlag = true
+        while(cycleEndFlag){
+            path.add(current)
+            if (current == tmpCycleFlag && path.size >1){
+                cycleEndFlag = false
             }
-            val path: MutableList<Int> = mutableListOf()
-            var current = tmpCycleFlag
-            var cycleEndFlag = true
-            while(cycleEndFlag){
-                path.add(current)
-                if (current == tmpCycleFlag && path.size >1){
-                    cycleEndFlag = false
-                }
-                current=resultPath[current]
-            }
-            println("Negative cycle:")
-            path.forEach {
-                print("$it ")
-            }
+            current=resultPath[current]
+        }
+        println("Negative cycle:")
+        path.forEach {
+            print("$it ")
         }
     }
-
 }
