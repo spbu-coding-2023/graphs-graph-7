@@ -1,4 +1,4 @@
-package graphs
+package graphs.algorithms
 
 import algorithms.Kosaraju
 import graph.model.Graph

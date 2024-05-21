@@ -13,7 +13,6 @@ class BridgeFinder(graph: Graph) {
 
     fun findBridges(graph: Graph){
         var timer = 0
-
         fun isBridge(edgeID: Int): Int?{
             val destination = graph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
             val bridge = graph.edges[edgeID]
