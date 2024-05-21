@@ -14,12 +14,12 @@ import view.Canvas
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout
 
-val sampleGraph: Graph = Graph().apply {
+val graph = Graph().apply {
     addVertex(1,"Thomas Shelby")
     addVertex(2, "Andrew Tate")
-    addVertex(3, "Vova Vinduz")
-    addVertex(4, "Maksim Rodionov")
-    addVertex(5, "Ilia ITMO")
+    addVertex(3, "Iakov")
+    addVertex(4, "John Shelby")
+    addVertex(5, "Tristan Tate")
     addVertex(6, "Arthur Shelby")
     addVertex(7, "Ryan Gosling")
 
@@ -47,12 +47,11 @@ val sampleGraph: Graph = Graph().apply {
 
     addEdge(14, 3, 0,13)
 }
-
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        Canvas(CanvasViewModel(sampleGraph, CircularLayout()))
+        Canvas(CanvasViewModel(graph, CircularLayout()))
     }
 }
 

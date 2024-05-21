@@ -1,4 +1,4 @@
-package graphs
+package graphs.algorithms
 
 import algorithms.Djikstra
 import graph.model.Graph
