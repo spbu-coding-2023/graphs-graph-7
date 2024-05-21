@@ -1,6 +1,7 @@
 package algorithms
 
 import graph.model.Graph
+import java.awt.geom.Point2D.distance
 import kotlin.math.min
 
 class BridgeFinder(graph: Graph) {
@@ -8,12 +9,21 @@ class BridgeFinder(graph: Graph) {
     private val visitedVertices = Array(arraySize) {false}
     private val timeIn = Array(arraySize) {0}
     private val fUp = Array(arraySize) {0}
-    //TODO: adapt this algorithm to multiple edges
+    val bridges = mutableListOf<Int>()
+
     fun findBridges(graph: Graph){
         var timer = 0
 
-        fun isBridge(edgeID: Int){
-            println(edgeID)
+        fun isBridge(edgeID: Int): Int?{
+            val destination = graph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
+            val bridge = graph.edges[edgeID]
+            val bridges = graph.vertices[bridge?.vertices?.first]?.incidentEdges ?: throw Exception("Incorrect Database")
+            for (curBridge in bridges) {
+                if (graph.edges[curBridge]!!.vertices.second==destination && curBridge!=edgeID){
+                    return null
+                }
+            }
+            return edgeID
         }
 
         fun dfs(vertexID: Int, parent: Int = -1){
@@ -38,7 +48,9 @@ class BridgeFinder(graph: Graph) {
                     dfs(newVertexID, vertexID)
                     fUp[vertexID] = min(fUp[newVertexID], fUp[vertexID])
                     if(fUp[vertexID] > timeIn[newVertexID]){
-                        isBridge(edgeID)
+                        if (isBridge(edgeID)!=null){
+                            bridges.add(edgeID)
+                        }
                     }
                 }
             }
