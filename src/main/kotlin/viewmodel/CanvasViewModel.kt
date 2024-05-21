@@ -9,7 +9,7 @@ import viewmodel.layouts.RepresentationStrategy
 class CanvasViewModel(graph: Graph, private val representationStrategy: RepresentationStrategy,) {
     val showVerticesLabels = mutableStateOf(false)
     val showEdgesLabels = mutableStateOf(false)
-    val graphViewModel = GraphViewModel(graph, showVerticesLabels, showEdgesLabels)
+    val graphViewModel = GraphViewModel(graph)
 
     init {
         representationStrategy.place(800.0, 600.0, graphViewModel.verticesViewValues)
