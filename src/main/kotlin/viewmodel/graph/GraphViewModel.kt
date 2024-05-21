@@ -10,13 +10,12 @@ import graph.model.Vertex
 
 class GraphViewModel(
     private val graph: Graph,
-    showVerticesLabels: State<Boolean>,
-    showEdgesLabels: State<Boolean>,
+
 ) {
-    private val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
+    val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
     init {
         graph.getVertices().forEach { vertex ->
-            verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Blue, vertex, showVerticesLabels)
+            verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Blue, vertex)
         }
     }
 
@@ -27,7 +26,7 @@ class GraphViewModel(
                 ?: throw IllegalStateException("VertexView for vertex with id: ${edge.vertices.first} not found")
             val snd = verticesView[graph.vertices[edge.vertices.second]]
                 ?: throw IllegalStateException("VertexView for vertex with id: ${edge.vertices.second} not found")
-            val currentEdgeView = EdgeViewModel(fst, snd, edge, showEdgesLabels)
+            val currentEdgeView = EdgeViewModel(fst, snd, edge)
             edgesView[edge]=currentEdgeView
         }
 

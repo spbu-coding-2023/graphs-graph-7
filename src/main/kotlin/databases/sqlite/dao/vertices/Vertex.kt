@@ -8,6 +8,6 @@ class Vertex(id: EntityID<Int>) : IntEntity(id) {
 
     companion object : IntEntityClass<Vertex>(Vertices)
 
-    var element by Vertices.element
+    var data by Vertices.data
     var community by Vertices.community
 }

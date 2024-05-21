@@ -33,13 +33,13 @@ fun VertexView(
             }
         }
     ) {
-        if (viewModel.labelVisible) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .offset(0.dp, -viewModel.radius - 10.dp),
-                text = viewModel.label,
-            )
-        }
+//        if (viewModel.labelVisible) {
+//            Text(
+//                modifier = Modifier
+//                    .align(Alignment.Center)
+//                    .offset(0.dp, -viewModel.radius - 10.dp),
+//                text = viewModel.label,
+//            )
+//        }
     }
 }
