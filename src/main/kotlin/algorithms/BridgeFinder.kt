@@ -7,18 +7,20 @@ import kotlin.math.min
 class BridgeFinder(graph: Graph) {
     private val arraySize = graph.vertices.size
     private val visitedVertices = Array(arraySize) {false}
-    private val timeIn = Array(arraySize) {0}
-    private val fUp = Array(arraySize) {0}
+    private val timeIn = Array(arraySize) {-1}
+    private val fUp = Array(arraySize) {-1}
     val bridges = mutableListOf<Int>()
+    private val curGraph = graph
 
-    fun findBridges(graph: Graph){
+    fun findBridges(){
         var timer = 0
+
         fun isBridge(edgeID: Int): Int?{
-            val destination = graph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
-            val bridge = graph.edges[edgeID]
-            val bridges = graph.vertices[bridge?.vertices?.first]?.incidentEdges ?: throw Exception("Incorrect Database")
+            val destination = curGraph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
+            val bridge = curGraph.edges[edgeID]
+            val bridges = curGraph.vertices[bridge?.vertices?.first]?.incidentEdges ?: throw Exception("Incorrect Database")
             for (curBridge in bridges) {
-                if (graph.edges[curBridge]!!.vertices.second==destination && curBridge!=edgeID){
+                if (curGraph.edges[curBridge]!!.vertices.second==destination && curBridge!=edgeID){
                     return null
                 }
             }
@@ -27,26 +29,29 @@ class BridgeFinder(graph: Graph) {
 
         fun dfs(vertexID: Int, parent: Int = -1){
             visitedVertices[vertexID] = true
-            timeIn[vertexID] = timer++
-            fUp[vertexID] = timer++
-            val incidentEdgesID = graph.vertices[vertexID]!!.incidentEdges
+            timer++
+            timeIn[vertexID] = timer
+            fUp[vertexID] = timer
+            val incidentEdgesID = curGraph.vertices[vertexID+1]!!.incidentEdges
             for (edgeID in incidentEdgesID){
-                val edge = graph.edges[edgeID]!!.vertices
-                val currentVertex = graph.vertices[vertexID]
-                val newVertexID = if (currentVertex == graph.vertices[edge.first]){
-                    edge.first
+                val edge = curGraph.edges[edgeID]!!.vertices
+                val newVertexID = if (vertexID == edge.first-1){
+                    edge.second-1
                 }
                 else{
-                    edge.second
+                    edge.first-1
                 }
+
                 if (newVertexID == parent) continue
+
                 if (visitedVertices[newVertexID]){
                     fUp[vertexID] = min(timeIn[newVertexID], fUp[vertexID])
                 }
+
                 else{
                     dfs(newVertexID, vertexID)
                     fUp[vertexID] = min(fUp[newVertexID], fUp[vertexID])
-                    if(fUp[vertexID] > timeIn[newVertexID]){
+                    if(fUp[newVertexID] > timeIn[vertexID]){
                         if (isBridge(edgeID)!=null){
                             bridges.add(edgeID)
                         }
@@ -55,9 +60,9 @@ class BridgeFinder(graph: Graph) {
             }
         }
 
-        for (i in arraySize - 1 downTo 0){
-            if (visitedVertices[i]){
-                dfs(i)
+        for (i in 1..arraySize){
+            if (!visitedVertices[i-1]){
+                dfs(i-1)
             }
         }
     }

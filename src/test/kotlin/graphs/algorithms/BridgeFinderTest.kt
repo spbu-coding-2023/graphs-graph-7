@@ -1,7 +1,11 @@
 package graphs.algorithms
 
+import algorithms.BridgeFinder
 import graph.model.Graph
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
 
 class BridgeFinderTest {
     private lateinit var graph: Graph
@@ -42,7 +46,12 @@ class BridgeFinderTest {
         }
     }
     @Test
-
-
+    @DisplayName("Multiple bridges, no multiple edges")
+    public fun puk(){
+        val bridgeFinder = BridgeFinder(graph)
+        bridgeFinder.findBridges()
+        val result = bridgeFinder.bridges
+        val expectedBridges = listOf(7, 8, 9, 10, 11, 12, 13, 6, 5)
+        assertEquals(expectedBridges,result)
     }
 }
