@@ -47,7 +47,7 @@ class BridgeFinderTest {
     }
     @Test
     @DisplayName("Multiple bridges, no multiple edges")
-    public fun puk(){
+    public fun MultipleBridgesNoMultipleEdges(){
         val bridgeFinder = BridgeFinder(graph)
         bridgeFinder.findBridges()
         val result = bridgeFinder.bridges
