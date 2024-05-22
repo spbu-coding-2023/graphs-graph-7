@@ -6,16 +6,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import graph.model.Vertex
+import model.graph.Vertex
 
 class VertexViewModel(
     x: Dp = 0.dp,
     y: Dp = 0.dp,
     color: Color,
-    private val v: Vertex,
-    private val _labelVisible: State<Boolean>,
-    val radius: Dp = 25.dp
+    val vertex: Vertex,
+    var radius: Dp = 25.dp
 ) {
+    private val _labelVisible: State<Boolean> = mutableStateOf(true)
+
     private var _x = mutableStateOf(x)
     var x: Dp
         get() = _x.value
@@ -36,8 +37,7 @@ class VertexViewModel(
         }
 
     val label
-        get() = v.data
-
+        get() = vertex.data
     val labelVisible
         get() = _labelVisible.value
 

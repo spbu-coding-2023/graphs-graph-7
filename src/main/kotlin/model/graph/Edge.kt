@@ -1,4 +1,4 @@
-package graph.model
+package model.graph
 
 class Edge (
     val vertices: Pair<Int, Int>,

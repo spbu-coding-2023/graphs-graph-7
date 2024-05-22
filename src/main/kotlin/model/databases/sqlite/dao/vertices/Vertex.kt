@@ -1,4 +1,4 @@
-package databases.sqlite.dao.vertices
+package model.databases.sqlite.dao.vertices
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -8,6 +8,6 @@ class Vertex(id: EntityID<Int>) : IntEntity(id) {
 
     companion object : IntEntityClass<Vertex>(Vertices)
 
-    var element by Vertices.element
+    var data by Vertices.data
     var community by Vertices.community
 }
