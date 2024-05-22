@@ -14,6 +14,7 @@ repositories {
     google()
 }
 val exposedVersion: String by project
+val neo4jDriverVersion = "4.4.5"
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
@@ -21,6 +22,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation(compose.desktop.currentOs)
+    implementation("org.slf4j:slf4j-nop:latest.release")
+    implementation("org.neo4j.driver:neo4j-java-driver:$neo4jDriverVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

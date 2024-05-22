@@ -1,4 +1,4 @@
-package model.graph
+package graph.model
 
 class Graph{
     var isDirected: Boolean = false
@@ -10,9 +10,9 @@ class Graph{
     fun getEdges(): Collection<Edge> = edges.values
 
     fun addVertex(id: Int, v: String): Vertex {
-        val vertex = Vertex(v)
-        vertex.id=id
-        return vertices.getOrPut(id) { vertex }
+        val newVertex = Vertex(v)
+        newVertex.id = id
+        return vertices.getOrPut(id) { newVertex }
     }
 
     fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge {
