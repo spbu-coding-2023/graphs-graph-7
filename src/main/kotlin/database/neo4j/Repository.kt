@@ -20,8 +20,8 @@ class Neo4jRepository(uri: String, user: String, password: String) : Closeable {
 
     fun addEdge(firstVertexId: Int,secondVertexId: Int, weight: Long, edgeId: Int) {
         session.writeTransaction { tx ->
-            tx.run("MATCH (v1:Vertex {id:\$id1}), (v2:Vertex {id:\$id2}) " +
-                    "CREATE (v1)-[:CONNECTED_TO {id:\$edgeId, weight:\$weight}]->(v2)",
+            tx.run("MATCH (v1:Vertex {id:\$id1}) MATCH (v2:Vertex {id:\$id2}) " +
+                    "CREATE (v1)-[:Edge {id:\$edgeId, weight:\$weight}]->(v2)",
                 Values.parameters("id1", firstVertexId, "id2", secondVertexId, "edgeId", edgeId, "weight", weight))
         }
     }
