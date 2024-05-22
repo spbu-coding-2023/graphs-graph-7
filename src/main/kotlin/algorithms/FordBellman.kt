@@ -1,7 +1,6 @@
 package algorithms
 
 import model.graph.Graph
-import java.math.BigInteger
 import kotlin.math.max
 
 
@@ -9,52 +8,94 @@ class FordBellman(graph: Graph) {
     val INF = Long.MAX_VALUE
     private val verticesNumber = graph.vertices.size
     private val edgesNumber = graph.edges.size
-    private val pathsLength = Array(verticesNumber) { INF }
-    private val resultPath = Array(verticesNumber) { -1 }
 
-    fun shortestPath(graph: Graph) {
-        pathsLength[0] = 0
-        var cycleFlag = -1
+    private val pathsLength = Array(verticesNumber) { INF }
+    val pathVertices = Array(verticesNumber) { -1 }
+    val pathEdges = Array(edgesNumber) { -1 }
+    val resultPathVertices:MutableList<Int> = mutableListOf()
+    val resultPathEdges:MutableList<Int> = mutableListOf()
+
+    private val curGraph = graph
+    var disconnectedGraphFlag = false
+    var cycleFlag = false
+
+    private fun negativeCycleBuilder(cycleFlag: Int) {
+        var tmpCycleFlag = cycleFlag
         for (i in 1 until verticesNumber) {
-            cycleFlag = -1
-            for (j in 1 until edgesNumber) {
-                val firstVertexPath = pathsLength[graph.edges[j]!!.vertices.first]
-                var secondVertexPath = pathsLength[graph.edges[j]!!.vertices.second]
+            tmpCycleFlag = pathVertices[tmpCycleFlag-1]+1
+        }
+        var current = tmpCycleFlag
+        var cycleEndFlag = true
+        while (cycleEndFlag) {
+
+
+            if (current == tmpCycleFlag && resultPathVertices.size > 1) {
+                cycleEndFlag = false
+                break
+            }
+            resultPathVertices.add(current)
+            val destVertexID = current
+            val sourseVertexID = pathVertices[current - 1] + 1
+            for (edgeID in curGraph.vertices[sourseVertexID]!!.incidentEdges) {
+                if (curGraph.edges[edgeID]!!.vertices.second == destVertexID) {
+                    resultPathEdges.add(edgeID)
+                    break
+                }
+            }
+            current = pathVertices[current-1]+1
+        }
+    }
+
+    fun shortestPath(startVertexID: Int, endVertexID: Int) {
+        pathsLength[startVertexID - 1] = 0
+        var curCycleFlag = -1
+        for (i in 0 until verticesNumber) {
+            curCycleFlag = -1
+            for (j in 0 until edgesNumber) {
+                val firstVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1]
+                var secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1]
                 if (firstVertexPath < INF) {
-                    if (secondVertexPath > firstVertexPath + graph.edges[j]!!.weight) {
-                        secondVertexPath = max(-INF, INF + graph.edges[j]!!.weight)
-                        resultPath[graph.edges[j]!!.vertices.second] = graph.edges[j]!!.vertices.first
-                        cycleFlag = graph.edges[j]!!.vertices.second
+                    if (secondVertexPath > firstVertexPath + curGraph.edges[j + 1]!!.weight) {
+                        pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1] =
+                            max(-INF, firstVertexPath + curGraph.edges[j + 1]!!.weight)
+                        pathEdges[curGraph.edges[j + 1]!!.id - 1] = j + 1
+                        pathVertices[curGraph.edges[j + 1]!!.vertices.second - 1] =
+                            curGraph.edges[j + 1]!!.vertices.first - 1
+                        curCycleFlag = curGraph.edges[j + 1]!!.vertices.second
                     }
                 }
             }
         }
-        negativeCycleCheck(graph, cycleFlag)
-    }
-
-    private fun negativeCycleCheck(graph: Graph, cycleFlag: Int) {
-        if (cycleFlag == -1) {
-            println("No negative cycles")
+        if (curCycleFlag == -1) {
+            if (pathsLength[endVertexID - 1] == INF) {
+                disconnectedGraphFlag = true
+                return
+            } else {
+                pathBuilder(endVertexID)
+            }
         } else {
-            var tmpCycleFlag = cycleFlag
-            for (i in 1 until verticesNumber) {
-                tmpCycleFlag = resultPath[tmpCycleFlag]
-            }
-            val path: MutableList<Int> = mutableListOf()
-            var current = tmpCycleFlag
-            var cycleEndFlag = true
-            while(cycleEndFlag){
-                path.add(current)
-                if (current == tmpCycleFlag && path.size >1){
-                    cycleEndFlag = false
-                }
-                current=resultPath[current]
-            }
-            println("Negative cycle:")
-            path.forEach {
-                print("$it ")
-            }
+            cycleFlag=true
+            negativeCycleBuilder(curCycleFlag)
         }
     }
 
+    private fun pathBuilder(endVertexID: Int) {
+        resultPathVertices.add(endVertexID)
+        var tmp = endVertexID
+        do {
+            val destVertexID = tmp
+            val sourceVertexID = pathVertices[tmp - 1] + 1
+            for (edgeID:Int in curGraph.vertices[sourceVertexID]!!.incidentEdges) {
+                if (curGraph.edges[edgeID]!!.vertices.second == destVertexID) {
+                    resultPathEdges.add(edgeID)
+                    break
+                }
+            }
+            resultPathVertices.add(sourceVertexID)
+            tmp = pathVertices[tmp-1] + 1
+        } while (pathVertices[tmp-1] != -1)
+    }
 }
+
+
+
