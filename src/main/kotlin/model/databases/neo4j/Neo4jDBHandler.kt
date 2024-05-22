@@ -1,4 +1,4 @@
-package database.neo4j
+package model.databases.neo4j
 
 import graph.model.Graph
 
