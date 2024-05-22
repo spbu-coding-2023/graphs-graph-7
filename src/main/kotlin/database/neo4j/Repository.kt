@@ -30,7 +30,7 @@ class Neo4jRepository(uri: String, user: String, password: String) : Closeable {
         val graph = Graph()
 
         session.readTransaction { tx ->
-            val verticesResult = tx.run("MATCH (v:Vertex) RETURN v.id AS id, v.data AS data, v.community AS community)",)
+            val verticesResult = tx.run("MATCH (v:Vertex) RETURN v.id AS id, v.data AS data, v.community AS community",)
             verticesResult.list().forEach { record ->
                 val vertexId = record.get("id").asInt()
                 val vertexData = record.get("data").asString()
@@ -39,7 +39,7 @@ class Neo4jRepository(uri: String, user: String, password: String) : Closeable {
                 graph.vertices[vertexId]!!.community = vertexCommunity
             }
 
-            val edgesResult = tx.run("MATCH (v1:Vertex)-[e:CONNECTED_TO]->(v2:Vertex) RETURN e.id AS id, v1.id AS v1, v2.id AS v2, e.weight AS weight")
+            val edgesResult = tx.run("MATCH (v1:Vertex)-[e:Edge]->(v2:Vertex) RETURN e.id AS id, v1.id AS v1, v2.id AS v2, e.weight AS weight")
             edgesResult.list().forEach { record ->
                 val edgeId = record.get("id").asInt()
                 val firstVertexId = record.get("v1").asInt()
