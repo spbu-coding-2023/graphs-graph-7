@@ -1,6 +1,6 @@
 package algorithms
 
-import model.graph.Graph
+import graph.model.Graph
 import kotlin.math.max
 
 

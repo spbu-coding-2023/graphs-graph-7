@@ -1,6 +1,6 @@
 package algorithms
 
-import model.graph.Graph
+import graph.model.Graph
 import java.awt.geom.Point2D.distance
 import kotlin.math.min
 
