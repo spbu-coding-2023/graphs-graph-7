@@ -1,6 +1,6 @@
 package model.databases.neo4j
 
-import graph.model.Graph
+import model.graph.Graph
 import org.neo4j.driver.AuthTokens
 import org.neo4j.driver.Driver
 import org.neo4j.driver.GraphDatabase

@@ -1,4 +1,4 @@
-package graph.model
+package model.graph
 
 class Graph{
     var isDirected: Boolean = false
