@@ -78,5 +78,29 @@ class Louvain(private val graph: Graph) {
         return n
     }
 
+    private fun calculateModularity(communities: Map<Int, Int>): Double {
+        var link = 0.0
+        val closeness = n.neighbours.values.sumOf { it.size }.toDouble() / 2
 
+        for (anchor in n.neighbours.keys) {
+            for (relation in n.neighbours[anchor]!!) {
+                val neighbour = relation.id
+                if (communities[anchor] == communities[neighbour]) {
+                    link += 1.0 - (n.neighbours[anchor]!!.size * n.neighbours[neighbour]!!.size) / (2 * closeness)
+                }
+            }
+        }
+
+        return link / (2 * closeness)
+    }
+
+    private fun paintGraph(comm : List<Set<Int>>) : List<Set<Int>> {
+        for ((newCommunityIndex, community) in comm.withIndex()) {
+            for (vertexIdx in community) {
+                graph.vertices[vertexIdx]!!.community = newCommunityIndex
+            }
+        }
+
+        return comm
+    }
 }
