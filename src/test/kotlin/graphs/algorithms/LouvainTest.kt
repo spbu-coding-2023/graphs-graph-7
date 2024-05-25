@@ -92,5 +92,34 @@ class LouvainTest {
         assertTrue(expectedCommunities == currentlyCommunities)
     }
 
+    @Test
+    fun `test louvain graph sample 2 directed`() {
+        // graph and algo initialization
+        val graph = createSampleGraph2()
+        val algo = Louvain(graph)
 
+        val expected = mutableListOf(setOf(1,2,3), setOf(4,5,6))
+
+        algo.findCommunities()
+
+        val currentlyCommunities = algo.findCommunities()
+
+        assertTrue(expected == currentlyCommunities)
+    }
+
+    @Test
+    fun `test louvain graph sample 2 not directed`() {
+        // graph and algo initialization
+        val graph = createSampleGraph2()
+        graph.isDirected = false
+        val algo = Louvain(graph)
+
+        val expected = mutableListOf(setOf(1,2,3), setOf(4,5,6))
+
+        algo.findCommunities()
+
+        val currentlyCommunities = algo.findCommunities()
+
+        assertTrue(expected == currentlyCommunities)
+    }
 }
