@@ -49,4 +49,34 @@ class Louvain(private val graph: Graph) {
         return paintGraph(answer)
     }
 
+    private fun getNeighbours(): Neighbours {
+        val graphEdges = graph.getEdges()
+        val n = Neighbours()
+
+        for (vertex in graph.getVertices()) {
+            n.neighbours[vertex.id] = mutableSetOf()
+        }
+
+        // initialize network
+        for (edge in graphEdges) {
+            val neighbour1 = edge.vertices.first
+            val neighbour2 = edge.vertices.second
+            val closeness = edge.weight
+            if (graph.isDirected) {
+                n.neighbours.getOrPut(neighbour1) { mutableSetOf() }.add(Relation(closeness, neighbour2))
+            } else {
+                n.neighbours.getOrPut(neighbour1) { mutableSetOf() }.add(Relation(closeness, neighbour2))
+                n.neighbours.getOrPut(neighbour2) { mutableSetOf() }.add(Relation(closeness, neighbour1))
+            }
+        }
+
+        // initialize start community position
+        for (id in n.neighbours.keys) {
+            currCommunities[id] = id
+        }
+
+        return n
+    }
+
+
 }
