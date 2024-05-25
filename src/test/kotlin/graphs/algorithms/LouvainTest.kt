@@ -74,5 +74,23 @@ class LouvainTest {
         assertTrue(expected == currently)
     }
 
+    @Test
+    fun `test louvain graph community color`() {
+        // graph and algo initialization
+        val graph = createSampleGraph()
+        val algo = Louvain(graph)
+
+        val expectedCommunities = mutableListOf(0,0,1,2,1,2,0,0,2,1,2,1)
+
+        algo.findCommunities()
+
+        val currentlyCommunities = mutableListOf<Int>()
+        for (vertex in graph.getVertices()) {
+            currentlyCommunities.add(vertex.community)
+        }
+
+        assertTrue(expectedCommunities == currentlyCommunities)
+    }
+
 
 }
