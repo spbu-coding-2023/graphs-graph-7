@@ -122,4 +122,39 @@ class LouvainTest {
 
         assertTrue(expected == currentlyCommunities)
     }
+
+    @Test
+    fun `test louvain graph is empty`() {
+        // graph and algo initialization
+        val graph = Graph()
+        graph.isDirected = false
+        val algo = Louvain(graph)
+
+        val expected = mutableListOf<Int>()
+
+        algo.findCommunities()
+
+        val currentlyCommunities = algo.findCommunities()
+
+        assertTrue(expected == currentlyCommunities)
+    }
+
+    @Test
+    fun `test louvain graph has no edges`() {
+        // graph and algo initialization
+        val graph = Graph()
+        graph.addVertex(1, "A")
+        graph.addVertex(2, "B")
+        graph.addVertex(3, "C")
+
+        val algo = Louvain(graph)
+
+        val expected = mutableListOf(setOf(1), setOf(2), setOf(3))
+
+        algo.findCommunities()
+
+        val currentlyCommunities = algo.findCommunities()
+
+        assertTrue(expected == currentlyCommunities)
+    }
 }
