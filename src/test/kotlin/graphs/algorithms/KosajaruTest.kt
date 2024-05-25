@@ -1,7 +1,7 @@
 package graphs.algorithms
 
 import algorithms.Kosaraju
-import model.graph.Graph
+import graph.model.Graph
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
@@ -133,12 +133,18 @@ class KosarajuTest {
     }
 
     @Test
-    fun `test components output non-directed graph`() {
+    fun `test components output non directed`() {
         // graph and algo initialization
         val graph = createSampleGraph()
         graph.isDirected = false
         val algo = Kosaraju(graph)
-        val expected = emptyList<List<Int>>()
+        val expected = mutableListOf(
+            mutableListOf(3, 8, 5, 10),
+            mutableListOf(2, 9, 4),
+            mutableListOf(11),
+            mutableListOf(1),
+            mutableListOf(0,7,6),
+        )
 
         // algo start from different positions
         val currently = algo.findStronglyConnectedComponents()

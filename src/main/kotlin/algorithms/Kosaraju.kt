@@ -1,6 +1,6 @@
 package algorithms
 
-import model.graph.Graph
+import graph.model.Graph
 
 class Kosaraju(private val graph: Graph) {
     private val used = hashMapOf<Int, Boolean>()
@@ -8,10 +8,6 @@ class Kosaraju(private val graph: Graph) {
     private val component = mutableListOf<Int>()
 
     fun findStronglyConnectedComponents(): List<List<Int>> {
-        if (!graph.isDirected) {
-            return emptyList<List<Int>>()
-        }
-
         // Step 1: Transpose the graph
         val transposedGraph = transposeGraph()
 
