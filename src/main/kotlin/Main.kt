@@ -13,6 +13,7 @@ import model.graph.Graph
 import view.Canvas
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout
+import view.MyNavigationDrawer
 
 val graph = Graph().apply {
     addVertex(1,"Thomas Shelby")
@@ -52,6 +53,7 @@ val graph = Graph().apply {
 fun App() {
     MaterialTheme {
         Canvas(CanvasViewModel(graph, CircularLayout()))
+        //MyNavigationDrawer(CanvasViewModel(graph, CircularLayout()))
     }
 }
 
