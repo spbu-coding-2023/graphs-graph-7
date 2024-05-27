@@ -15,7 +15,7 @@ fun tsNET(graph: Graph, vertices: Collection<VertexViewModel>, perplexity: Doubl
             doubleDistanceMatrix[i][j] = distanceMatrix[i][j].toDouble()
         }
     }
-    val coordinatesMatrix = Array(vertices.size) { DoubleArray(2) { 1.0 } }
+    val coordinatesMatrix = Array(vertices.size) { DoubleArray(2) }
     val iterations = 5000
     val momentum = 0.5
     val tolerance = 1e-7
@@ -45,7 +45,7 @@ fun tsNET(graph: Graph, vertices: Collection<VertexViewModel>, perplexity: Doubl
         finalLR = lambdas3[0],
         lRSwitch = iterations / 2,
         rEps = rEps,
-        autostop = 1e-7,
+        autostop = tolerance,
         windowSize = windowSize,
     )
     resultMatrix = normalizeLayout(resultMatrix)

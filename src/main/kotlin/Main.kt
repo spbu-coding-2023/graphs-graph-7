@@ -13,6 +13,7 @@ import graph.model.Graph
 import view.Canvas
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout
+import viewmodel.layouts.TsNETLayout
 
 val graph = Graph().apply {
     addVertex(1,"Thomas Shelby")
@@ -51,7 +52,7 @@ val graph = Graph().apply {
 @Preview
 fun App() {
     MaterialTheme {
-        Canvas(CanvasViewModel(graph, CircularLayout()))
+        Canvas(CanvasViewModel(graph, TsNETLayout(graph,30.0,10.0)))
     }
 }
 

@@ -3,6 +3,9 @@ package model.layout
 import java.util.*
 import kotlin.math.*
 
+import java.util.Random
+import kotlin.random.Random as r
+
 private const val EPSILON = 1e-16
 private const val FLOAT_H = 1e-16f
 
@@ -102,6 +105,7 @@ private fun pIJConditionalVar(
             sqdistance[i][j] = matrix[i][j] * matrix[i][j]
         }
     }
+
     val esqdistance = Array(size) { DoubleArray(size) }
     for (i in 0 until size) {
         for (j in 0 until size) {
@@ -109,6 +113,7 @@ private fun pIJConditionalVar(
                 exp(-sqdistance[i][j] / (2 * sigma[i] * sigma[i])) //в оригинале сигма транспонирована, тут надо подумать
         }
     }
+
     val esqdistanceZd = Array(size) {
         DoubleArray(
             size
@@ -268,69 +273,69 @@ private fun costVar(
 
 //TODO если данный вариант функции работать не будет, то удалить, и выбирать значения рандомно
 //@Throws(SigmaTooLowException::class)
-private fun findSigma(
-    matrixX: Array<DoubleArray>,
-    sigma: DoubleArray,
-    size: Int,
-    perplexity: Double,
-    sigmaIters: Int,
-): DoubleArray {
-    //val target = ln(perplexity)
-
-    var matrixP = pIJConditionalVar(matrixX, sigma)
-    for (i in matrixP.indices) {
-        for (j in matrixP[i].indices) {
-            matrixP[i][j] = kotlin.math.max(matrixP[i][j], EPSILON)
-        }
-    }
-
-    var entropy = DoubleArray(matrixP.size) { 0.0 }
-    for (i in matrixP.indices) {
-        for (j in matrixP[i].indices) {
-            entropy[i] -= matrixP[i][j] * ln(matrixP[i][j])
-        }
-    }
-
-    val sigmin = DoubleArray(sigma.size)
-    Arrays.fill(sigmin, sqrt(EPSILON))
-
-    val sigmax = DoubleArray(sigma.size)
-    Arrays.fill(sigmax, Double.POSITIVE_INFINITY)
-
-    for (i in 0 until sigmaIters) {
-        val e = entropy.clone()
-
-        for (j in e.indices) {
-            if (java.lang.Double.isNaN(exp(e[j]))) {
-                //throw SigmaTooLowException("Invalid sigmas. The perplexity is probably too low.")
-                println("sigma exception")
-            }
-        }
-
-        //эээ это супер странно. Почему-то в цикле фор условие на выход. причем такое же, какое в его голове
-//            if (i == sigmaIters - 1) {
-//                break
+//private fun findSigma(
+//    matrixX: Array<DoubleArray>,
+//    sigma: DoubleArray,
+//    size: Int,
+//    perplexity: Double,
+//    sigmaIters: Int,
+//): DoubleArray {
+//    //val target = ln(perplexity)
+//
+//    var matrixP = pIJConditionalVar(matrixX, sigma)
+//    for (i in matrixP.indices) {
+//        for (j in matrixP[i].indices) {
+//            matrixP[i][j] = max(matrixP[i][j], EPSILON)
+//        }
+//    }
+//
+//    var entropy = DoubleArray(matrixP.size) { 0.0 }
+//    for (i in matrixP.indices) {
+//        for (j in matrixP[i].indices) {
+//            entropy[i] -= matrixP[i][j] * ln(matrixP[i][j])
+//        }
+//    }
+//
+//    val sigmin = DoubleArray(sigma.size)
+//    Arrays.fill(sigmin, sqrt(EPSILON))
+//
+//    val sigmax = DoubleArray(sigma.size)
+//    Arrays.fill(sigmax, Double.POSITIVE_INFINITY)
+//
+//    for (i in 0 until sigmaIters) {
+//        val e = entropy.clone()
+//
+//        for (j in e.indices) {
+//            if (java.lang.Double.isNaN(exp(e[j]))) {
+//                //throw SigmaTooLowException("Invalid sigmas. The perplexity is probably too low.")
+//                println("sigma exception")
 //            }
-
-        for (j in entropy.indices) {
-            if (entropy[j] < ln(perplexity)) {
-                sigma[j] = (sigma[j] + sigmax[j]) / 2
-            } else {
-                sigma[j] = (sigma[j] + sigmin[j]) / 2
-            }
-        }
-        matrixP = pIJConditionalVar(matrixX, sigma)
-        entropy = DoubleArray(matrixP.size)
-        for (j in matrixP.indices) {
-            for (k in matrixP[j].indices) {
-                entropy[j] -= matrixP[j][k] * ln(matrixP[j][k])
-            }
-        }
-    }
-
-    return sigma
-}
-
+//        }
+//
+//        //эээ это супер странно. Почему-то в цикле фор условие на выход. причем такое же, какое в его голове
+////            if (i == sigmaIters - 1) {
+////                break
+////            }
+//
+//        for (j in entropy.indices) {
+//            if (entropy[j] < ln(perplexity)) {
+//                sigma[j] = (sigma[j] + sigmax[j]) / 2
+//            } else {
+//                sigma[j] = (sigma[j] + sigmin[j]) / 2
+//            }
+//        }
+//        matrixP = pIJConditionalVar(matrixX, sigma)
+//        entropy = DoubleArray(matrixP.size)
+//        for (j in matrixP.indices) {
+//            for (k in matrixP[j].indices) {
+//                entropy[j] -= matrixP[j][k] * ln(matrixP[j][k])
+//            }
+//        }
+//    }
+//
+//    return sigma
+//}
+//
 
 private fun isConverged(epoch: Int, stepsizeOverTime: DoubleArray, tol: Double = 1e-8, windowSize: Int): Boolean {
     if (epoch > windowSize) {
@@ -396,6 +401,9 @@ private fun stepsize(
                 minY = verticesCoords[i][j]
             }
         }
+    }
+    if ((maxY - minY) == 0.0) {
+        return sumYv / (size * initial_LR)
     }
     return sumYv / (size * initial_LR * (maxY - minY))
 }
@@ -518,7 +526,7 @@ private fun findY(
             tmpInitialLC = finalLC
         }
         if (epoch == lr_Switch) {
-
+            tmpInitial_LR = final_LR
         }
         val stepsize = stepsize(Yv, tmpVerticesCoords, size, tmpInitial_LR)
         Yv = updateGradientVertices(tmpInitialMomentum, Yv, tmpInitial_LR, gradientVerticesCoords)
@@ -575,18 +583,18 @@ private fun findY(
 //@Throws(SigmaTooLowException::class, NaNException::class)
 fun tsnet(
     vertices: Array<DoubleArray>,
-    perplexity: Double=30.0,
+    perplexity: Double = 30.0,
     vertexCoords: Array<DoubleArray>,
-    outputDims: Int=2,
-    nEpochs: Int=1000,
-    initial_LR: Double=10.0,
-    final_LR: Double=4.0,
+    outputDims: Int = 2,
+    nEpochs: Int = 1000,
+    initial_LR: Double = 10.0,
+    final_LR: Double = 4.0,
     lr_Switch: Int,
-    initStdev: Double=1e-4,
-    sigmaIters: Int=50,
-    initialMomentum: Double=0.5,
-    finalMomentum: Double=0.8,
-    momentumSwitch: Int=250,
+    initStdev: Double = 1e-4,
+    sigmaIters: Int = 50,
+    initialMomentum: Double = 0.5,
+    finalMomentum: Double = 0.8,
+    momentumSwitch: Int = 250,
     initialLKL: Double,
     finalLKL: Double,
     lKLSwitch: Int,
@@ -603,27 +611,30 @@ fun tsnet(
 ): Array<DoubleArray> {
 //        val random = Random(randomSeed)
     val verticesNumber = vertices.size
-//        var tmpVertexCoords = vertexCoords
+    var tmpVertexCoords = vertexCoords
 //            var Y = vertexCoords
 //        if (Y == null){
 //
 //        }
 
     val sigmaShared = DoubleArray(verticesNumber)
-    Arrays.fill(sigmaShared, 1.0)
-    val resultSigma = findSigma(vertices, sigmaShared, verticesNumber, perplexity, sigmaIters)
-//        if (tmpVertexCoords == null) {
-//            tmpVertexCoords = Array(verticesNumber) { DoubleArray(outputDims) }
-//            for (i in 0 until verticesNumber) {
-//                for (j in 0 until outputDims) {
-//                    tmpVertexCoords[i][j] = random.nextGaussian() * initStdev
-//                }
-//            }
-//        }
+    for (i in 0 until verticesNumber) {
+        sigmaShared[i] = r.nextDouble()
+    }
+
+    //val resultSigma = findSigma(vertices, sigmaShared, verticesNumber, perplexity, sigmaIters)
+
+    tmpVertexCoords = Array(verticesNumber) { DoubleArray(outputDims) }
+    for (i in 0 until verticesNumber) {
+        for (j in 0 until outputDims) {
+            tmpVertexCoords[i][j] = Random().nextGaussian() * initStdev
+        }
+    }
+
     return findY(
         vertices = vertices,
-        verticesCoords = vertexCoords,
-        sigma = resultSigma,
+        verticesCoords = tmpVertexCoords,
+        sigma = sigmaShared,
         size = verticesNumber,
         outputDims = outputDims,
         nEpochs = nEpochs,
