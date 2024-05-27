@@ -106,7 +106,7 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
         Scaffold(
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    text = { Text("Show drawer") },
+                    text = { Text("Add graph") },
                     icon = { Icon(Icons.Filled.Add, contentDescription = "") },
                     onClick = {
                         scope.launch {
