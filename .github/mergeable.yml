@@ -15,13 +15,13 @@ mergeable:
         no_empty:
           enabled: true
           message: 'Description matter and should not be empty. Provide detail with **what** was changed, **why** it was changed, and **how** it was changed.'
-      # - do: approvals
-      #   min:
-      #     count: 0
-      #   block:
-      #     changes_requested: true
-      #   limit:
-      #     users:
-      #       - DronShock
-      #       - suvorovrain
-      #       - Sem4kok
+      - do: approvals
+        min:
+          count: 1
+        block:
+          changes_requested: true
+        limit:
+          users:
+            - DronShock
+            - suvorovrain
+            - Sem4kok

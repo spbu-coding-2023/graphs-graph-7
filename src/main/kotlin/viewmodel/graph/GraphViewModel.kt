@@ -3,8 +3,8 @@ package viewmodel.graph
 import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import graph.model.Graph
 import model.graph.Edge
-import model.graph.Graph
 import model.graph.Vertex
 
 

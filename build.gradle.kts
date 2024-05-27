@@ -25,8 +25,8 @@ dependencies {
     implementation(compose.material3)
     implementation("org.slf4j:slf4j-nop:latest.release")
     implementation("org.neo4j.driver:neo4j-java-driver:$neo4jDriverVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
 
 compose.desktop {

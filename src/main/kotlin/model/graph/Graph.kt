@@ -1,5 +1,8 @@
 package model.graph
 
+import model.graph.Edge
+import model.graph.Vertex
+
 class Graph{
     var isDirected: Boolean = false
     val vertices = hashMapOf<Int, Vertex>()
