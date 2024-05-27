@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import view.graph.GraphView
 import viewmodel.CanvasViewModel
 
 @Composable
@@ -116,11 +117,9 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                     }
                 )
             }
-        )
-        {
-            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                Icon(Icons.Filled.Menu, contentDescription = "Меню")
-            }
+        ) { GraphView(viewModel.graphViewModel) }
+        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+            Icon(Icons.Filled.Menu, contentDescription = "Меню")
         }
     }
 }
