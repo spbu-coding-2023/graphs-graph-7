@@ -1,6 +1,6 @@
 package model.community
 
-import graph.model.Graph
+import model.graph.Graph
 
 class Louvain(private val graph: Graph) {
     private val currCommunities = mutableMapOf<Int, Int>()

@@ -2,7 +2,7 @@ package viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
-import graph.model.Graph
+import model.graph.Graph
 import viewmodel.graph.GraphViewModel
 import viewmodel.layouts.RepresentationStrategy
 

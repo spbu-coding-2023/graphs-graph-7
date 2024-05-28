@@ -1,6 +1,6 @@
 package algorithms
 
-import graph.model.Graph
+import model.graph.Graph
 
 class Kosaraju(private val graph: Graph) {
     private val used = hashMapOf<Int, Boolean>()

@@ -7,7 +7,7 @@ import model.databases.sqlite.dao.vertices.Vertices
 import model.databases.sqlite.dao.verticesView.VertexView
 import model.databases.sqlite.dao.verticesView.VerticesView
 import androidx.compose.ui.unit.dp
-import graph.model.Graph
+import model.graph.Graph
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.exists

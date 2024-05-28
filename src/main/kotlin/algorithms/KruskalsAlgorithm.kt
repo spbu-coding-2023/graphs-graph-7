@@ -1,6 +1,6 @@
 package algorithms
 
-import graph.model.Graph
+import model.graph.Graph
 import model.graph.Edge
 
 class KruskalsMST  {
