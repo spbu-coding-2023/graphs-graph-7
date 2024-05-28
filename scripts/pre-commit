@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "> Task: ktfmtFormat"
+
+./gradlew ktfmtFormat
+
+echo "> Task: ktfmtCheck"
+
+./gradlew --no-daemon ktfmtCheck
+
+ ktfmtCheckStatus=$?
+
+[ $ktfmtCheckStatus -ne 0 ] && exit 1
+exit 0
