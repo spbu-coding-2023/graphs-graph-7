@@ -12,11 +12,11 @@ class CanvasViewModel(graph: Graph, private val representationStrategy: Represen
     val graphViewModel = GraphViewModel(graph)
 
     init {
-        representationStrategy.place(800.0, 600.0, graphViewModel.verticesViewValues)
+        representationStrategy.place(1280.0, 860.0, graphViewModel)
     }
 
     fun resetGraphView() {
-        representationStrategy.place(800.0, 600.0, graphViewModel.verticesViewValues)
+        representationStrategy.place(800.0, 600.0, graphViewModel)
         graphViewModel.verticesViewValues.forEach{ v -> v.color = Color.Blue}
     }
 

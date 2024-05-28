@@ -2,6 +2,8 @@ package viewmodel.layouts
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.gephi.graph.api.GraphView
+import viewmodel.graph.GraphViewModel
 import viewmodel.graph.VertexViewModel
 import kotlin.math.cos
 import kotlin.math.min
@@ -9,7 +11,8 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 class CircularLayout: RepresentationStrategy {
-    override fun place(width: Double, height: Double, vertices: Collection<VertexViewModel>) {
+    override fun place(width: Double, height: Double, graph: GraphViewModel) {
+        val vertices = graph.verticesViewValues
         if (vertices.isEmpty()) {
             println("CircularPlacementStrategy.place: there is nothing to place 👐🏻")
             return

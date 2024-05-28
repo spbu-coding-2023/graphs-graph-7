@@ -16,12 +16,14 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://raw.github.com/gephi/gephi/mvn-thirdparty-repo/")
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
 }
 val exposedVersion: String by project
 val neo4jDriverVersion = "4.4.5"
 dependencies {
+    implementation("org.gephi", "gephi-toolkit", "0.10.1", classifier = "all")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
