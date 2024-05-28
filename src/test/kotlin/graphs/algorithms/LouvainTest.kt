@@ -1,6 +1,6 @@
 package graphs.algorithms
 
-import algorithms.Kosaraju
+import model.algorithms.Kosaraju
 import graph.model.Graph
 import model.community.Louvain
 import org.junit.jupiter.api.Assertions.assertTrue

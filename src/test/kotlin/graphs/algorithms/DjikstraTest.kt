@@ -1,6 +1,6 @@
 package graphs.algorithms
 
-import algorithms.Djikstra
+import model.algorithms.Djikstra
 import graph.model.Graph
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*

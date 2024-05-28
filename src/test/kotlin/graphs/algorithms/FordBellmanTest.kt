@@ -1,6 +1,6 @@
 package graphs.algorithms
 
-import algorithms.FordBellman
+import model.algorithms.FordBellman
 import graph.model.Graph
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
