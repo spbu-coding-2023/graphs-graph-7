@@ -1,30 +1,54 @@
 package model.layout
 
 import java.util.*
+import kotlin.jvm.internal.Reflection.function
 import kotlin.math.*
 
-import java.util.Random
-import kotlin.random.Random as r
 
 private const val EPSILON = 1e-16
 private const val FLOAT_H = 1e-16f
 
+//fun computeGradient(cost: Int, matrix: Array<DoubleArray>): Array<DoubleArray> {
+//    val numRows = matrix.size
+//    val numCols = matrix[0].size
+//
+//    val gradient = Array(numRows) { DoubleArray(numCols) }
+//
+//    for (i in 0 until numRows) {
+//        for (j in 0 until numCols) {
+//            val centralDifferenceX: Double =
+//                (function(functionId, matrix, i + 1, j) - function(functionId, matrix, i - 1, j)) / (2 * 0.00001)
+//            val centralDifferenceY: Double =
+//                (function(functionId, matrix, i, j + 1) - function(functionId, matrix, i, j - 1)) / (2 * 0.00001)
+//
+//            gradient[i][j] = sqrt(centralDifferenceX * centralDifferenceX + centralDifferenceY * centralDifferenceY)
+//        }
+//    }
+//
+//    return gradient
+//}
 private fun gradient(cost: Double, coords: Array<DoubleArray>): Array<DoubleArray> {
     val gradient = Array(coords.size) { DoubleArray(coords[0].size) { 0.0 } }
 
     for (i in coords.indices) {
         for (j in coords[i].indices) {
-            gradient[i][j] = 2 * (coords[i][j] - cost)
+            gradient[i][j] = (coords[i][j] - 0.0001*cost)
         }
     }
     return gradient
 }
 
-private fun dotProduct(a: DoubleArray, b: DoubleArray): Double {
-    var result = 0.0
+private fun dotProduct(a: Array<DoubleArray>, b: Array<DoubleArray>): Array<DoubleArray> {
+    val result = Array(a.size) { DoubleArray(b[0].size) { 0.0} }
+
     for (i in a.indices) {
-        result += a[i] * b[i]
+        for (j in b[0].indices) {
+            for (k in b.indices) {
+                result[i][j] += a[i][k] * b[k][j]
+            }
+        }
     }
+
     return result
 }
 
@@ -59,16 +83,36 @@ private fun max(a: DoubleArray): Double {
 
 private fun sqeuclideanVar(matrix: Array<DoubleArray>): Array<DoubleArray> {
     val size = matrix.size
-    val ss = Array(size) { DoubleArray(1) }
+    val ss = DoubleArray(size) { 0.0 }
     for (i in 0 until size) {
         for (j in matrix[i].indices) {
-            ss[i][0] += matrix[i][j] * matrix[i][j]
+            if(matrix[i][j] * matrix[i][j]>1000){
+                ss[i] +=  EPSILON
+            }else{
+                ss[i] += matrix[i][j] * matrix[i][j]
+            }
         }
     }
     val result = Array(size) { DoubleArray(size) }
     for (i in 0 until size) {
         for (j in 0 until size) {
-            result[i][j] = ss[i][0] + ss[j][0] - 2 * dotProduct(matrix[i], matrix[j])
+            result[i][j] = ss[i] + ss[j]
+        }
+    }
+    val rows = matrix.size
+    val cols = matrix[0].size
+
+    val transposed = Array(cols) { DoubleArray(rows) { 0.0 } }
+
+    for (i in 0 until rows) {
+        for (j in 0 until cols) {
+            transposed[j][i] = matrix[i][j]
+        }
+    }
+    val matrixdot = dotProduct(matrix,transposed)
+    for (i in 0 until size) {
+        for (j in 0 until size) {
+            result[i][j] -= 2*matrixdot[i][j]
         }
     }
     return result
@@ -83,7 +127,7 @@ private fun euclideanVar(matrix: Array<DoubleArray>): Array<DoubleArray> {
     }
     for (i in sqeuclideanVar.indices) {
         for (j in sqeuclideanVar[i].indices) {
-            result[i][j] = kotlin.math.max(sqeuclideanVar[i][j], EPSILON)
+            result[i][j] = max(sqeuclideanVar[i][j], EPSILON)
             result[i][j] = result[i][j].pow(0.5)
         }
     }
@@ -110,7 +154,7 @@ private fun pIJConditionalVar(
     for (i in 0 until size) {
         for (j in 0 until size) {
             esqdistance[i][j] =
-                exp(-sqdistance[i][j] / (2 * sigma[i] * sigma[i])) //в оригинале сигма транспонирована, тут надо подумать
+                max(exp(-sqdistance[i][j]*sqdistance[i][j] / 2*(sigma[i] * sigma[i])), EPSILON) //в оригинале сигма транспонирована, тут надо подумать
         }
     }
 
@@ -129,16 +173,21 @@ private fun pIJConditionalVar(
         }
     }
 
-    val rowSum = Array(size) { DoubleArray(1) }
+    val rowSum = DoubleArray(size)
     for (i in 0 until size) {
         for (j in 0 until size) {
-            rowSum[i][0] += esqdistanceZd[i][j]
+            rowSum[i] += esqdistanceZd[i][j]
         }
     }
     val result = Array(size) { DoubleArray(size) }
     for (i in 0 until size) {
         for (j in 0 until size) {
-            result[i][j] = esqdistanceZd[i][j] / rowSum[i][0]
+            if (i!=j) {
+                result[j][i] = esqdistanceZd[i][j] / rowSum[i]
+            }
+            else{
+                result[j][i]=0.0
+            }
         }
     }
     return result
@@ -149,22 +198,37 @@ private fun pIJSymVar(pIJConditional: Array<DoubleArray>): Array<DoubleArray> {
     val result = Array(size) { DoubleArray(size) }
     for (i in 0 until size) {
         for (j in 0 until size) {
-            result[i][j] = (pIJConditional[i][j] + pIJConditional[j][i]) / (2 * pIJConditional.size)
+            if(i!=j){
+                result[i][j] = (pIJConditional[i][j] + pIJConditional[j][i]) / (2 * pIJConditional.size)
+            }
+            else{
+                result[i][j] = 0.0
+            }
+
         }
+
     }
     return result
 }
 
 private fun qIJStudentTVar(matrix: Array<DoubleArray>): Array<DoubleArray> {
     val sqeuclideanVar = sqeuclideanVar(matrix)
+
     val oneOver = Array(sqeuclideanVar.size) {
         DoubleArray(
             sqeuclideanVar[0].size
         )
     }
+
     for (i in sqeuclideanVar.indices) {
         for (j in sqeuclideanVar[i].indices) {
-            oneOver[i][j] = 1 / (sqeuclideanVar[i][j] + 1)
+            if(i!=j){
+                oneOver[i][j] = 1 / (sqeuclideanVar[i][j] + 1)
+            }
+            else{
+                oneOver[i][j]=0.0
+            }
+
         }
     }
     val result = Array(oneOver.size) {
@@ -325,6 +389,11 @@ private fun costVar(
 //            }
 //        }
 //        matrixP = pIJConditionalVar(matrixX, sigma)
+//        for (m in matrixP.indices) {
+//            for (j in matrixP[i].indices) {
+//                matrixP[m][j] = max(matrixP[m][j], EPSILON)
+//            }
+//        }
 //        entropy = DoubleArray(matrixP.size)
 //        for (j in matrixP.indices) {
 //            for (k in matrixP[j].indices) {
@@ -335,7 +404,7 @@ private fun costVar(
 //
 //    return sigma
 //}
-//
+
 
 private fun isConverged(epoch: Int, stepsizeOverTime: DoubleArray, tol: Double = 1e-8, windowSize: Int): Boolean {
     if (epoch > windowSize) {
@@ -354,7 +423,7 @@ private fun updateGradientVertices(
     val tmpYv = Array(Yv.size) { DoubleArray(Yv[0].size) { 0.0 } }
     for (i in Yv.indices) {
         for (j in Yv[0].indices) {
-            tmpYv[i][j] = momentum * Yv[i][j] - lr * gradientVertices[i][j]
+            tmpYv[i][j] = (momentum * Yv[i][j] - lr * gradientVertices[i][j])
         }
     }
     return tmpYv
@@ -453,63 +522,15 @@ private fun findY(
     var tmplKLSwitch = lKLSwitch
     var tmplCSwitch = lCSwitch
     var tmplr_Switch = lr_Switch
-
-    // vertices
-    //sigma
-    //velocities
-    //cost
-    //cost gradient
-    //stepsize
-    //update step
-    //gradient step
-    //cost func
-    //stepsize over time
-//        val Yv = Array(Y!!.size) {
-//            DoubleArray(
-//                Y!![0].size
-//            )
-//        }
-//       val sigmaShared = DoubleArray(sigma.size)
-//       System.arraycopy(sigma, 0, sigmaShared, 0, sigmaShared.size)
-
     var Yv = Array(size) {
         DoubleArray(
             outputDims
         )
         { 0.0 }
     }
-
     var costsVar = costVar(vertices, tmpVerticesCoords, sigma, tmpInitialLKL, tmpInitialLC, tmpInitialLR, rEps)
     var cost = costsVar.sum()
-
     var gradientVerticesCoords = gradient(cost, tmpVerticesCoords)
-
-    //var stepsize = stepsize(Yv,verticesCoords,size,initial_LR)
-//        val XShared = Array(matrixXShared.size) {
-//            DoubleArray(
-//                matrixXShared[0].size
-//            )
-//        }
-
-//        for (i in matrixXShared.indices) {
-//            System.arraycopy(matrixXShared[i], 0, XShared[i], 0, matrixXShared[i].size)
-//        }
-
-//        if (Y == null) {
-//            val random = Random()
-//            Y = Array(size) { DoubleArray(outputDims) }
-//            for (i in 0 until size) {
-//                for (j in 0 until outputDims) {
-//                    Y[i][j] = random.nextGaussian() * initStdev
-//                }
-//            }
-//        }
-//        val verticesCoords = Array(Y.size) {
-//            DoubleArray(
-//                Y[0].size
-//            )
-//        }
-//        findSigma(vertices, sigma, size, perplexity, sigmaIters, verbose)
     var converged = false
     val stepsizeOverTime = DoubleArray(nEpochs) { 0.0 }
     for (epoch in 0 until nEpochs) {
@@ -528,55 +549,42 @@ private fun findY(
         if (epoch == lr_Switch) {
             tmpInitial_LR = final_LR
         }
+        if (epoch == 166){
+            println("!")
+        }
+        val Yvcopy = Yv.copyOf()
         val stepsize = stepsize(Yv, tmpVerticesCoords, size, tmpInitial_LR)
-        Yv = updateGradientVertices(tmpInitialMomentum, Yv, tmpInitial_LR, gradientVerticesCoords)
+        Yv = updateGradientVertices(tmpInitialMomentum, Yvcopy, tmpInitial_LR, gradientVerticesCoords)
 
         stepsizeOverTime[epoch] = stepsize
 
-        tmpVerticesCoords = updateVertices(verticesCoords, Yv)
+        tmpVerticesCoords = updateVertices(tmpVerticesCoords, Yv)
 
         costsVar = costVar(vertices, tmpVerticesCoords, sigma, tmpInitialLKL, tmpInitialLC, tmpInitialLR, rEps)
 
         cost = costsVar.sum()
 
         if (java.lang.Double.isNaN(cost)) {
-            //throw NaNException("Encountered NaN for cost.")
+            println("cost nan")
         }
 
-//            if (verbose) {
-//                if (autostop && epoch >= windowSize) {
-//                    val dLastPeriod = Arrays.copyOfRange(stepsizeOverTime, epoch - windowSize, epoch)
-//                    val maxStepsize = max(dLastPeriod)
-//                    System.out.printf(
-//                        "Epoch: %d. Cost: %.6f. Max step size of last %d: %.2e%n",
-//                        epoch + 1,
-//                        c,
-//                        windowSize,
-//                        maxStepsize
-//                    )
-//                } else {
-//                    System.out.printf("Epoch: %d. Cost: %.6f.%n", epoch + 1, c)
-//                }
+//        if (autostop != 0.0 && isConverged(epoch, stepsizeOverTime, tol = autostop, windowSize)) {
+//            if (epoch < tmplRSwitch) {
+//                tmplRSwitch = epoch + 1
+//                tmpMomentumSwitch = epoch + 1
+//                tmplKLSwitch = epoch + 1
+//                tmplCSwitch = epoch + 1
+//                tmplr_Switch = epoch + 1
+//            } else if (epoch > tmplRSwitch + windowSize) {
+//                converged = true
+//                break
 //            }
-
-
-        if (autostop != 0.0 && isConverged(epoch, stepsizeOverTime, tol = autostop, windowSize)) {
-            if (epoch < tmplRSwitch) {
-                tmplRSwitch = epoch + 1
-                tmpMomentumSwitch = epoch + 1
-                tmplKLSwitch = epoch + 1
-                tmplCSwitch = epoch + 1
-                tmplr_Switch = epoch + 1
-            } else if (epoch > tmplRSwitch + windowSize) {
-                converged = true
-                break
-            }
-        }
+//        }
     }
 //        if (!converged) {
 //            println("Warning: Did not converge!")
 //        }
-    return verticesCoords
+    return tmpVerticesCoords
 }
 
 
@@ -611,7 +619,7 @@ fun tsnet(
 ): Array<DoubleArray> {
 //        val random = Random(randomSeed)
     val verticesNumber = vertices.size
-    var tmpVertexCoords = vertexCoords
+    val tmpVertexCoords = vertexCoords
 //            var Y = vertexCoords
 //        if (Y == null){
 //
@@ -619,16 +627,16 @@ fun tsnet(
 
     val sigmaShared = DoubleArray(verticesNumber)
     for (i in 0 until verticesNumber) {
-        sigmaShared[i] = r.nextDouble()
+        sigmaShared[i] = 1*initStdev
     }
 
-    //val resultSigma = findSigma(vertices, sigmaShared, verticesNumber, perplexity, sigmaIters)
-
-    tmpVertexCoords = Array(verticesNumber) { DoubleArray(outputDims) }
-    for (i in 0 until verticesNumber) {
-        for (j in 0 until outputDims) {
-            tmpVertexCoords[i][j] = Random().nextGaussian() * initStdev
-        }
+     //val resultSigma = findSigma(vertices, sigmaShared, verticesNumber, perplexity, sigmaIters)
+    val arrayX = listOf(0.8877868, 0.719826, 0.6496161, 0.07604706, 0.99572206, 0.5173684, 0.5476957, 0.914038, 0.70197463, 0.9344275, 0.26876843, 0.7583832, 0.5694686, 0.3793757, 0.050505042, 0.81860334, 0.5099501, 0.12667817, 0.35858333, 0.23174864, 0.1717661, 0.09181601, 0.8031458, 0.85746044, 0.59837216, 0.7359834, 0.24821913, 0.78177935, 0.24334568, 0.6560409, 0.63474923, 0.6508926, 0.7754333, 0.8773301, 0.84899324, 0.9259963, 0.29843342, 0.6370809, 0.9936, 0.7755677, 0.30031812, 0.12194365, 0.78652906, 0.9416703, 0.1402629, 0.72065157, 0.36217737, 0.39602166, 0.7865537, 0.59102446, 0.093559325, 0.862325, 0.4948461, 0.9028656, 0.48782748, 0.6293899, 0.54457, 0.67088157, 0.3145256, 0.17732465, 0.23284346, 0.8653852, 0.9339095, 0.7800066, 0.93296236, 0.1437251, 0.57570344, 0.29885578, 0.62687504, 0.9342139, 0.36093986, 0.9456436, 0.006687641, 0.8866653, 0.2994938, 0.21389258, 0.21727318, 0.78286356, 0.46346807, 0.8473081, 0.87207294, 0.939841, 0.30431348, 0.7700489, 0.68121755, 0.60265774, 0.33209383, 0.50226, 0.5515162, 0.4688288, 0.46612936, 0.83839446, 0.7202488, 0.20590514, 0.7980565, 0.5152367, 0.025948763, 0.39693534, 0.42241353, 0.20930386)
+    val arrayY = listOf(   0.5190474, 0.49463326, 0.040546298, 0.75455016, 0.13642162, 0.746919, 0.22172397, 0.980136, 0.23330867, 0.10406339, 0.17573154, 0.15045297, 0.55304515, 0.8467596, 0.11867458, 0.32903373, 0.08220005, 0.415942, 0.6094675, 0.2532512, 0.14145565, 0.39778012, 0.12669581, 0.6300604, 0.4942264, 0.9591165, 0.3160069, 0.71204656, 0.055157244, 0.8075544, 0.29758126, 0.9338358, 0.20659924, 0.014750004, 0.3918125, 0.3044026, 0.8883903, 0.20698202, 0.06875056, 0.10905433, 0.9119101, 0.08991647, 0.25299704, 0.34231967, 0.47753054, 0.9156098, 0.8175104, 0.73652786, 0.5748825, 0.6020008, 0.35431778, 0.6422682, 0.7684196, 0.016645193, 0.836469, 0.034950018, 0.45083147, 0.8783559, 0.78202266, 0.3001116, 0.42771947, 0.3820411, 0.6003016, 0.5787465, 0.05456972, 0.07650632, 0.9695297, 0.79903495, 0.09730768, 0.71509016, 0.5308475, 0.44671923, 0.6553544, 0.97780097, 0.8216821, 0.6970999, 0.2347765, 0.92712796, 0.13496572, 0.24685109, 0.75632614, 0.35475725, 0.95662385, 0.034765244, 0.36570406, 0.692805, 0.84138566, 0.6437715, 0.013035536, 0.0017493367, 0.56804615, 0.87296957, 0.3362627, 0.7401788, 0.6443292, 0.6792885, 0.99379253, 0.29265207, 0.75369954, 0.38831192
+    )
+    for (i in 0 until verticesNumber){
+        tmpVertexCoords[i][0]=arrayX[i]
+        tmpVertexCoords[i][1]=arrayY[i]
     }
 
     return findY(

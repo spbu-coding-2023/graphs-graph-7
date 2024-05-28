@@ -19,8 +19,8 @@ class TsNETLayout(graph: Graph,perplexity: Double, learningRate: Double):Represe
         val coords = tsNET(graph, vertices, perplexity, learningRate)
         var i = 0
         vertices.forEach { vertex ->
-            vertex.x = (coords[i][0]*1000.0).dp
-            vertex.y = (coords[i][1]*1000.0).dp
+            vertex.x = ((coords[i][0])*300).dp
+            vertex.y = ((coords[i][1])*300).dp
             i++
         }
     }

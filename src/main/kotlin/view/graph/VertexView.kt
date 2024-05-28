@@ -1,6 +1,7 @@
 package view.graph
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import viewmodel.graph.VertexViewModel
@@ -20,12 +22,14 @@ fun VertexView(
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier
-        .size(viewModel.radius * 2, viewModel.radius * 2)
+        .size(viewModel.radius+10.dp, viewModel.radius+10.dp)
         .offset(viewModel.x, viewModel.y)
         .background(
             color = viewModel.color,
             shape = CircleShape
+
         )
+        .border(2.dp, Color.Black, shape = CircleShape)
         .pointerInput(viewModel) {
             detectDragGestures { change, dragAmount ->
                 change.consume()
