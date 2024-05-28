@@ -2,8 +2,9 @@ package model.graph
 
 class Vertex(
     var data: String,
-    var incidentEdges: MutableList<Int> = mutableListOf()
+    var incidentEdges: MutableList<Int> = mutableListOf(),
 ){
     var id: Int = 0
     var community: Int = -1
+    val adjacentVertices: MutableList<Vertex>  = mutableListOf()
 }
