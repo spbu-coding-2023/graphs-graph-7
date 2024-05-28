@@ -1,26 +1,15 @@
 package model.layout
 
 import androidx.compose.ui.unit.dp
-import model.graph.Graph
 import viewmodel.graph.GraphViewModel
 import viewmodel.layouts.RepresentationStrategy
-import org.gephi.layout.plugin.forceAtlas.ForceAtlas
 import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
-import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2Builder
 import org.gephi.graph.api.Edge
 import org.gephi.graph.api.GraphController
-import org.gephi.graph.api.GraphModel
 import org.gephi.graph.api.Node
-import org.gephi.layout.plugin.force.StepDisplacement
-import org.gephi.layout.plugin.force.yifanHu.YifanHuLayout
-import org.gephi.layout.plugin.forceAtlas.ForceAtlasLayout
-import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2LayoutData
 import org.gephi.project.api.ProjectController
 import org.openide.util.Lookup
 import viewmodel.graph.VertexViewModel
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.random.Random
 
 
