@@ -28,11 +28,6 @@ class ForceAtlas2Layout:RepresentationStrategy{
 
     override fun place(width: Double, height: Double, graphViewModel:GraphViewModel){
 
-        var maxX = Int.MIN_VALUE
-        var minX = Int.MAX_VALUE
-        var maxY = Int.MIN_VALUE
-        var minY = Int.MAX_VALUE
-
         val pc = Lookup.getDefault().lookup(ProjectController::class.java)
         pc.newProject()
         val graphModel = Lookup.getDefault().lookup(GraphController::class.java).graphModel
@@ -78,14 +73,7 @@ class ForceAtlas2Layout:RepresentationStrategy{
             val y = ((height/2 + v.y()))
             vertex.x = (x).toInt().dp
             vertex.y = (y).toInt().dp
-
-            maxX = max(maxX, x.toInt())
-            minX = min(minX, x.toInt())
-            maxY = max(maxY, y.toInt())
-            minY = min(minY, y.toInt())
         }
-        val graphWidthScale = width / (maxX + abs(minX))
-        val graphHeightScale = height / (maxY + abs(minY))
     }
 
     override fun highlight(vertices: Collection<VertexViewModel>) {
