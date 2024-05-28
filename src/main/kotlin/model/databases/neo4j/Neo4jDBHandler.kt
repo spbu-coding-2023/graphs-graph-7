@@ -1,6 +1,6 @@
 package model.databases.neo4j
 
-import graph.model.Graph
+import model.graph.Graph
 
 class Neo4jHandler(private val repository: Neo4jRepository) {
 

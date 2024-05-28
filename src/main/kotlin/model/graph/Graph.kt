@@ -1,4 +1,4 @@
-package graph.model
+package model.graph
 
 import model.graph.Edge
 import model.graph.Vertex
