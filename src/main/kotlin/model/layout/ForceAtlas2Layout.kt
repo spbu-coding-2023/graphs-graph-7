@@ -46,7 +46,7 @@ class ForceAtlas2Layout:RepresentationStrategy{
         layout.resetPropertiesValues()
         layout.isAdjustSizes = true
         layout.isBarnesHutOptimize = true
-        layout.scalingRatio = 20.0
+        layout.scalingRatio = 60.0
         layout.gravity = 2.0
 
         var i = 0

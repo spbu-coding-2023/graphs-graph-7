@@ -6,12 +6,14 @@ import androidx.compose.ui.unit.dp
 import model.graph.Graph
 import model.graph.Edge
 import model.graph.Vertex
+import viewmodel.algos.BridgeFinderViewModel
 
 
 class GraphViewModel(
     var graph: Graph,
 
     ) {
+
     val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
     init {
         graph.getVertices().forEach { vertex ->
@@ -19,7 +21,7 @@ class GraphViewModel(
         }
     }
 
-    private val edgesView: HashMap<Edge, EdgeViewModel> = hashMapOf()
+    val edgesView: HashMap<Edge, EdgeViewModel> = hashMapOf()
     init {
         graph.getEdges().forEach { edge ->
             val fst = verticesView[graph.vertices[edge.vertices.first]]
