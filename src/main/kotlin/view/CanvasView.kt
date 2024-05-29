@@ -2,10 +2,7 @@ package view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,20 +16,145 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
+import model.databases.neo4j.Neo4jHandler
+import model.databases.neo4j.Neo4jRepository
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
-import androidx.compose.material3.RadioButton
+import viewmodel.LoadGraphMenuViewModel
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val showDialog = remember { mutableStateOf(false) }
+    val storageType = remember { mutableStateOf(StorageType.FILE) }
+    val fileName = remember { mutableStateOf("") }
+    val isDirectedGraph = remember { mutableStateOf(false) }
+    val isWeighted = remember { mutableStateOf(false) }
+    val uri = remember { mutableStateOf("") }
+    val login = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val interactionSource = remember { MutableInteractionSource() }
 
+    AnimatedVisibility(visible = showDialog.value) {
+        Dialog(
+            onDismissRequest = { showDialog.value = false },
+            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Choose where to save the graph:")
+                CustomRadioGroup(
+                    selectedOption = storageType.value.toString(),
+                    options = listOf(StorageType.FILE.toString(), StorageType.NEO4J.toString(), StorageType.SQLITE.toString()),
+                    onOptionSelected = { storageType.value = StorageType.valueOf(it) }
+                )
+
+                when (storageType.value) {
+                    StorageType.FILE -> {
+                        TextField(
+                            value = fileName.value,
+                            onValueChange = { fileName.value = it },
+                            label = { Text("File Name") }
+                        )
+                        Text("Ориентированный ли граф")
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text("Взвешанные ли рёбра")
+                        Checkbox(
+                            checked = isWeighted.value,
+                            onCheckedChange = { isWeighted.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    StorageType.NEO4J -> {
+                        TextField(
+                            value = uri.value,
+                            onValueChange = { uri.value = it },
+                            label = { Text("URI") }
+                        )
+                        TextField(
+                            value = login.value,
+                            onValueChange = { login.value = it },
+                            label = { Text("Login") }
+                        )
+                        TextField(
+                            value = password.value,
+                            onValueChange = { password.value = it },
+                            label = { Text("Password") },
+                            visualTransformation = PasswordVisualTransformation()
+                        )
+                        Text("Ориентированный ли граф")
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text("Взвешанные ли рёбра")
+                        Checkbox(
+                            checked = isWeighted.value,
+                            onCheckedChange = { isWeighted.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    StorageType.SQLITE -> {
+                        TextField(
+                            value = fileName.value,
+                            onValueChange = { fileName.value = it },
+                            label = { Text("File Name") }
+                        )
+                        Text("Ориентированный ли граф")
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text("Взвешанные ли рёбра")
+                        Checkbox(
+                            checked = isWeighted.value,
+                            onCheckedChange = { isWeighted.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        when (storageType.value) {
+                            StorageType.FILE -> {
+                                // Логика сохранения в файл с использованием fileName и isDirectedGraph
+                            }
+                            StorageType.NEO4J -> {
+                                // Логика сохранения в Neo4j
+                                val repo = Neo4jRepository(uri.value, login.value, password.value)
+                                val handler = Neo4jHandler(repo)
+                                viewModel.graph.isDirected = isDirectedGraph.value
+                                handler.saveGraphToNeo4j(viewModel.graph)
+                            }
+                            StorageType.SQLITE -> {
+                                // Логика сохранения в SQLite
+                            }
+                        }
+                        showDialog.value = false
+                    }
+                ) {
+                    Text("Save")
+                }
+            }
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         contentColor = Color.LightGray,
@@ -85,6 +207,20 @@ fun Canvas(viewModel: CanvasViewModel) {
                     AnimatedVisibility(visible = showSubMenu.value) {
                         AlgorithmSubMenu()
                     }
+                    Button(onClick = { viewModel.isOpenLoadGraph = true }) {
+                        Text("Load graph")
+                    }
+                    Button(
+                        enabled = true,
+                        onClick = {
+                            scope.launch {
+                                showDialog.value = true
+                            }
+                        }
+                    ) {
+                        Text(text = "Save Graph")
+                    }
+
 
                 }
             },
@@ -112,5 +248,7 @@ fun Canvas(viewModel: CanvasViewModel) {
             GraphView(viewModel.graphViewModel)
         }
     }
-
+    if (viewModel.isOpenLoadGraph) {
+        LoadGraph(LoadGraphMenuViewModel(viewModel))
+    }
 }
