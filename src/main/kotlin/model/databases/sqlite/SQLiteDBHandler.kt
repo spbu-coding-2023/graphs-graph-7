@@ -16,11 +16,14 @@ import viewmodel.graph.GraphViewModel
 import java.io.File
 
 class SQLiteDBHandler {
+    lateinit var graph: Graph
+    lateinit var graphViewModel: GraphViewModel
+    var vertexViewModelFlag = false
     fun open(file: File, weighted: Boolean, directed: Boolean) {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
         val newGraph = Graph()
         newGraph.isDirected=directed
-        var vertexViewModelFlag = false
+
         transaction {
             Vertex.all().forEach { vertex ->
                 newGraph.addVertex(vertex.id.toString().toInt(), vertex.data)
@@ -55,8 +58,9 @@ class SQLiteDBHandler {
                     it.value.radius = tmp.r.dp
                 }
             }
+            graphViewModel=newGraphViewModel
         }
-
+        graph=newGraph
     }
 
     fun save(file: File) {
