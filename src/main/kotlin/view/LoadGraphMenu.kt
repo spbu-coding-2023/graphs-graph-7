@@ -17,17 +17,25 @@ import androidx.compose.ui.window.rememberDialogState
 import kotlinx.coroutines.launch
 import model.databases.neo4j.Neo4jHandler
 import model.databases.neo4j.Neo4jRepository
+import model.databases.sqlite.SQLiteDBHandler
+import model.graph.Graph
 import viewmodel.LoadGraphMenuViewModel
+import viewmodel.graph.GraphViewModel
+import java.io.File
 
 @Composable
-fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
+fun LoadGraph(viewModel: LoadGraphMenuViewModel,) {
     val coroutineScope = rememberCoroutineScope()
     var isWeighted by remember { mutableStateOf(false) }
     var isDirected by remember { mutableStateOf(false) }
-    var isSqlite by remember { mutableStateOf(false) }
-    var isNeo4j by remember { mutableStateOf(false) }
-    var isCSV by remember { mutableStateOf(false) }
+
+
     val storageType = remember { mutableStateOf(StorageType.FILE) }
+    var fileAddress by remember { mutableStateOf("") }
+    var uri by remember { mutableStateOf("") }
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
 
     DialogWindow(
         onCloseRequest = { viewModel.canvasViewModel.isOpenLoadGraph = false },
@@ -82,7 +90,7 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
 
                         StorageType.NEO4J -> {
                             Text(
-                                "URL:",
+                                "URI:",
                                 modifier = Modifier.weight(0.5f),
                                 textAlign = TextAlign.Center,
 
@@ -90,7 +98,8 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = viewModel.graphName.value,
-                                onValueChange = { newValue -> viewModel.graphName.value = newValue },
+                                onValueChange = { newValue -> viewModel.graphName.value = newValue
+                                                uri = newValue},
                                 label = { Text("URI") },
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -105,7 +114,8 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = viewModel.graphName.value,
-                                onValueChange = { newValue -> viewModel.graphName.value = newValue },
+                                onValueChange = { newValue -> viewModel.graphName.value = newValue
+                                                login = newValue},
                                 label = { Text("Login") },
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -120,7 +130,8 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = viewModel.graphName.value,
-                                onValueChange = { newValue -> viewModel.graphName.value = newValue },
+                                onValueChange = { newValue -> viewModel.graphName.value = newValue
+                                                password = newValue},
                                 label = { Text("Password") },
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -138,7 +149,9 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = viewModel.graphName.value,
-                                onValueChange = { newValue -> viewModel.graphName.value = newValue },
+                                onValueChange = { newValue ->
+                                    viewModel.graphName.value = newValue
+                                                fileAddress=newValue},
                                 label = { Text("Path") },
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -161,13 +174,7 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                     onCheckedChange = { isDirected = it }
                 )
                 Text("Directed")
-//                Button(
-//                    //selected = viewModel.isGraphDirected.value,
-//                    onClick = { viewModel.isGraphDirected.value = !viewModel.isGraphDirected.value },
-//
-//                    //verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.weight(1f),
-//                ){Text("Directed graph")}
+
             }
             Row(modifierRow, verticalAlignment = verticalRow) {
                 Spacer(modifier = Modifier.weight(1f))
@@ -178,12 +185,6 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
                 }
                 Spacer(modifier = Modifier.weight(0.01f))
                 Button(
-                    colors = ButtonDefaults.buttonColors(
-//                        backgroundColor = JetTheme.colors.tertiaryBackground,
-//                        contentColor = JetTheme.colors.secondaryText,
-//                        disabledContentColor = JetTheme.colors.secondaryText,
-//                        disabledBackgroundColor = JetTheme.colors.tertiaryBackground
-                    ),
                     onClick = {
                         when (storageType.value) {
                             StorageType.FILE -> {
@@ -194,7 +195,20 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel) {
 
                             }
                             StorageType.SQLITE -> {
-                                // Логика сохранения в SQLite
+                                fileAddress = "examples/$fileAddress"
+                                val dataBase: File = File(fileAddress)
+                                val sqlHandler = SQLiteDBHandler()
+                                sqlHandler.open(dataBase,isWeighted,isDirected)
+                                viewModel.canvasViewModel.graph = sqlHandler.graph
+                                if(sqlHandler.vertexViewModelFlag){
+                                    viewModel.canvasViewModel.graphViewModel.graph = sqlHandler.graph
+                                    viewModel.canvasViewModel.graphViewModel = sqlHandler.graphViewModel
+                                }
+                                else{
+                                    viewModel.canvasViewModel.graphViewModel = GraphViewModel(sqlHandler.graph)
+                                }
+                                viewModel.canvasViewModel.representationStrategy.place(1280.0, 860.0,
+                                    viewModel.canvasViewModel.graphViewModel)
                             }
 
                         }

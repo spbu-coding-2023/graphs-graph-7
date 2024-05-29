@@ -16,11 +16,14 @@ import viewmodel.graph.GraphViewModel
 import java.io.File
 
 class SQLiteDBHandler {
+    lateinit var graph: Graph
+    lateinit var graphViewModel: GraphViewModel
+    var vertexViewModelFlag = false
     fun open(file: File, weighted: Boolean, directed: Boolean) {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
         val newGraph = Graph()
         newGraph.isDirected=directed
-        var vertexViewModelFlag = false
+
         transaction {
             Vertex.all().forEach { vertex ->
                 newGraph.addVertex(vertex.id.toString().toInt(), vertex.data)
@@ -28,7 +31,8 @@ class SQLiteDBHandler {
             Edge.all().forEach { edge ->
                 newGraph.addEdge(
                     edge.first!!.id.toString().toInt(), edge.second!!.id.toString().toInt(),
-                    edge.weight, edge.id.toString().toInt()
+                    edge.weight,
+                    edge.id.toString().toInt()
                 )
                 if (!newGraph.isDirected) {
                     newGraph.vertices[edge.second!!.id.toString().toInt()]!!.incidentEdges.add(
@@ -36,10 +40,11 @@ class SQLiteDBHandler {
                     )
                 }
                 newGraph.vertices[edge.first!!.id.toString().toInt()]!!.incidentEdges.add(edge.id.toString().toInt())
+                if (VerticesView.exists()) {
+                    vertexViewModelFlag = true
+                }
             }
-            if (VerticesView.exists()) {
-                vertexViewModelFlag = true
-            }
+
         }
         if (vertexViewModelFlag) {
             val newGraphViewModel = GraphViewModel(newGraph)
@@ -55,8 +60,9 @@ class SQLiteDBHandler {
                     it.value.radius = tmp.r.dp
                 }
             }
+            graphViewModel=newGraphViewModel
         }
-
+        graph=newGraph
     }
 
     fun save(file: File) {

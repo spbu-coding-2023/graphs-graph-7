@@ -5,10 +5,10 @@ import model.graph.Graph
 import viewmodel.graph.GraphViewModel
 import viewmodel.layouts.RepresentationStrategy
 
-class CanvasViewModel(val graph: Graph, private val representationStrategy: RepresentationStrategy,) {
+class CanvasViewModel(var graph: Graph, val representationStrategy: RepresentationStrategy,) {
     val showVerticesLabels = mutableStateOf(false)
     val showEdgesLabels = mutableStateOf(false)
-    val graphViewModel = GraphViewModel(graph)
+    var graphViewModel = GraphViewModel(graph)
 
     private val _isOpenLoadGraph = mutableStateOf(false)
     var isOpenLoadGraph: Boolean
