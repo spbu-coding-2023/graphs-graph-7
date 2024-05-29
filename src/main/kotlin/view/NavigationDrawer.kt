@@ -46,26 +46,9 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                     ) {
                         Icon(Icons.Filled.Menu, contentDescription = "Меню")
                     }
-                    Text("TOP G GANG", modifier = Modifier.padding(16.dp))
+                    Text("Menu", modifier = Modifier.padding(16.dp))
                 }
                 Divider()
-                NavigationDrawerItem(
-                    label = { Text("Menu Item 1") },
-                    modifier = Modifier.padding(10.dp),
-                    onClick = { scope.launch { drawerState.close() } },
-                    selected = false
-                )
-                NavigationDrawerItem(
-                    label = { Text(text = "Настройки") },
-                    icon = {
-                        Icon(
-                            Icons.Filled.Settings,
-                            contentDescription = null
-                        )
-                    },
-                    selected = false,
-                    onClick = { /*TODO*/ }
-                )
                 NavigationDrawerItem(
                     label = { Text(text = "Доступные алгоритмы") },
                     icon = {
