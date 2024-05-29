@@ -191,9 +191,14 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel,) {
                                 // Логика сохранения в файл с использованием fileName и isDirectedGraph
                             }
                             StorageType.NEO4J -> {
-                                // Логика сохранения в Neo4j
-
-                            }
+                                val repository = Neo4jRepository(uri, login, password)
+                                val handler = Neo4jHandler(repository)
+                                val newGraph = handler.loadGraphFromNeo4j()
+                                newGraph.isDirected = isDirected
+                                viewModel.canvasViewModel.graph = newGraph
+                                viewModel.canvasViewModel.graphViewModel = GraphViewModel(newGraph)
+                                viewModel.canvasViewModel.isOpenLoadGraph = false
+                        }
                             StorageType.SQLITE -> {
                                 fileAddress = "examples/$fileAddress"
                                 val dataBase: File = File(fileAddress)
