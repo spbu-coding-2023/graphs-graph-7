@@ -1,7 +1,9 @@
 package view
 
 import androidx.compose.animation.AnimatedVisibility
+
 import androidx.compose.foundation.background
+
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
@@ -17,18 +19,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+
 import androidx.compose.ui.unit.sp
+
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
-import view.graph.GraphView
-import viewmodel.CanvasViewModel
-import androidx.compose.material3.RadioButton
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import model.databases.neo4j.Neo4jHandler
 import model.databases.neo4j.Neo4jRepository
+import view.graph.GraphView
+import viewmodel.CanvasViewModel
+
+import viewmodel.LoadGraphMenuViewModel
+
+
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
@@ -210,33 +216,8 @@ fun Canvas(viewModel: CanvasViewModel) {
                     AnimatedVisibility(visible = showSubMenu.value) {
                         AlgorithmSubMenu()
                     }
-                    Row {
-                        Checkbox(checked = viewModel.showVerticesLabels.value, onCheckedChange = {
-                            viewModel.showVerticesLabels.value = it
-                        })
-                        Text("Show vertices labels", fontSize = 20.sp, modifier = Modifier.padding(0.dp))
-                    }
-                    Row {
-                        Checkbox(checked = viewModel.showEdgesLabels.value, onCheckedChange = {
-                            viewModel.showEdgesLabels.value = it
-                        })
-                        Text("Show edges labels", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
-                    }
-                    Button(
-                        onClick = viewModel::resetGraphView,
-                        enabled = true,
-                    ) {
-                        Text(
-                            text = "Reset default settings",
-                        )
-                    }
-                    Button(
-                        onClick = viewModel::setVerticesColor,
-                        enabled = true,
-                    ) {
-                        Text(
-                            text = "Set colors",
-                        )
+                    Button(onClick = { viewModel.isOpenLoadGraph = true }) {
+                        Text("Load graph")
                     }
                     Button(
                         enabled = true,
@@ -248,6 +229,17 @@ fun Canvas(viewModel: CanvasViewModel) {
                     ) {
                         Text(text = "Save Graph")
                     }
+                    Button(
+                        enabled = true,
+                        onClick = {
+                            scope.launch {
+                                showDialog.value = true
+                            }
+                        }
+                    ) {
+                        Text(text = "Save Graph")
+                    }
+
                 }
             },
         ) {
@@ -275,4 +267,8 @@ fun Canvas(viewModel: CanvasViewModel) {
         }
     }
 
+    if (viewModel.isOpenLoadGraph) {
+        LoadGraph(LoadGraphMenuViewModel(viewModel))
+    }
 }
+

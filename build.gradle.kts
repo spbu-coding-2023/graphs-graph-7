@@ -31,6 +31,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
+    implementation(compose.foundation)
     implementation("org.slf4j:slf4j-nop:latest.release")
     implementation("org.neo4j.driver:neo4j-java-driver:$neo4jDriverVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
