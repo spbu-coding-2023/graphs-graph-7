@@ -135,35 +135,3 @@ class AllCyclesInDirectedGraphJohnson {
         return subGraph
     }
 }
-//fun main(args: Array<String>) {
-//    val johnson = AllCyclesInDirectedGraphJohnson()
-//    val graph = Graph()
-//    graph.isDirected = true
-//    for (i in 1..9){
-//        graph.addVertex(i,"")
-//    }
-//    graph.addEdge(1, 2, edgeID = 0)
-//    graph.addEdge(1, 8, edgeID = 1)
-//    graph.addEdge(1, 5, edgeID = 2)
-//    graph.addEdge(2, 9, edgeID = 3)
-//    graph.addEdge(2, 7, edgeID = 4)
-//    graph.addEdge(2, 3, edgeID = 5)
-//    graph.addEdge(3, 1, edgeID = 6)
-//    graph.addEdge(3, 2, edgeID = 7)
-//    graph.addEdge(3, 6, edgeID = 8)
-//    graph.addEdge(3, 4, edgeID = 9)
-//    graph.addEdge(6, 4, edgeID = 10)
-//    graph.addEdge(4, 5, edgeID = 11)
-//    graph.addEdge(5, 2, edgeID = 12)
-//    graph.addEdge(8, 9, edgeID = 13)
-//    graph.addEdge(9, 8, edgeID = 14)
-//
-//    val allCycles: List<List<Vertex?>> = johnson.simpleCycles(graph)
-//    val joiner = StringJoiner("->")
-//    allCycles.forEach { cycle: List<Vertex?> ->
-//        cycle.forEach { vertex: Vertex? ->
-//            joiner.add("${vertex?.id}")
-//        }
-//        println(joiner)
-//    }
-//}
