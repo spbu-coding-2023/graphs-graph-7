@@ -1,13 +1,16 @@
 package view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -22,11 +25,13 @@ fun CustomRadioGroup(
         ) {
             Box(
                 modifier = Modifier
-                    .background(Color.Magenta)
+                    .background(Color.Gray)
+                    .height(50.dp)
                     .padding(8.dp)
                     .weight(1f)
+                    //.border(2.dp, Color.Black, CircleShape),
             ) {
-                Text("NEO4J", color = Color.White)
+                Text("NEO4J", color = Color.Black)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -42,11 +47,12 @@ fun CustomRadioGroup(
         ) {
             Box(
                 modifier = Modifier
-                    .background(Color.Magenta)
+                    .background(Color.Gray)
                     .padding(8.dp)
                     .weight(1f)
+                    //.border(2.dp, Color.Black, CircleShape),
             ) {
-                Text("FILE", color = Color.White)
+                Text("FILE", color = Color.Black)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -62,11 +68,12 @@ fun CustomRadioGroup(
         ) {
             Box(
                 modifier = Modifier
-                    .background(Color.Magenta)
+                    .background(Color.Gray)
                     .padding(8.dp)
                     .weight(1f)
+                   // .border(2.dp, Color.Black, CircleShape),
             ) {
-                Text("SQLITE", color = Color.White)
+                Text("SQLITE", color = Color.Black)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
