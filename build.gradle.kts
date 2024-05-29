@@ -33,6 +33,8 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.foundation)
     implementation("org.slf4j:slf4j-nop:latest.release")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+    implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
     implementation("org.neo4j.driver:neo4j-java-driver:$neo4jDriverVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
