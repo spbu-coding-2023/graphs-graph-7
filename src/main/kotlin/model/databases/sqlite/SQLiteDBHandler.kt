@@ -61,7 +61,7 @@ class SQLiteDBHandler {
                     it.value.x = tmp.x.dp
                     it.value.y = tmp.y.dp
                     it.key.community = vertex.community
-                    val rgb = tmp.color.split(":").map { color -> color.toInt() }
+                    val rgb = tmp.color.split(":").map { color -> color.toFloat() }
                     it.value.color = Color(rgb[0], rgb[1], rgb[2])
                     it.value.radius = tmp.r.dp
                 }
@@ -95,14 +95,14 @@ class SQLiteDBHandler {
                 }
             }
             graphView.verticesViewValues.forEach {
-                //println("${it.radius.toString().substring(0, it.x.toString().length - 4)}")
+                println("${it.radius.toString().substring(0, it.x.toString().length - 4)}")
                 val xDoubled: Double = it.x.toString().substring(0, it.x.toString().length - 4).toDouble()
                 val yDoubled: Double = it.y.toString().substring(0, it.x.toString().length - 4).toDouble()
                 val rDoubled: Double = it.radius.toString().substring(0, it.x.toString().length - 4).toDouble()
                 //println("$xDoubled,$yDoubled,$rDoubled")
                 VertexView.new {
                     vertex = Vertex.find { Vertices.id eq it.vertex.id }.first()
-                    color = it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString()
+                    color = it.color.red.toString() + ":" + it.color.green.toString() + ":" + it.color.blue.toString()
                     x = xDoubled
                     y = yDoubled
                     r = rDoubled
