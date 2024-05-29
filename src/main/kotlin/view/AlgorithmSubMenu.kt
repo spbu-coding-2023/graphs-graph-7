@@ -7,9 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import controller.GraphPainter
+import viewmodel.CanvasViewModel
 
 @Composable
-fun AlgorithmSubMenu() {
+fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
     Column(Modifier.padding(start = 16.dp, end = 0.dp, top = 15.dp)) {
         Button(
             onClick = { /*TODO*/ },
@@ -20,7 +22,11 @@ fun AlgorithmSubMenu() {
             )
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                val graph = viewModel.graph
+                val painter = GraphPainter(graph, viewModel.graphViewModel)
+                painter.paint()
+            },
             enabled = true,
         ) {
             Text(

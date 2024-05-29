@@ -344,9 +344,6 @@ val windowSizeStart = Pair(1480,1020)
 fun App() {
     MaterialTheme {
         val canvasGraph = CanvasViewModel(graph, ForceAtlas2Layout())
-        val graphViewModel = canvasGraph.graphViewModel
-        val painter = GraphPainter(graph, graphViewModel)
-        painter.paint()
         MaterialTheme {
             Canvas(canvasGraph)
         }
