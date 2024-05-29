@@ -1,8 +1,9 @@
 package view
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
@@ -13,17 +14,126 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
+
+enum class StorageType {
+    FILE,
+    NEO4J,
+    SQLITE
+}
 
 @Composable
 fun NavigationDrawer(viewModel: CanvasViewModel) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val showDialog = remember { mutableStateOf(false) }
+    val storageType = remember { mutableStateOf(StorageType.FILE) }
+    val fileName = remember { mutableStateOf("") }
+    val isDirectedGraph = remember { mutableStateOf(false) }
+    val uri = remember { mutableStateOf("") }
+    val login = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val interactionSource = remember { MutableInteractionSource() }
+
+    AnimatedVisibility(visible = showDialog.value) {
+        Dialog(
+            onDismissRequest = { showDialog.value = false },
+            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Choose where to save the graph:")
+                CustomRadioGroup(
+                    selectedOption = storageType.value.toString(),
+                    options = listOf(StorageType.FILE.toString(), StorageType.NEO4J.toString(), StorageType.SQLITE.toString()),
+                    onOptionSelected = { storageType.value = StorageType.valueOf(it) }
+                )
+
+                when (storageType.value) {
+                    StorageType.FILE -> {
+                        TextField(
+                            value = fileName.value,
+                            onValueChange = { fileName.value = it },
+                            label = { Text("File Name") }
+                        )
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp)) // Пространство между чекбоксом и текстом
+                        Text("Ориентированный ли граф")
+                    }
+                    StorageType.NEO4J -> {
+                        TextField(
+                            value = uri.value,
+                            onValueChange = { uri.value = it },
+                            label = { Text("URI") }
+                        )
+                        TextField(
+                            value = login.value,
+                            onValueChange = { login.value = it },
+                            label = { Text("Login") }
+                        )
+                        TextField(
+                            value = password.value,
+                            onValueChange = { password.value = it },
+                            label = { Text("Password") },
+                            visualTransformation = PasswordVisualTransformation()
+                        )
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Ориентированный ли граф")
+                    }
+                    StorageType.SQLITE -> {
+                        TextField(
+                            value = fileName.value,
+                            onValueChange = { fileName.value = it },
+                            label = { Text("File Name") }
+                        )
+                        Checkbox(
+                            checked = isDirectedGraph.value,
+                            onCheckedChange = { isDirectedGraph.value = it },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Ориентированный ли граф")
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        when (storageType.value) {
+                            StorageType.FILE -> {
+                                // Логика сохранения в файл с использованием fileName и isDirectedGraph
+                            }
+                            StorageType.NEO4J -> {
+                                // Логика сохранения в Neo4j
+                            }
+                            StorageType.SQLITE -> {
+                                // Логика сохранения в SQLite
+                            }
+                        }
+                        showDialog.value = false
+                    }
+                ) {
+                    Text("Save")
+                }
+            }
+        }
+    }
 
     val showSubMenu = remember {
         mutableStateOf(false)
@@ -100,6 +210,16 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                         text = "Set colors",
                     )
                 }
+                Button(
+                    enabled = true,
+                    onClick = {
+                        scope.launch {
+                            showDialog.value = true
+                        }
+                    }
+                ) {
+                    Text(text = "Save Graph")
+                }
             }
         },
     ) {
@@ -120,6 +240,74 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
         ) { GraphView(viewModel.graphViewModel) }
         IconButton(onClick = { scope.launch { drawerState.open() } }) {
             Icon(Icons.Filled.Menu, contentDescription = "Меню")
+        }
+    }
+}
+
+@Composable
+fun CustomRadioGroup(
+    options: List<String>,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit
+) {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Magenta)
+                    .padding(8.dp)
+                    .weight(1f)
+            ) {
+                Text("NEO4J", color = Color.White)
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = { onOptionSelected(StorageType.NEO4J.name) }
+            ) {
+                Text("Select")
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Magenta)
+                    .padding(8.dp)
+                    .weight(1f)
+            ) {
+                Text("FILE", color = Color.White)
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = { onOptionSelected(StorageType.FILE.name) }
+            ) {
+                Text("Select")
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+                verticalAlignment = Alignment.CenterVertically
+                ) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Magenta)
+                    .padding(8.dp)
+                    .weight(1f)
+            ) {
+                Text("SQLITE", color = Color.White)
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = { onOptionSelected(StorageType.SQLITE.name) }
+            ) {
+                Text("Select")
+            }
         }
     }
 }
