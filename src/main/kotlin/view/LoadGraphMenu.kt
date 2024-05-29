@@ -20,6 +20,7 @@ import model.databases.neo4j.Neo4jRepository
 import model.databases.sqlite.SQLiteDBHandler
 import model.graph.Graph
 import viewmodel.LoadGraphMenuViewModel
+import viewmodel.graph.GraphViewModel
 import java.io.File
 
 @Composable
@@ -194,13 +195,20 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel,) {
 
                             }
                             StorageType.SQLITE -> {
+                                fileAddress = "examples/$fileAddress"
                                 val dataBase: File = File(fileAddress)
                                 val sqlHandler = SQLiteDBHandler()
                                 sqlHandler.open(dataBase,isWeighted,isDirected)
                                 viewModel.canvasViewModel.graph = sqlHandler.graph
                                 if(sqlHandler.vertexViewModelFlag){
+                                    viewModel.canvasViewModel.graphViewModel.graph = sqlHandler.graph
                                     viewModel.canvasViewModel.graphViewModel = sqlHandler.graphViewModel
                                 }
+                                else{
+                                    viewModel.canvasViewModel.graphViewModel = GraphViewModel(sqlHandler.graph)
+                                }
+                                viewModel.canvasViewModel.representationStrategy.place(1280.0, 860.0,
+                                    viewModel.canvasViewModel.graphViewModel)
                             }
 
                         }
