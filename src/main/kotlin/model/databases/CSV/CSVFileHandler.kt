@@ -71,8 +71,8 @@ class CSVFileHandler {
         verticesViewValues.onEach {
             val csvRow = mutableListOf(
                 "true",
-                it.vertex.data,
                 it.vertex.id.toString(),
+                it.vertex.data,
                 it.x.toString(),
                 it.y.toString(),
                 it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString(),
@@ -90,8 +90,8 @@ class CSVFileHandler {
         edgesViewValues.onEach {
             val csvRow = mutableListOf(
                 "false",
-                "",
                 it.e.id.toString(),
+                "",
                 "",
                 "",
                 "",
