@@ -1,24 +1,29 @@
 package view
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.AlertDialog
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import controller.GraphPainterByCommunity
 import controller.GraphPainterByDjikstra
 import controller.GraphPainterByKosaraju
+import model.algorithms.BridgeFinder
+import view.algos.bridgeHighlighter
 import viewmodel.CanvasViewModel
+import viewmodel.graph.VertexViewModel
 
 @Composable
 fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
     val showDialog = remember { mutableStateOf(false) }
     var startIdx by remember { mutableStateOf(0) }
     var endIdx by remember { mutableStateOf(0) }
+    var bridgesHiglight = remember { mutableStateOf(false) }
 
     Column(Modifier.padding(start = 16.dp, end = 0.dp, top = 15.dp)) {
         Button(
@@ -65,12 +70,17 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
             }
         }
         Button(
-            onClick = { /*TODO*/ },
             enabled = true,
-        ) {
+            onClick = {
+                bridgesHiglight.value = !bridgesHiglight.value
+            })
+        {
             Text(
                 text = "Поиск мостов",
             )
+        }
+        if(bridgesHiglight.value){
+            bridgeHighlighter(viewModel.bridges)
         }
         Button(
             onClick = { /*TODO*/ },
