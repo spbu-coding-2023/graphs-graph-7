@@ -2,25 +2,30 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import controller.GraphPainter
 import model.graph.Graph
 import model.layout.ForceAtlas2Layout
 import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
 import view.Canvas
+import view.MainScreen
 import view.NavigationDrawer
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout
+import java.awt.Dimension
 
 val graph = Graph().apply {
-    addVertex(1,"Thomas Shelby")
-    addVertex(2, "Andrew Tate")
+    addVertex(1,"Thomas")
+    addVertex(2, "Andrew")
     addVertex(3, "Iakov")
-    addVertex(4, "John Shelby")
-    addVertex(5, "Tristan Tate")
-    addVertex(6, "Arthur Shelby")
-    addVertex(7, "Ryan Gosling")
+    addVertex(4, "John")
+    addVertex(5, "Tristan")
+    addVertex(6, "Arthur")
+    addVertex(7, "Ryan")
 
     addEdge(1, 2, 1,1)
     addEdge(3, 4, 2,2)
@@ -45,13 +50,13 @@ val graph = Graph().apply {
     addEdge(14, 13, 5,12)
     addEdge(14, 3, 0,13)
 
-    addVertex(15, "aPudge")
-    addVertex(16,"aTiny")
-    addVertex(17, "aLycan")
-    addVertex(18,"aIo")
-    addVertex(19,"aLion")
-    addVertex(20,"aSniper")
-    addVertex(21,"aRoshan")
+    addVertex(15, "1")
+    addVertex(16,"2")
+    addVertex(17, "3")
+    addVertex(18,"4")
+    addVertex(19,"5")
+    addVertex(20,"6")
+    addVertex(21,"7")
 
     addEdge(16, 15, 22,14)
     addEdge(15, 17, 1,15)
@@ -327,6 +332,7 @@ val graph = Graph().apply {
 //    addEdge(68,48,35,164)
 //    addEdge(51,63,24,165)
 }
+val windowSizeStart = Pair(1480,1020)
 @Composable
 @Preview
 fun App() {
@@ -342,7 +348,11 @@ fun App() {
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(onCloseRequest = ::exitApplication,
+        title = "stoic",
+        state = rememberWindowState(position = WindowPosition(Alignment.Center))
+    ) {
+        window.minimumSize = Dimension(windowSizeStart.first, windowSizeStart.second)
         App()
     }
 }

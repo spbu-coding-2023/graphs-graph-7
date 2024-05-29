@@ -79,34 +79,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                     AnimatedVisibility(visible = showSubMenu.value) {
                         AlgorithmSubMenu()
                     }
-                    Row {
-                        Checkbox(checked = viewModel.showVerticesLabels.value, onCheckedChange = {
-                            viewModel.showVerticesLabels.value = it
-                        })
-                        Text("Show vertices labels", fontSize = 20.sp, modifier = Modifier.padding(0.dp))
-                    }
-                    Row {
-                        Checkbox(checked = viewModel.showEdgesLabels.value, onCheckedChange = {
-                            viewModel.showEdgesLabels.value = it
-                        })
-                        Text("Show edges labels", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
-                    }
-                    Button(
-                        onClick = viewModel::resetGraphView,
-                        enabled = true,
-                    ) {
-                        Text(
-                            text = "Reset default settings",
-                        )
-                    }
-                    Button(
-                        onClick = viewModel::setVerticesColor,
-                        enabled = true,
-                    ) {
-                        Text(
-                            text = "Set colors",
-                        )
-                    }
+
                 }
             },
         ) {

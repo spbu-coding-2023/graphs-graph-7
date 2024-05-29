@@ -84,22 +84,6 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                     })
                     Text("Show edges labels", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
                 }
-                Button(
-                    onClick = viewModel::resetGraphView,
-                    enabled = true,
-                ) {
-                    Text(
-                        text = "Reset default settings",
-                    )
-                }
-                Button(
-                    onClick = viewModel::setVerticesColor,
-                    enabled = true,
-                ) {
-                    Text(
-                        text = "Set colors",
-                    )
-                }
             }
         },
     ) {
