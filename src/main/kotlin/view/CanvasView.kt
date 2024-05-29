@@ -18,10 +18,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
+import viewmodel.LoadGraphMenuViewModel
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
@@ -79,6 +79,10 @@ fun Canvas(viewModel: CanvasViewModel) {
                     AnimatedVisibility(visible = showSubMenu.value) {
                         AlgorithmSubMenu()
                     }
+                    Button(onClick = { viewModel.isOpenLoadGraph = true }) {
+                        Text("Load graph")
+                    }
+
 
                 }
             },
@@ -106,5 +110,7 @@ fun Canvas(viewModel: CanvasViewModel) {
             GraphView(viewModel.graphViewModel)
         }
     }
-
+    if (viewModel.isOpenLoadGraph) {
+        LoadGraph(LoadGraphMenuViewModel(viewModel))
+    }
 }
