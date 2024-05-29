@@ -6,7 +6,7 @@ import model.community.Louvain
 import viewmodel.graph.GraphViewModel
 import kotlin.random.Random
 
-class GraphPainter(private val graph: Graph, private val graphViewModel: GraphViewModel) {
+class GraphPainterByCommunity(private val graph: Graph, private val graphViewModel: GraphViewModel) {
     private val finder = Louvain(graph)
     private val communities = finder.findCommunities()
 
