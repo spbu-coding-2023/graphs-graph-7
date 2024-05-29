@@ -1,6 +1,6 @@
 package graphs.algorithms
 
-import algorithms.BridgeFinder
+import model.algorithms.BridgeFinder
 import model.graph.Graph
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName

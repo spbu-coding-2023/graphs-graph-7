@@ -1,4 +1,4 @@
-package algorithms
+package model.algorithms
 
 import model.graph.Graph
 import java.awt.geom.Point2D.distance
