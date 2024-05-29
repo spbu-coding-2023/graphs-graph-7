@@ -9,17 +9,11 @@ import androidx.compose.ui.window.application
 
 import androidx.compose.ui.window.rememberWindowState
 
-import controller.GraphPainter
 import model.graph.Graph
 import model.layout.ForceAtlas2Layout
-import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
 import view.Canvas
 
-import view.MainScreen
-
-import view.NavigationDrawer
 import viewmodel.CanvasViewModel
-import viewmodel.layouts.CircularLayout
 import java.awt.Dimension
 
 val graph = Graph().apply {
