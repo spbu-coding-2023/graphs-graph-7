@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
+import model.databases.neo4j.Neo4jHandler
+import model.databases.neo4j.Neo4jRepository
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
 
@@ -121,6 +123,10 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                             }
                             StorageType.NEO4J -> {
                                 // Логика сохранения в Neo4j
+                                val repo = Neo4jRepository(uri.value, login.value, password.value)
+                                val handler = Neo4jHandler(repo)
+                                viewModel.graph.isDirected = isDirectedGraph.value
+                                handler.saveGraphToNeo4j(viewModel.graph)
                             }
                             StorageType.SQLITE -> {
                                 // Логика сохранения в SQLite

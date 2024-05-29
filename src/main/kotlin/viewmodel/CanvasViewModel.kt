@@ -6,7 +6,7 @@ import model.graph.Graph
 import viewmodel.graph.GraphViewModel
 import viewmodel.layouts.RepresentationStrategy
 
-class CanvasViewModel(graph: Graph, private val representationStrategy: RepresentationStrategy,) {
+class CanvasViewModel(val graph: Graph, private val representationStrategy: RepresentationStrategy,) {
     val showVerticesLabels = mutableStateOf(false)
     val showEdgesLabels = mutableStateOf(false)
     val graphViewModel = GraphViewModel(graph)
