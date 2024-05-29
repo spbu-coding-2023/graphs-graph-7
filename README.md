@@ -10,7 +10,7 @@
 - Установка:
 
 ```
-git@github.com:spbu-coding-2023/graphs-graph-7.git```
+git@github.com:spbu-coding-2023/graphs-graph-7.git
 ```
 - Запуск:
 
@@ -76,6 +76,7 @@ git@github.com:spbu-coding-2023/graphs-graph-7.git```
 
  `color` -- цвет формата RGB в следующем виде "r:g:b",  где r,g,b - float.
 
+Сохраненные графы находятся в `/saves/sqlite/`
 
 ---------
 [WIP]
