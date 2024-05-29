@@ -6,13 +6,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
+
 import androidx.compose.ui.window.rememberWindowState
+
 import controller.GraphPainter
 import model.graph.Graph
 import model.layout.ForceAtlas2Layout
 import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
 import view.Canvas
+
 import view.MainScreen
+
 import view.NavigationDrawer
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.CircularLayout
@@ -50,6 +54,7 @@ val graph = Graph().apply {
     addEdge(14, 13, 5,12)
     addEdge(14, 3, 0,13)
 
+
     addVertex(15, "1")
     addVertex(16,"2")
     addVertex(17, "3")
@@ -57,6 +62,7 @@ val graph = Graph().apply {
     addVertex(19,"5")
     addVertex(20,"6")
     addVertex(21,"7")
+
 
     addEdge(16, 15, 22,14)
     addEdge(15, 17, 1,15)

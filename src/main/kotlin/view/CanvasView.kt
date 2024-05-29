@@ -1,6 +1,9 @@
 package view
 
 import androidx.compose.animation.AnimatedVisibility
+
+import androidx.compose.foundation.background
+
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
@@ -18,6 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+
+import androidx.compose.ui.unit.sp
+
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
@@ -25,7 +31,15 @@ import model.databases.neo4j.Neo4jHandler
 import model.databases.neo4j.Neo4jRepository
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
+
 import viewmodel.LoadGraphMenuViewModel
+
+import androidx.compose.material3.RadioButton
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import model.databases.neo4j.Neo4jHandler
+import model.databases.neo4j.Neo4jRepository
+
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
@@ -220,7 +234,16 @@ fun Canvas(viewModel: CanvasViewModel) {
                     ) {
                         Text(text = "Save Graph")
                     }
-
+                    Button(
+                        enabled = true,
+                        onClick = {
+                            scope.launch {
+                                showDialog.value = true
+                            }
+                        }
+                    ) {
+                        Text(text = "Save Graph")
+                    }
 
                 }
             },
@@ -248,7 +271,9 @@ fun Canvas(viewModel: CanvasViewModel) {
             GraphView(viewModel.graphViewModel)
         }
     }
+
     if (viewModel.isOpenLoadGraph) {
         LoadGraph(LoadGraphMenuViewModel(viewModel))
     }
 }
+

@@ -19,5 +19,6 @@ class CanvasViewModel(val graph: Graph, private val representationStrategy: Repr
 
     init {
         representationStrategy.place(1280.0, 860.0, graphViewModel)
+
     }
 }
