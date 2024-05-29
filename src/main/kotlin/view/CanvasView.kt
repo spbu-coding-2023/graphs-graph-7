@@ -229,16 +229,6 @@ fun Canvas(viewModel: CanvasViewModel) {
                     ) {
                         Text(text = "Save Graph")
                     }
-                    Button(
-                        enabled = true,
-                        onClick = {
-                            scope.launch {
-                                showDialog.value = true
-                            }
-                        }
-                    ) {
-                        Text(text = "Save Graph")
-                    }
 
                 }
             },
