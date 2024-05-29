@@ -149,8 +149,10 @@ fun Canvas(viewModel: CanvasViewModel) {
                                 // Логика сохранения в Neo4j
                                 val repo = Neo4jRepository(uri.value, login.value, password.value)
                                 val handler = Neo4jHandler(repo)
+                                val wasGraphDirected = viewModel.graph.isDirected
                                 viewModel.graph.isDirected = isDirectedGraph.value
                                 handler.saveGraphToNeo4j(viewModel.graph)
+                                viewModel.graph.isDirected = wasGraphDirected
                             }
                             StorageType.SQLITE -> {
                                 // Логика сохранения в SQLite
