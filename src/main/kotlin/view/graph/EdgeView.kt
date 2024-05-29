@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.material.Text
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.zIndex
 import viewmodel.graph.EdgeViewModel
 
 @Composable
@@ -15,7 +16,7 @@ fun EdgeView(
     viewModel: EdgeViewModel,
     modifier: Modifier = Modifier,
 ) {
-    Canvas(modifier = modifier.fillMaxSize()) {
+    Canvas(modifier = modifier.fillMaxSize().zIndex(-1f)) {
         drawLine(
             start = Offset(
                 viewModel.u.x.toPx() + viewModel.u.radius.toPx(),
@@ -28,14 +29,14 @@ fun EdgeView(
             color = Color.Black
         )
     }
-    if (viewModel.labelVisible) {
-        Text(
-            modifier = Modifier
-                .offset(
-                    viewModel.u.x + (viewModel.v.x - viewModel.u.x) / 2,
-                    viewModel.u.y + (viewModel.v.y - viewModel.u.y) / 2
-                ),
-            text = viewModel.weight,
-        )
-    }
+//    if (viewModel.labelVisible) {
+//        Text(
+//            modifier = Modifier
+//                .offset(
+//                    viewModel.u.x + (viewModel.v.x - viewModel.u.x) / 2,
+//                    viewModel.u.y + (viewModel.v.y - viewModel.u.y) / 2
+//                ),
+//            text = viewModel.weight,
+//        )
+//    }
 }
