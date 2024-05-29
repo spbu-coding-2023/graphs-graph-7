@@ -95,11 +95,11 @@ class SQLiteDBHandler {
                 }
             }
             graphView.verticesViewValues.forEach {
-                println("${it.radius.toString().substring(0, it.x.toString().length - 4)}")
+                
                 val xDoubled: Double = it.x.toString().substring(0, it.x.toString().length - 4).toDouble()
                 val yDoubled: Double = it.y.toString().substring(0, it.x.toString().length - 4).toDouble()
                 val rDoubled: Double = it.radius.toString().substring(0, it.x.toString().length - 4).toDouble()
-                //println("$xDoubled,$yDoubled,$rDoubled")
+                
                 VertexView.new {
                     vertex = Vertex.find { Vertices.id eq it.vertex.id }.first()
                     color = it.color.red.toString() + ":" + it.color.green.toString() + ":" + it.color.blue.toString()
