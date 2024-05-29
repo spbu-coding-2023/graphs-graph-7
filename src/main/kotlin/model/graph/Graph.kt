@@ -1,8 +1,5 @@
 package model.graph
 
-import model.graph.Edge
-import model.graph.Vertex
-
 class Graph{
     var isDirected: Boolean = false
     val vertices = hashMapOf<Int, Vertex>()
@@ -21,9 +18,11 @@ class Graph{
     fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge {
         if (!isDirected){
             vertices[secondVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
+            vertices[secondVertexID]?.adjacentVertices?.add(vertices[firstVertexID]!!)
         }
         vertices[firstVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
+        vertices[firstVertexID]?.adjacentVertices?.add(vertices[secondVertexID]!!)
+
         return edges.getOrPut(edgeID) { Edge(Pair(firstVertexID,secondVertexID), weight, edgeID) }
     }
-
 }
