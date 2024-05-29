@@ -1,6 +1,8 @@
 package view
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,15 +20,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
-import viewmodel.LoadGraphMenuViewModel
+import androidx.compose.material3.RadioButton
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         contentColor = Color.LightGray,
@@ -79,11 +85,34 @@ fun Canvas(viewModel: CanvasViewModel) {
                     AnimatedVisibility(visible = showSubMenu.value) {
                         AlgorithmSubMenu()
                     }
-                    Button(onClick = { viewModel.isOpenLoadGraph = true }) {
-                        Text("Load graph")
+                    Row {
+                        Checkbox(checked = viewModel.showVerticesLabels.value, onCheckedChange = {
+                            viewModel.showVerticesLabels.value = it
+                        })
+                        Text("Show vertices labels", fontSize = 20.sp, modifier = Modifier.padding(0.dp))
                     }
-
-
+                    Row {
+                        Checkbox(checked = viewModel.showEdgesLabels.value, onCheckedChange = {
+                            viewModel.showEdgesLabels.value = it
+                        })
+                        Text("Show edges labels", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
+                    }
+                    Button(
+                        onClick = viewModel::resetGraphView,
+                        enabled = true,
+                    ) {
+                        Text(
+                            text = "Reset default settings",
+                        )
+                    }
+                    Button(
+                        onClick = viewModel::setVerticesColor,
+                        enabled = true,
+                    ) {
+                        Text(
+                            text = "Set colors",
+                        )
+                    }
                 }
             },
         ) {
@@ -110,7 +139,5 @@ fun Canvas(viewModel: CanvasViewModel) {
             GraphView(viewModel.graphViewModel)
         }
     }
-    if (viewModel.isOpenLoadGraph) {
-        LoadGraph(LoadGraphMenuViewModel(viewModel))
-    }
+
 }
