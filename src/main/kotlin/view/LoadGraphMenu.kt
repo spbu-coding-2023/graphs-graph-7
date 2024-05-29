@@ -200,7 +200,7 @@ fun LoadGraph(viewModel: LoadGraphMenuViewModel,) {
                                 viewModel.canvasViewModel.isOpenLoadGraph = false
                         }
                             StorageType.SQLITE -> {
-                                fileAddress = "examples/$fileAddress"
+                                fileAddress = "saves/sqlite/$fileAddress"
                                 val dataBase: File = File(fileAddress)
                                 val sqlHandler = SQLiteDBHandler()
                                 sqlHandler.open(dataBase,isWeighted,isDirected)

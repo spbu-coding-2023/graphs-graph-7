@@ -29,11 +29,12 @@ import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
 import model.databases.neo4j.Neo4jHandler
 import model.databases.neo4j.Neo4jRepository
+import model.databases.sqlite.SQLiteDBHandler
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
 
 import viewmodel.LoadGraphMenuViewModel
-
+import java.io.File
 
 
 @Composable
@@ -48,6 +49,7 @@ fun Canvas(viewModel: CanvasViewModel) {
     val uri = remember { mutableStateOf("") }
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    var sqlPath = remember { mutableStateOf("") }
     val interactionSource = remember { MutableInteractionSource() }
 
     AnimatedVisibility(visible = showDialog.value) {
@@ -123,11 +125,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                             onValueChange = { fileName.value = it },
                             label = { Text("File Name") }
                         )
-                        Text("Ориентированный ли граф")
-                        Checkbox(
-                            checked = isDirectedGraph.value,
-                            onCheckedChange = { isDirectedGraph.value = it },
-                        )
+
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Text("Взвешанные ли рёбра")
@@ -155,7 +153,10 @@ fun Canvas(viewModel: CanvasViewModel) {
                                 viewModel.graph.isDirected = wasGraphDirected
                             }
                             StorageType.SQLITE -> {
-                                // Логика сохранения в SQLite
+                                val fileAddress = "saves/sqlite/${fileName.value}"
+                                val dataBase = File(fileAddress)
+                                val sqlHandler = SQLiteDBHandler()
+                                sqlHandler.save(dataBase,viewModel.graph,viewModel.graphViewModel,isWeighted.value)
                             }
                         }
                         showDialog.value = false

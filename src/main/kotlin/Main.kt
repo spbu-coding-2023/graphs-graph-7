@@ -332,7 +332,7 @@ val graph = Graph().apply {
 //    addEdge(68,48,35,164)
 //    addEdge(51,63,24,165)
 }
-val windowSizeStart = Pair(1480,1020)
+val windowSizeStart = Pair(820,640)
 @Composable
 @Preview
 fun App() {
@@ -346,7 +346,7 @@ fun App() {
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication,
-        title = "stoic",
+        title = "ZeitNot",
         state = rememberWindowState(position = WindowPosition(Alignment.Center))
     ) {
         window.minimumSize = Dimension(windowSizeStart.first, windowSizeStart.second)
