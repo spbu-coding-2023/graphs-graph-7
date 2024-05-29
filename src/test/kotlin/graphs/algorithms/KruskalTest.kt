@@ -1,7 +1,7 @@
-package graphs
+package graphs.algorithms
 
-import algorithms.KruskalsMST
-import graph.model.Graph
+import model.algorithms.KruskalsMST
+import model.graph.Graph
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
