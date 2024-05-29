@@ -78,7 +78,7 @@ fun NavigationDrawer(viewModel: CanvasViewModel) {
                     onClick = { showSubMenu.value = !showSubMenu.value }
                 )
                 AnimatedVisibility(visible = showSubMenu.value) {
-                    AlgorithmSubMenu()
+                    AlgorithmSubMenu(viewModel)
                 }
                 Row {
                     Checkbox(checked = viewModel.showVerticesLabels.value, onCheckedChange = {

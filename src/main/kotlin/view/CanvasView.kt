@@ -216,7 +216,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                         onClick = { showSubMenu.value = !showSubMenu.value }
                     )
                     AnimatedVisibility(visible = showSubMenu.value) {
-                        AlgorithmSubMenu()
+                        AlgorithmSubMenu(viewModel)
                     }
                     Button(onClick = { viewModel.isOpenLoadGraph = true }) {
                         Text("Load graph")
