@@ -9,7 +9,7 @@ import model.graph.Vertex
 
 
 class GraphViewModel(
-    private val graph: Graph,
+    var graph: Graph,
 
     ) {
     val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()

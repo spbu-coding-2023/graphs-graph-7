@@ -31,7 +31,8 @@ class SQLiteDBHandler {
             Edge.all().forEach { edge ->
                 newGraph.addEdge(
                     edge.first!!.id.toString().toInt(), edge.second!!.id.toString().toInt(),
-                    edge.weight, edge.id.toString().toInt()
+                    edge.weight,
+                    edge.id.toString().toInt()
                 )
                 if (!newGraph.isDirected) {
                     newGraph.vertices[edge.second!!.id.toString().toInt()]!!.incidentEdges.add(
@@ -39,10 +40,11 @@ class SQLiteDBHandler {
                     )
                 }
                 newGraph.vertices[edge.first!!.id.toString().toInt()]!!.incidentEdges.add(edge.id.toString().toInt())
+                if (VerticesView.exists()) {
+                    vertexViewModelFlag = true
+                }
             }
-            if (VerticesView.exists()) {
-                vertexViewModelFlag = true
-            }
+
         }
         if (vertexViewModelFlag) {
             val newGraphViewModel = GraphViewModel(newGraph)
