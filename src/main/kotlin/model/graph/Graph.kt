@@ -17,10 +17,10 @@ class Graph{
 
     fun addEdge(firstVertexID: Int, secondVertexID: Int, weight: Long=1L, edgeID:Int): Edge {
         if (!isDirected){
-            vertices[secondVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
+            vertices[secondVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("Wrong database")
             vertices[secondVertexID]?.adjacentVertices?.add(vertices[firstVertexID]!!)
         }
-        vertices[firstVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("cringe")
+        vertices[firstVertexID]?.incidentEdges?.add(edgeID) ?: throw Exception("Wrong database")
         vertices[firstVertexID]?.adjacentVertices?.add(vertices[secondVertexID]!!)
 
         return edges.getOrPut(edgeID) { Edge(Pair(firstVertexID,secondVertexID), weight, edgeID) }
