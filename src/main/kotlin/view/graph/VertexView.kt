@@ -22,7 +22,7 @@ fun VertexView(
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier
-        .size(viewModel.radius+10.dp, viewModel.radius+10.dp)
+        .size(viewModel.radius + 10.dp, viewModel.radius + 10.dp)
         .offset(viewModel.x, viewModel.y)
         .border(2.dp, Color.Black, CircleShape)
         .background(

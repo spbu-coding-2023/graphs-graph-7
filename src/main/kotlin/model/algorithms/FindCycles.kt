@@ -25,7 +25,7 @@ class AllCyclesInDirectedGraphJohnson {
                 val leastVertex: Vertex = maybeLeastVertex
                 blockedSet.clear()
                 blockedMap.clear()
-                findCyclesInSCG(graph,leastVertex, leastVertex)
+                findCyclesInSCG(graph, leastVertex, leastVertex)
                 startIndex = leastVertex.id + 1
             } else {
                 break
@@ -87,7 +87,7 @@ class AllCyclesInDirectedGraphJohnson {
         stack.push(currentVertex)
         blockedSet.add(currentVertex)
 
-        for (e in graph.edges.filterKeys{it in currentVertex.incidentEdges}.values) {
+        for (e in graph.edges.filterKeys { it in currentVertex.incidentEdges }.values) {
             val neighbor: Vertex = graph.vertices[e.vertices.second]!!
             if (neighbor === startVertex) {
                 val cycle: MutableList<Vertex?> = ArrayList<Vertex?>()
@@ -97,17 +97,16 @@ class AllCyclesInDirectedGraphJohnson {
                 stack.pop()
                 allCycles.add(cycle)
                 foundCycle = true
-            }
-            else if (!blockedSet.contains(neighbor)) {
+            } else if (!blockedSet.contains(neighbor)) {
                 val gotCycle =
-                    findCyclesInSCG(graph,startVertex, neighbor)
+                    findCyclesInSCG(graph, startVertex, neighbor)
                 foundCycle = foundCycle || gotCycle
             }
         }
         if (foundCycle) {
             unblock(currentVertex)
         } else {
-            for (e in graph.edges.filterKeys{it in currentVertex.incidentEdges}.values) {
+            for (e in graph.edges.filterKeys { it in currentVertex.incidentEdges }.values) {
                 val w: Vertex = graph.vertices[e.vertices.second]!!
                 val bSet: MutableSet<Vertex> = getBSet(w)
                 bSet.add(currentVertex)
@@ -118,7 +117,8 @@ class AllCyclesInDirectedGraphJohnson {
     }
 
     private fun getBSet(v: Vertex): MutableSet<Vertex> {
-        return (blockedMap.computeIfAbsent(v
+        return (blockedMap.computeIfAbsent(
+            v
         ) { HashSet<Vertex>() } as MutableSet<Vertex>?)!!
     }
 

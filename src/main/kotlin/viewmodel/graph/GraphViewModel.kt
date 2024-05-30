@@ -1,12 +1,11 @@
 package viewmodel.graph
 
-import androidx.compose.runtime.State
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.graph.Graph
 import model.graph.Edge
 import model.graph.Vertex
-import viewmodel.algos.BridgeFinderViewModel
 
 
 class GraphViewModel(
@@ -14,7 +13,8 @@ class GraphViewModel(
 
     ) {
 
-    val verticesView: HashMap<Vertex,VertexViewModel> = hashMapOf()
+    val verticesView: HashMap<Vertex, VertexViewModel> = hashMapOf()
+
     init {
         graph.getVertices().forEach { vertex ->
             verticesView[vertex] = VertexViewModel(0.dp, 0.dp, Color.Black, vertex)
@@ -22,6 +22,7 @@ class GraphViewModel(
     }
 
     val edgesView: HashMap<Edge, EdgeViewModel> = hashMapOf()
+
     init {
         graph.getEdges().forEach { edge ->
             val fst = verticesView[graph.vertices[edge.vertices.first]]
@@ -29,7 +30,7 @@ class GraphViewModel(
             val snd = verticesView[graph.vertices[edge.vertices.second]]
                 ?: throw IllegalStateException("VertexView for vertex with id: ${edge.vertices.second} not found")
             val currentEdgeView = EdgeViewModel(fst, snd, edge)
-            edgesView[edge]=currentEdgeView
+            edgesView[edge] = currentEdgeView
         }
 
     }

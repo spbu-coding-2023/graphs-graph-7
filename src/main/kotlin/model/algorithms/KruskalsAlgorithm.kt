@@ -3,7 +3,7 @@ package model.algorithms
 import model.graph.Graph
 import model.graph.Edge
 
-class KruskalsMST  {
+class KruskalsMST {
     var resultsId: List<Int> = emptyList()
     internal fun kruskals(graph: Graph) {
         var j = 0
@@ -11,15 +11,15 @@ class KruskalsMST  {
         val V = graph.getVertices().size
         if (V == 1 || V == 0)
             return
-        val results = arrayOfNulls<Edge>(V-1)
+        val results = arrayOfNulls<Edge>(V - 1)
         val subsets = arrayOfNulls<Subset>(V)
-        for (i in 0 ..< V) {
+        for (i in 0..<V) {
             subsets[i] = Subset(i, 0)
         }
         val edgesList = graph.edges.values
-        val sortedEdges = edgesList.sortedWith(compareBy{ it.weight})
+        val sortedEdges = edgesList.sortedWith(compareBy { it.weight })
 
-        while (noOfEdges < V - 1 ) {
+        while (noOfEdges < V - 1) {
 
             val nextEdge = sortedEdges[j]
             val x = findRoot(subsets, nextEdge.vertices.first)

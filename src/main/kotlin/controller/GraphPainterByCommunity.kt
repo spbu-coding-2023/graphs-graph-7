@@ -13,7 +13,7 @@ class GraphPainterByCommunity(private val graph: Graph, private val graphViewMod
             val communityColor = generateRandomColor(i * 123)
             for (vertexID in community) {
                 val currVertex = graph.vertices[vertexID]
-                graphViewModel.verticesView[currVertex]!!.color=communityColor
+                graphViewModel.verticesView[currVertex]!!.color = communityColor
             }
         }
     }

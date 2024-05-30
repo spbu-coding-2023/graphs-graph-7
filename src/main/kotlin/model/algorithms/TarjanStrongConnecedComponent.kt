@@ -37,8 +37,7 @@ class TarjanStronglyConnectedComponent {
             if (child !in visited) {
                 sccUtil(child)
                 lowTime[vertex] = min(lowTime[vertex]!!, lowTime[child]!!)
-            }
-            else if (child in onStack) {
+            } else if (child in onStack) {
                 lowTime[vertex] = min(lowTime[vertex]!!, visitedTime[child]!!)
             }
         }

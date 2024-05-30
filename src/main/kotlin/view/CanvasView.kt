@@ -2,16 +2,13 @@ package view
 
 import androidx.compose.animation.AnimatedVisibility
 
-import androidx.compose.foundation.background
-
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-
-import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -49,8 +44,6 @@ fun Canvas(viewModel: CanvasViewModel) {
     val uri = remember { mutableStateOf("") }
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-    var sqlPath = remember { mutableStateOf("") }
-    val interactionSource = remember { MutableInteractionSource() }
 
     AnimatedVisibility(visible = showDialog.value) {
         Dialog(
@@ -63,7 +56,11 @@ fun Canvas(viewModel: CanvasViewModel) {
                 Text("Choose where to save the graph:")
                 CustomRadioGroup(
                     selectedOption = storageType.value.toString(),
-                    options = listOf(StorageType.FILE.toString(), StorageType.NEO4J.toString(), StorageType.SQLITE.toString()),
+                    options = listOf(
+                        StorageType.FILE.toString(),
+                        StorageType.NEO4J.toString(),
+                        StorageType.SQLITE.toString()
+                    ),
                     onOptionSelected = { storageType.value = StorageType.valueOf(it) }
                 )
 
@@ -88,6 +85,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                     }
+
                     StorageType.NEO4J -> {
                         TextField(
                             value = uri.value,
@@ -119,6 +117,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                     }
+
                     StorageType.SQLITE -> {
                         TextField(
                             value = fileName.value,
@@ -143,6 +142,7 @@ fun Canvas(viewModel: CanvasViewModel) {
                             StorageType.FILE -> {
                                 // Логика сохранения в файл с использованием fileName и isDirectedGraph
                             }
+
                             StorageType.NEO4J -> {
                                 // Логика сохранения в Neo4j
                                 val repo = Neo4jRepository(uri.value, login.value, password.value)
@@ -152,11 +152,12 @@ fun Canvas(viewModel: CanvasViewModel) {
                                 handler.saveGraphToNeo4j(viewModel.graph)
                                 viewModel.graph.isDirected = wasGraphDirected
                             }
+
                             StorageType.SQLITE -> {
                                 val fileAddress = "saves/sqlite/${fileName.value}"
                                 val dataBase = File(fileAddress)
                                 val sqlHandler = SQLiteDBHandler()
-                                sqlHandler.save(dataBase,viewModel.graph,viewModel.graphViewModel,isWeighted.value)
+                                sqlHandler.save(dataBase, viewModel.graph, viewModel.graphViewModel, isWeighted.value)
                             }
                         }
                         showDialog.value = false

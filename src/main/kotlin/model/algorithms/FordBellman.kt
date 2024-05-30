@@ -12,8 +12,8 @@ class FordBellman(graph: Graph) {
     private val pathsLength = Array(verticesNumber) { INF }
     val pathVertices = Array(verticesNumber) { -1 }
     val pathEdges = Array(edgesNumber) { -1 }
-    val resultPathVertices:MutableList<Int> = mutableListOf()
-    val resultPathEdges:MutableList<Int> = mutableListOf()
+    val resultPathVertices: MutableList<Int> = mutableListOf()
+    val resultPathEdges: MutableList<Int> = mutableListOf()
 
     private val curGraph = graph
     var disconnectedGraphFlag = false
@@ -22,15 +22,14 @@ class FordBellman(graph: Graph) {
     private fun negativeCycleBuilder(cycleFlag: Int) {
         var tmpCycleFlag = cycleFlag
         for (i in 1 until verticesNumber) {
-            tmpCycleFlag = pathVertices[tmpCycleFlag-1]+1
+            tmpCycleFlag = pathVertices[tmpCycleFlag - 1] + 1
         }
         var current = tmpCycleFlag
-        var cycleEndFlag = true
+        val cycleEndFlag = true
         while (cycleEndFlag) {
 
 
             if (current == tmpCycleFlag && resultPathVertices.size > 1) {
-                cycleEndFlag = false
                 break
             }
             resultPathVertices.add(current)
@@ -42,7 +41,7 @@ class FordBellman(graph: Graph) {
                     break
                 }
             }
-            current = pathVertices[current-1]+1
+            current = pathVertices[current - 1] + 1
         }
     }
 
@@ -53,7 +52,7 @@ class FordBellman(graph: Graph) {
             curCycleFlag = -1
             for (j in 0 until edgesNumber) {
                 val firstVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1]
-                var secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1]
+                val secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1]
                 if (firstVertexPath < INF) {
                     if (secondVertexPath > firstVertexPath + curGraph.edges[j + 1]!!.weight) {
                         pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1] =
@@ -74,7 +73,7 @@ class FordBellman(graph: Graph) {
                 pathBuilder(endVertexID)
             }
         } else {
-            cycleFlag=true
+            cycleFlag = true
             negativeCycleBuilder(curCycleFlag)
         }
     }
@@ -85,15 +84,15 @@ class FordBellman(graph: Graph) {
         do {
             val destVertexID = tmp
             val sourceVertexID = pathVertices[tmp - 1] + 1
-            for (edgeID:Int in curGraph.vertices[sourceVertexID]!!.incidentEdges) {
+            for (edgeID: Int in curGraph.vertices[sourceVertexID]!!.incidentEdges) {
                 if (curGraph.edges[edgeID]!!.vertices.second == destVertexID) {
                     resultPathEdges.add(edgeID)
                     break
                 }
             }
             resultPathVertices.add(sourceVertexID)
-            tmp = pathVertices[tmp-1] + 1
-        } while (pathVertices[tmp-1] != -1)
+            tmp = pathVertices[tmp - 1] + 1
+        } while (pathVertices[tmp - 1] != -1)
     }
 }
 

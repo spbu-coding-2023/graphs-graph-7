@@ -1,8 +1,7 @@
-package model.layout
+package viewmodel.layouts
 
 import androidx.compose.ui.unit.dp
 import viewmodel.graph.GraphViewModel
-import viewmodel.layouts.RepresentationStrategy
 import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
 import org.gephi.graph.api.Edge
 import org.gephi.graph.api.GraphController
@@ -13,25 +12,25 @@ import viewmodel.graph.VertexViewModel
 import kotlin.random.Random
 
 
-class ForceAtlas2Layout:RepresentationStrategy{
+class ForceAtlas2Layout : RepresentationStrategy {
 
-    override fun place(width: Double, height: Double, graphViewModel:GraphViewModel){
+    override fun place(width: Double, height: Double, graphViewModel: GraphViewModel) {
 
         val pc = Lookup.getDefault().lookup(ProjectController::class.java)
         pc.newProject()
         val graphModel = Lookup.getDefault().lookup(GraphController::class.java).graphModel
         val graph = graphModel.undirectedGraph
 
-        val verticesMap = mutableMapOf<Int,Node>()
-        for (vertex in graphViewModel.verticesViewValues){
-            val v: Node =graphModel.factory().newNode(vertex.vertex.id.toString())
-            v.setX(Random.nextFloat()*10)
-            v.setY(Random.nextFloat()*10)
+        val verticesMap = mutableMapOf<Int, Node>()
+        for (vertex in graphViewModel.verticesViewValues) {
+            val v: Node = graphModel.factory().newNode(vertex.vertex.id.toString())
+            v.setX(Random.nextFloat() * 10)
+            v.setY(Random.nextFloat() * 10)
             graph.addNode(v)
-            verticesMap[vertex.vertex.id]=v
+            verticesMap[vertex.vertex.id] = v
         }
-    //TODO добавить возможность получения информации об ориентированности графа
-        for (edge in graphViewModel.edgesViewValues){
+        //TODO добавить возможность получения информации об ориентированности графа
+        for (edge in graphViewModel.edgesViewValues) {
             val e: Edge = graphModel.factory().newEdge(
                 verticesMap[edge.u.vertex.id],
                 verticesMap[edge.v.vertex.id],
@@ -58,8 +57,8 @@ class ForceAtlas2Layout:RepresentationStrategy{
 
         for (vertex in graphViewModel.verticesViewValues) {
             val v: Node = graph.getNode(vertex.vertex.id.toString())
-            val x = ((width/2 + v.x()))
-            val y = ((height/2 + v.y()))
+            val x = ((width / 2 + v.x()))
+            val y = ((height / 2 + v.y()))
             vertex.x = (x).toInt().dp
             vertex.y = (y).toInt().dp
         }

@@ -1,7 +1,7 @@
 package view
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -30,20 +30,22 @@ fun CustomRadioGroup(
         ) {
             Box(
                 modifier = Modifier
+                    .background(shape = CircleShape, color = Color.Gray)
                     .background(if (isBoxSelected1) Color.DarkGray else Color.Gray)
                     .height(50.dp)
                     .padding(8.dp)
                     .weight(1f)
-                    //.border(2.dp, Color.Black, CircleShape),
             ) {
                 Text("NEO4J", color = Color.Black)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
-                onClick = { onOptionSelected(StorageType.NEO4J.name)
+                onClick = {
+                    onOptionSelected(StorageType.NEO4J.name)
                     isBoxSelected3 = false
                     isBoxSelected2 = false
-                    isBoxSelected1 = !isBoxSelected1}
+                    isBoxSelected1 = !isBoxSelected1
+                }
             ) {
                 Text("Select")
             }
@@ -58,16 +60,18 @@ fun CustomRadioGroup(
                     .background(if (isBoxSelected2) Color.DarkGray else Color.Gray)
                     .padding(8.dp)
                     .weight(1f)
-                    //.border(2.dp, Color.Black, CircleShape),
+
             ) {
                 Text("FILE", color = Color.Black)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
-                onClick = { onOptionSelected(StorageType.FILE.name)
+                onClick = {
+                    onOptionSelected(StorageType.FILE.name)
                     isBoxSelected3 = false
                     isBoxSelected2 = !isBoxSelected2
-                    isBoxSelected1 = false}
+                    isBoxSelected1 = false
+                }
             ) {
                 Text("Select")
             }
@@ -82,7 +86,7 @@ fun CustomRadioGroup(
                     .background(if (isBoxSelected3) Color.DarkGray else Color.Gray)
                     .padding(8.dp)
                     .weight(1f)
-                   // .border(2.dp, Color.Black, CircleShape),
+
             ) {
                 Text("SQLITE", color = Color.Black)
             }
@@ -92,7 +96,8 @@ fun CustomRadioGroup(
                     onOptionSelected(StorageType.SQLITE.name)
                     isBoxSelected3 = !isBoxSelected3
                     isBoxSelected2 = false
-                    isBoxSelected1 = false}
+                    isBoxSelected1 = false
+                }
             ) {
                 Text("Select")
             }

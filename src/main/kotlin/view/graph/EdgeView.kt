@@ -2,10 +2,8 @@ package view.graph
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.material.Text
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
@@ -29,14 +27,4 @@ fun EdgeView(
             color = Color.Black
         )
     }
-//    if (viewModel.labelVisible) {
-//        Text(
-//            modifier = Modifier
-//                .offset(
-//                    viewModel.u.x + (viewModel.v.x - viewModel.u.x) / 2,
-//                    viewModel.u.y + (viewModel.v.y - viewModel.u.y) / 2
-//                ),
-//            text = viewModel.weight,
-//        )
-//    }
 }

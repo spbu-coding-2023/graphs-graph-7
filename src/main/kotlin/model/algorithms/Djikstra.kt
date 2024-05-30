@@ -22,7 +22,11 @@ class Djikstra(private val graph: Graph, private val startVertexID: Int = -1) {
 
             var nearest = -1
             for ((vertexID, _) in graph.vertices) {
-                if (!visited.getOrDefault(vertexID, false) && (nearest == -1 || distance[vertexID]!! < distance[nearest]!!)) {
+                if (!visited.getOrDefault(
+                        vertexID,
+                        false
+                    ) && (nearest == -1 || distance[vertexID]!! < distance[nearest]!!)
+                ) {
                     nearest = vertexID
                 }
             }
@@ -47,7 +51,7 @@ class Djikstra(private val graph: Graph, private val startVertexID: Int = -1) {
     fun reconstructPath(endVertexID: Int): List<Int> {
         val path = mutableListOf<Int>()
         var finish = endVertexID
-        if ((n == 0 || startVertexID <= -1) || (endVertexID <= 0))return path
+        if ((n == 0 || startVertexID <= -1) || (endVertexID <= 0)) return path
 
         while (finish != startVertexID) {
             path.add(finish)

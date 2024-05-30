@@ -79,7 +79,7 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
                 text = "Поиск мостов",
             )
         }
-        if(bridgesHiglight.value){
+        if (bridgesHiglight.value) {
             bridgeHighlighter(viewModel.bridges)
         }
         Button(

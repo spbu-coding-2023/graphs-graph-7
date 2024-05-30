@@ -32,7 +32,7 @@ class Kosaraju(private val graph: Graph) {
         return components
     }
 
-     private fun topologySort(graph: Graph, vertexID: Int) {
+    private fun topologySort(graph: Graph, vertexID: Int) {
         used[vertexID] = true
         val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
