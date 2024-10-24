@@ -1,4 +1,3 @@
 package model.community
 
-class Relation(val closeness: Long = 1L, val id: Int) {
-}
+class Relation(val closeness: Float = 1f, val id: Int) {}

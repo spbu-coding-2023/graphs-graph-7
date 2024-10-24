@@ -1,9 +1,9 @@
 package algorithms
 
-import model.graph.Graph
-import model.graph.Vertex
 import java.util.*
 import kotlin.math.min
+import model.graph.Graph
+import model.graph.Vertex
 
 class TarjanStronglyConnectedComponent {
     private var visitedTime: MutableMap<Vertex, Int> = mutableMapOf()

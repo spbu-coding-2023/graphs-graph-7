@@ -1,16 +1,15 @@
 package viewmodel.layouts
 
 import androidx.compose.ui.unit.dp
-import viewmodel.graph.GraphViewModel
-import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
+import kotlin.random.Random
 import org.gephi.graph.api.Edge
 import org.gephi.graph.api.GraphController
 import org.gephi.graph.api.Node
+import org.gephi.layout.plugin.forceAtlas2.ForceAtlas2
 import org.gephi.project.api.ProjectController
 import org.openide.util.Lookup
+import viewmodel.graph.GraphViewModel
 import viewmodel.graph.VertexViewModel
-import kotlin.random.Random
-
 
 class ForceAtlas2Layout : RepresentationStrategy {
 
@@ -29,14 +28,12 @@ class ForceAtlas2Layout : RepresentationStrategy {
             graph.addNode(v)
             verticesMap[vertex.vertex.id] = v
         }
-        //TODO добавить возможность получения информации об ориентированности графа
+        // TODO добавить возможность получения информации об ориентированности графа
         for (edge in graphViewModel.edgesViewValues) {
-            val e: Edge = graphModel.factory().newEdge(
-                verticesMap[edge.u.vertex.id],
-                verticesMap[edge.v.vertex.id],
-                1,
-                false
-            )
+            val e: Edge =
+                graphModel
+                    .factory()
+                    .newEdge(verticesMap[edge.u.vertex.id], verticesMap[edge.v.vertex.id], 1, false)
             graph.addEdge(e)
         }
         val layout = ForceAtlas2(null)

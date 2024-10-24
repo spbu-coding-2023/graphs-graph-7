@@ -8,14 +8,17 @@ class Louvain(private val graph: Graph) {
     private var targetCommunity = currCommunities
     private var modularity = calculateModularity(currCommunities)
 
-    fun findCommunities() : List<Set<Int>> {
+    fun findCommunities(): List<Set<Int>> {
         do {
             var stop = false
 
             for (anchor in n.neighbours.keys) {
 
                 for (neighbourCommunity in n.neighbours.keys) {
-                    if (anchor != neighbourCommunity && currCommunities[anchor] != neighbourCommunity) {
+                    if (
+                        anchor != neighbourCommunity &&
+                            currCommunities[anchor] != neighbourCommunity
+                    ) {
                         val newCommunities = targetCommunity.toMutableMap()
 
                         newCommunities[anchor] = currCommunities[neighbourCommunity]!!
@@ -39,8 +42,7 @@ class Louvain(private val graph: Graph) {
         for (value in targetCommunity.values.toSet()) {
             val keys = mutableSetOf<Int>()
             for ((key, value1) in targetCommunity) {
-                if (value1 == value)
-                    keys.add(key)
+                if (value1 == value) keys.add(key)
             }
 
             answer.add(keys)
@@ -63,10 +65,16 @@ class Louvain(private val graph: Graph) {
             val neighbour2 = edge.vertices.second
             val closeness = edge.weight
             if (graph.isDirected) {
-                n.neighbours.getOrPut(neighbour1) { mutableSetOf() }.add(Relation(closeness, neighbour2))
+                n.neighbours
+                    .getOrPut(neighbour1) { mutableSetOf() }
+                    .add(Relation(closeness, neighbour2))
             } else {
-                n.neighbours.getOrPut(neighbour1) { mutableSetOf() }.add(Relation(closeness, neighbour2))
-                n.neighbours.getOrPut(neighbour2) { mutableSetOf() }.add(Relation(closeness, neighbour1))
+                n.neighbours
+                    .getOrPut(neighbour1) { mutableSetOf() }
+                    .add(Relation(closeness, neighbour2))
+                n.neighbours
+                    .getOrPut(neighbour2) { mutableSetOf() }
+                    .add(Relation(closeness, neighbour1))
             }
         }
 
@@ -86,7 +94,10 @@ class Louvain(private val graph: Graph) {
             for (relation in n.neighbours[anchor]!!) {
                 val neighbour = relation.id
                 if (communities[anchor] == communities[neighbour]) {
-                    link += 1.0 - (n.neighbours[anchor]!!.size * n.neighbours[neighbour]!!.size) / (2 * closeness)
+                    link +=
+                        1.0 -
+                            (n.neighbours[anchor]!!.size * n.neighbours[neighbour]!!.size) /
+                                (2 * closeness)
                 }
             }
         }
@@ -94,7 +105,7 @@ class Louvain(private val graph: Graph) {
         return link / (2 * closeness)
     }
 
-    private fun paintGraph(comm : List<Set<Int>>) : List<Set<Int>> {
+    private fun paintGraph(comm: List<Set<Int>>): List<Set<Int>> {
         for ((newCommunityIndex, community) in comm.withIndex()) {
             for (vertexIdx in community) {
                 graph.vertices[vertexIdx]!!.community = newCommunityIndex

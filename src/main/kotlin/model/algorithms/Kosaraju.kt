@@ -37,7 +37,8 @@ class Kosaraju(private val graph: Graph) {
         val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
             val edge = graph.edges[edgeID] ?: continue
-            val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
+            val nextVertexID =
+                if (vertexID == edge.vertices.first) edge.vertices.second else edge.vertices.first
             if (used[nextVertexID] != true) {
                 topologySort(graph, nextVertexID)
             }
@@ -56,7 +57,8 @@ class Kosaraju(private val graph: Graph) {
         val vertex = graph.vertices[vertexID] ?: return
         for (edgeID in vertex.incidentEdges) {
             val edge = graph.edges[edgeID] ?: continue
-            val nextVertexID = if (vertexID == edge.vertices.first) edge.vertices.second else continue
+            val nextVertexID =
+                if (vertexID == edge.vertices.first) edge.vertices.second else continue
             if (used[nextVertexID] != true) {
                 dfs(nextVertexID)
             }

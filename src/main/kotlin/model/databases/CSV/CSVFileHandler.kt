@@ -5,11 +5,11 @@ import androidx.compose.ui.unit.dp
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import io.github.blackmo18.grass.dsl.grass
+import java.io.File
 import model.databases.CSV.data.CSVGraphData
 import model.databases.CSV.data.VertexViewData
 import model.graph.Graph
 import viewmodel.graph.GraphViewModel
-import java.io.File
 
 @ExperimentalStdlibApi
 class CSVFileHandler {
@@ -20,7 +20,20 @@ class CSVFileHandler {
         graphViewModel.addEdgesToData(data)
 
         val csvWriter = csvWriter { delimiter = ',' }
-        val header = listOf("isNode", "name", "id", "x", "y", "color", "radius", "community", "from", "to", "weight")
+        val header =
+            listOf(
+                "isNode",
+                "name",
+                "id",
+                "x",
+                "y",
+                "color",
+                "radius",
+                "community",
+                "from",
+                "to",
+                "weight"
+            )
 
         csvWriter.writeAll(listOf(header), file)
         csvWriter.writeAll(data, file, append = true)
@@ -37,19 +50,23 @@ class CSVFileHandler {
             data.onEach {
                 if (it.isNode) {
                     newGraph.addVertex(it.id, it.name)
-                    val rgb:List<Float> = it.color?.split("/")?.map { color -> color.toFloat()} ?: listOf(0f, 0f, 0f)
-                    val vertex = VertexViewData(
-                        it.x,
-                        it.y,
-                        it.community ?: -1,
-                        it.radius ?: 2.5,
-                        Color(rgb[0], rgb[1], rgb[2])
-                    )
+                    val rgb: List<Float> =
+                        it.color?.split("/")?.map { color -> color.toFloat() } ?: listOf(0f, 0f, 0f)
+                    val vertex =
+                        VertexViewData(
+                            it.x,
+                            it.y,
+                            it.community ?: -1,
+                            it.radius ?: 2.5,
+                            Color(rgb[0], rgb[1], rgb[2])
+                        )
                     vertices[it.id] = vertex
                 }
-
             }
-            data.onEach { if (!it.isNode) newGraph.addEdge(it.from!!.toInt(), it.to!!.toInt(), it.weight!!, it.id) }
+            data.onEach {
+                if (!it.isNode)
+                    newGraph.addEdge(it.from!!.toInt(), it.to!!.toInt(), it.weight!!, it.id)
+            }
 
             val newGraphView = GraphViewModel(newGraph)
             newGraphView.verticesViewValues.onEach {
@@ -69,38 +86,44 @@ class CSVFileHandler {
 
     private fun GraphViewModel.addVerticesToData(data: MutableList<MutableList<String>>) {
         verticesViewValues.onEach {
-            val csvRow = mutableListOf(
-                "true",
-                it.vertex.id.toString(),
-                it.vertex.data,
-                it.x.toString(),
-                it.y.toString(),
-                it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString(),
-                it.radius.toString(),
-                it.vertex.community.toString(),
-                "",
-                "",
-                ""
-            )
+            val csvRow =
+                mutableListOf(
+                    "true",
+                    it.vertex.id.toString(),
+                    it.vertex.data,
+                    it.x.toString(),
+                    it.y.toString(),
+                    it.color.red.toString() +
+                        "/" +
+                        it.color.green.toString() +
+                        "/" +
+                        it.color.blue.toString(),
+                    it.radius.toString(),
+                    it.vertex.community.toString(),
+                    "",
+                    "",
+                    ""
+                )
             data.add(csvRow)
         }
     }
 
     private fun GraphViewModel.addEdgesToData(data: MutableList<MutableList<String>>) {
         edgesViewValues.onEach {
-            val csvRow = mutableListOf(
-                "false",
-                it.e.id.toString(),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                it.u.vertex.id.toString(),
-                it.v.vertex.id.toString(),
-                it.weight
-            )
+            val csvRow =
+                mutableListOf(
+                    "false",
+                    it.e.id.toString(),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    it.u.vertex.id.toString(),
+                    it.v.vertex.id.toString(),
+                    it.weight
+                )
             data.add(csvRow)
         }
     }

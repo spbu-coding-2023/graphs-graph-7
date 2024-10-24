@@ -14,10 +14,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShortestPathDialog(
-    showDialog: MutableState<Boolean>,
-    onPathSelected: (Int, Int) -> Unit
-) {
+fun ShortestPathDialog(showDialog: MutableState<Boolean>, onPathSelected: (Int, Int) -> Unit) {
     var startIdx by remember { mutableStateOf(0) }
     var endIdx by remember { mutableStateOf(0) }
 
@@ -25,10 +22,12 @@ fun ShortestPathDialog(
         AlertDialog(
             onDismissRequest = { showDialog.value = false },
             buttons = {
-                Button(onClick = {
-                    onPathSelected(startIdx, endIdx)
-                    showDialog.value = false
-                }) {
+                Button(
+                    onClick = {
+                        onPathSelected(startIdx, endIdx)
+                        showDialog.value = false
+                    }
+                ) {
                     Text("Найти кратчайший путь")
                 }
             },

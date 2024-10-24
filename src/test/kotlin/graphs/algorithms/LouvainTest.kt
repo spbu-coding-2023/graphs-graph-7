@@ -1,8 +1,7 @@
 package graphs.algorithms
 
-import model.algorithms.Kosaraju
-import model.graph.Graph
 import model.community.Louvain
+import model.graph.Graph
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -54,7 +53,7 @@ class LouvainTest {
         // graph and algo initialization
         val graph = createSampleGraph()
         val algo = Louvain(graph)
-        val expected = mutableListOf(setOf(0,7,1,6), setOf(9,11,2,4), setOf(10,5,3,8))
+        val expected = mutableListOf(setOf(0, 7, 1, 6), setOf(9, 11, 2, 4), setOf(10, 5, 3, 8))
 
         val currently = algo.findCommunities()
 
@@ -67,7 +66,7 @@ class LouvainTest {
         val graph = createSampleGraph()
         graph.isDirected = false
         val algo = Louvain(graph)
-        val expected = mutableListOf(setOf(0,1,2,4,6,7,9,11), setOf(10,5,3,8))
+        val expected = mutableListOf(setOf(0, 1, 2, 4, 6, 7, 9, 11), setOf(10, 5, 3, 8))
 
         val currently = algo.findCommunities()
 
@@ -80,7 +79,7 @@ class LouvainTest {
         val graph = createSampleGraph()
         val algo = Louvain(graph)
 
-        val expectedCommunities = mutableListOf(0,0,1,2,1,2,0,0,2,1,2,1)
+        val expectedCommunities = mutableListOf(0, 0, 1, 2, 1, 2, 0, 0, 2, 1, 2, 1)
 
         algo.findCommunities()
 
@@ -98,7 +97,7 @@ class LouvainTest {
         val graph = createSampleGraph2()
         val algo = Louvain(graph)
 
-        val expected = mutableListOf(setOf(1,2,3), setOf(4,5,6))
+        val expected = mutableListOf(setOf(1, 2, 3), setOf(4, 5, 6))
 
         algo.findCommunities()
 
@@ -114,7 +113,7 @@ class LouvainTest {
         graph.isDirected = false
         val algo = Louvain(graph)
 
-        val expected = mutableListOf(setOf(1,2,3), setOf(4,5,6))
+        val expected = mutableListOf(setOf(1, 2, 3), setOf(4, 5, 6))
 
         algo.findCommunities()
 

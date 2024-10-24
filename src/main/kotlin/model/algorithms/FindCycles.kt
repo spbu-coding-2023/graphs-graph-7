@@ -1,8 +1,8 @@
 package algorithms
 
+import java.util.*
 import model.graph.Graph
 import model.graph.Vertex
-import java.util.*
 
 class AllCyclesInDirectedGraphJohnson {
     private var blockedSet: MutableSet<Vertex> = mutableSetOf()
@@ -57,7 +57,10 @@ class AllCyclesInDirectedGraphJohnson {
         val graphScc = Graph()
         graphScc.isDirected = true
         for ((i, edge) in subGraph.getEdges().withIndex()) {
-            if ((subGraph.vertices[edge.vertices.first] in minScc) && (subGraph.vertices[edge.vertices.second] in minScc)) {
+            if (
+                (subGraph.vertices[edge.vertices.first] in minScc) &&
+                    (subGraph.vertices[edge.vertices.second] in minScc)
+            ) {
                 graphScc.addVertex(edge.vertices.first, "")
                 graphScc.addVertex(edge.vertices.second, "")
                 graphScc.addEdge(edge.vertices.first, edge.vertices.second, edgeID = i)
@@ -98,8 +101,7 @@ class AllCyclesInDirectedGraphJohnson {
                 allCycles.add(cycle)
                 foundCycle = true
             } else if (!blockedSet.contains(neighbor)) {
-                val gotCycle =
-                    findCyclesInSCG(graph, startVertex, neighbor)
+                val gotCycle = findCyclesInSCG(graph, startVertex, neighbor)
                 foundCycle = foundCycle || gotCycle
             }
         }
@@ -117,9 +119,7 @@ class AllCyclesInDirectedGraphJohnson {
     }
 
     private fun getBSet(v: Vertex): MutableSet<Vertex> {
-        return (blockedMap.computeIfAbsent(
-            v
-        ) { HashSet<Vertex>() } as MutableSet<Vertex>?)!!
+        return (blockedMap.computeIfAbsent(v) { HashSet<Vertex>() } as MutableSet<Vertex>?)!!
     }
 
     private fun createSubGraph(startVertex: Int, graph: Graph): Graph {

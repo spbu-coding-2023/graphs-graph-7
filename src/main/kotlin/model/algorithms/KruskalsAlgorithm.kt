@@ -1,19 +1,19 @@
 package model.algorithms
 
-import model.graph.Graph
 import model.graph.Edge
+import model.graph.Graph
 
 class KruskalsMST {
     var resultsId: List<Int> = emptyList()
+
     internal fun kruskals(graph: Graph) {
         var j = 0
         var noOfEdges = 0
         val V = graph.getVertices().size
-        if (V == 1 || V == 0)
-            return
+        if (V == 1 || V == 0) return
         val results = arrayOfNulls<Edge>(V - 1)
         val subsets = arrayOfNulls<Subset>(V)
-        for (i in 0..<V) {
+        for (i in 0 ..< V) {
             subsets[i] = Subset(i, 0)
         }
         val edgesList = graph.edges.values
@@ -36,7 +36,8 @@ class KruskalsMST {
     }
 
     private fun union(
-        subsets: Array<Subset?>, x: Int,
+        subsets: Array<Subset?>,
+        x: Int,
         y: Int,
     ) {
         val rootX = findRoot(subsets, x)
@@ -44,9 +45,7 @@ class KruskalsMST {
 
         if (subsets[rootY]!!.rank < subsets[rootX]!!.rank) {
             subsets[rootY]!!.parent = rootX
-        } else if ((subsets[rootX]!!.rank
-                    < subsets[rootY]!!.rank)
-        ) {
+        } else if ((subsets[rootX]!!.rank < subsets[rootY]!!.rank)) {
             subsets[rootX]!!.parent = rootY
         } else {
             subsets[rootY]!!.parent = rootX
@@ -55,8 +54,7 @@ class KruskalsMST {
     }
 
     private fun findRoot(subsets: Array<Subset?>, i: Int): Int {
-        if (subsets[i]!!.parent != i)
-            subsets[i]!!.parent = findRoot(subsets, subsets[i]!!.parent)
+        if (subsets[i]!!.parent != i) subsets[i]!!.parent = findRoot(subsets, subsets[i]!!.parent)
         return subsets[i]!!.parent
     }
 

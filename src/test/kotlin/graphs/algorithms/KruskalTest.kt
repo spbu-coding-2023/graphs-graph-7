@@ -34,11 +34,12 @@ class KruskalTest {
         algo.kruskals(graph)
         assertEquals(expected, algo.resultsId)
     }
+
     @Test
     fun testSingleVertexGraph() {
         // Test with a single vertex to ensure the algorithm handles this case correctly
         val graph = Graph()
-        graph.addVertex(0,"")
+        graph.addVertex(0, "")
         val expected = emptyList<Int>()
         val algo = KruskalsMST()
         algo.kruskals(graph)

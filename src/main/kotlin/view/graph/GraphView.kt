@@ -10,16 +10,8 @@ import viewmodel.graph.GraphViewModel
 fun GraphView(
     viewModel: GraphViewModel,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-
-    ) {
-        viewModel.verticesViewValues.forEach { v ->
-            VertexView(v, Modifier)
-        }
-        viewModel.edgesViewValues.forEach { e ->
-            EdgeView(e, Modifier)
-        }
+    Box(modifier = Modifier.fillMaxSize()) {
+        viewModel.verticesViewValues.forEach { v -> VertexView(v, Modifier) }
+        viewModel.edgesViewValues.forEach { e -> EdgeView(e, Modifier) }
     }
 }

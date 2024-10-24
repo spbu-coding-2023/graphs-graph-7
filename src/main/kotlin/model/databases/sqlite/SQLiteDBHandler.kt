@@ -1,26 +1,26 @@
 package model.databases.sqlite
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import java.io.File
 import model.databases.sqlite.dao.edge.Edge
+import model.databases.sqlite.dao.edge.Edges
 import model.databases.sqlite.dao.vertices.Vertex
 import model.databases.sqlite.dao.vertices.Vertices
 import model.databases.sqlite.dao.verticesView.VertexView
 import model.databases.sqlite.dao.verticesView.VerticesView
-import androidx.compose.ui.unit.dp
-import model.databases.sqlite.dao.edge.Edges
 import model.graph.Graph
-
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.exists
 import org.jetbrains.exposed.sql.transactions.transaction
 import viewmodel.graph.GraphViewModel
-import java.io.File
 
 class SQLiteDBHandler {
     lateinit var graph: Graph
     lateinit var graphViewModel: GraphViewModel
     var vertexViewModelFlag = false
+
     fun open(file: File, weighted: Boolean, directed: Boolean) {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
         val newGraph = Graph()
@@ -33,24 +33,26 @@ class SQLiteDBHandler {
             Edge.all().forEach { edge ->
                 var weight = edge.weight
                 if (!weighted) {
-                    weight = 1L
+                    weight = 1f
                 }
                 newGraph.addEdge(
-                    edge.first!!.id.toString().toInt(), edge.second!!.id.toString().toInt(),
+                    edge.first!!.id.toString().toInt(),
+                    edge.second!!.id.toString().toInt(),
                     weight,
                     edge.id.toString().toInt()
                 )
                 if (!newGraph.isDirected) {
-                    newGraph.vertices[edge.second!!.id.toString().toInt()]!!.incidentEdges.add(
-                        edge.id.toString().toInt()
-                    )
+                    newGraph.vertices[edge.second!!.id.toString().toInt()]!!
+                        .incidentEdges
+                        .add(edge.id.toString().toInt())
                 }
-                newGraph.vertices[edge.first!!.id.toString().toInt()]!!.incidentEdges.add(edge.id.toString().toInt())
+                newGraph.vertices[edge.first!!.id.toString().toInt()]!!
+                    .incidentEdges
+                    .add(edge.id.toString().toInt())
                 if (VerticesView.exists()) {
                     vertexViewModelFlag = true
                 }
             }
-
         }
         if (vertexViewModelFlag) {
             val newGraphViewModel = GraphViewModel(newGraph)
@@ -86,7 +88,7 @@ class SQLiteDBHandler {
             graph.getEdges().forEach {
                 var newWeight = it.weight
                 if (!weighted) {
-                    newWeight = 1L
+                    newWeight = 1f
                 }
                 Edge.new {
                     first = Vertex.find { Vertices.id eq it.vertices.first }.first()
@@ -95,14 +97,21 @@ class SQLiteDBHandler {
                 }
             }
             graphView.verticesViewValues.forEach {
-
-                val xDoubled: Double = it.x.toString().substring(0, it.x.toString().length - 4).toDouble()
-                val yDoubled: Double = it.y.toString().substring(0, it.x.toString().length - 4).toDouble()
-                val rDoubled: Double = it.radius.toString().substring(0, it.x.toString().length - 4).toDouble()
+                val xDoubled: Double =
+                    it.x.toString().substring(0, it.x.toString().length - 4).toDouble()
+                val yDoubled: Double =
+                    it.y.toString().substring(0, it.x.toString().length - 4).toDouble()
+                val rDoubled: Double =
+                    it.radius.toString().substring(0, it.x.toString().length - 4).toDouble()
 
                 VertexView.new {
                     vertex = Vertex.find { Vertices.id eq it.vertex.id }.first()
-                    color = it.color.red.toString() + ":" + it.color.green.toString() + ":" + it.color.blue.toString()
+                    color =
+                        it.color.red.toString() +
+                            ":" +
+                            it.color.green.toString() +
+                            ":" +
+                            it.color.blue.toString()
                     x = xDoubled
                     y = yDoubled
                     r = rDoubled

@@ -1,22 +1,15 @@
 package view
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import controller.GraphPainterByCommunity
 import controller.GraphPainterByDjikstra
 import controller.GraphPainterByKosaraju
-import model.algorithms.BridgeFinder
 import view.algos.bridgeHighlighter
 import viewmodel.CanvasViewModel
-import viewmodel.graph.VertexViewModel
 
 @Composable
 fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
@@ -27,7 +20,7 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
 
     Column(Modifier.padding(start = 16.dp, end = 0.dp, top = 15.dp)) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { /*TODO*/},
             enabled = true,
         ) {
             Text(
@@ -64,17 +57,13 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
                 showDialog.value = false
 
                 viewModel.graph.let { graph ->
-                    val painter = GraphPainterByDjikstra(graph, viewModel.graphViewModel, startIdx, endIdx)
+                    val painter =
+                        GraphPainterByDjikstra(graph, viewModel.graphViewModel, startIdx, endIdx)
                     painter.paint()
                 }
             }
         }
-        Button(
-            enabled = true,
-            onClick = {
-                bridgesHiglight.value = !bridgesHiglight.value
-            })
-        {
+        Button(enabled = true, onClick = { bridgesHiglight.value = !bridgesHiglight.value }) {
             Text(
                 text = "Поиск мостов",
             )
@@ -83,7 +72,7 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
             bridgeHighlighter(viewModel.bridges)
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { /*TODO*/},
             enabled = true,
         ) {
             Text(
@@ -91,16 +80,14 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
             )
         }
         Button(
-            onClick = {
-                showDialog.value = true
-            },
+            onClick = { showDialog.value = true },
             enabled = true,
             modifier = Modifier.padding(top = 3.dp)
         ) {
             Text(text = "Кратчайший путь алгоритмом Дейкстры")
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { /*TODO*/},
             enabled = true,
             modifier = Modifier.padding(top = 3.dp),
         ) {

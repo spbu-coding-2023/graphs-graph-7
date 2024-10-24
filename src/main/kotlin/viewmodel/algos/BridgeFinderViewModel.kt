@@ -2,14 +2,14 @@ package viewmodel.algos
 
 import model.algorithms.BridgeFinder
 import model.graph.Graph
-import org.gephi.graph.api.GraphView
 import viewmodel.graph.GraphViewModel
 import viewmodel.graph.VertexViewModel
 
 class BridgeFinderViewModel(graph: Graph, graphView: GraphViewModel) {
     val bridgeFinder = BridgeFinder(graph)
     val pairsList = mutableListOf<Pair<VertexViewModel, VertexViewModel>>()
-    init{
+
+    init {
         bridgeFinder.findBridges()
         val edges = bridgeFinder.bridges
         edges.forEach { bridge ->
@@ -19,7 +19,4 @@ class BridgeFinderViewModel(graph: Graph, graphView: GraphViewModel) {
             pairsList.add(Pair(firstEnd, secondEnd))
         }
     }
-
-
-
 }

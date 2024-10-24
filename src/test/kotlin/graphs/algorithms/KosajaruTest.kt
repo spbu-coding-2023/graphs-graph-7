@@ -2,8 +2,8 @@ package graphs.algorithms
 
 import model.algorithms.Kosaraju
 import model.graph.Graph
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 //               graph sample
 //
@@ -15,22 +15,22 @@ import org.junit.jupiter.api.Assertions.*
 //
 // components: (0,7,1,6) (11) (9,2,4) (10,8,3,5)
 
-fun createSampleGraph() : Graph {
+fun createSampleGraph(): Graph {
     // Добавление вершин
     val graph = Graph()
     graph.isDirected = true
-    graph.addVertex(0,"A")
-    graph.addVertex(1,"B")
-    graph.addVertex(2,"C")
-    graph.addVertex(3,"D")
-    graph.addVertex(4,"E")
-    graph.addVertex(5,"F")
-    graph.addVertex(6,"G")
-    graph.addVertex(7,"H")
-    graph.addVertex(8,"I")
-    graph.addVertex(9,"J")
-    graph.addVertex(10,"K")
-    graph.addVertex(11,"L")
+    graph.addVertex(0, "A")
+    graph.addVertex(1, "B")
+    graph.addVertex(2, "C")
+    graph.addVertex(3, "D")
+    graph.addVertex(4, "E")
+    graph.addVertex(5, "F")
+    graph.addVertex(6, "G")
+    graph.addVertex(7, "H")
+    graph.addVertex(8, "I")
+    graph.addVertex(9, "J")
+    graph.addVertex(10, "K")
+    graph.addVertex(11, "L")
 
     // Добавление рёбер
     graph.addEdge(0, 7, 1L, 0)
@@ -117,13 +117,14 @@ class KosarajuTest {
         // graph and algo initialization
         val graph = createSampleGraph()
         val algo = Kosaraju(graph)
-        val expected = mutableListOf(
-            mutableListOf(3, 8, 5, 10),
-            mutableListOf(2, 9, 4),
-            mutableListOf(11),
-            mutableListOf(1),
-            mutableListOf(0,7,6),
-        )
+        val expected =
+            mutableListOf(
+                mutableListOf(3, 8, 5, 10),
+                mutableListOf(2, 9, 4),
+                mutableListOf(11),
+                mutableListOf(1),
+                mutableListOf(0, 7, 6),
+            )
 
         // algo start from different positions
         val currently = algo.findStronglyConnectedComponents()
@@ -138,13 +139,14 @@ class KosarajuTest {
         val graph = createSampleGraph()
         graph.isDirected = false
         val algo = Kosaraju(graph)
-        val expected = mutableListOf(
-            mutableListOf(3, 8, 5, 10),
-            mutableListOf(2, 9, 4),
-            mutableListOf(11),
-            mutableListOf(1),
-            mutableListOf(0,7,6),
-        )
+        val expected =
+            mutableListOf(
+                mutableListOf(3, 8, 5, 10),
+                mutableListOf(2, 9, 4),
+                mutableListOf(11),
+                mutableListOf(1),
+                mutableListOf(0, 7, 6),
+            )
 
         // algo start from different positions
         val currently = algo.findStronglyConnectedComponents()

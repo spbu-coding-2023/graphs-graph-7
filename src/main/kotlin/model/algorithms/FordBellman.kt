@@ -1,11 +1,10 @@
 package model.algorithms
 
-import model.graph.Graph
 import kotlin.math.max
-
+import model.graph.Graph
 
 class FordBellman(graph: Graph) {
-    val INF = Long.MAX_VALUE
+    val INF = Float.MAX_VALUE
     private val verticesNumber = graph.vertices.size
     private val edgesNumber = graph.edges.size
 
@@ -28,7 +27,6 @@ class FordBellman(graph: Graph) {
         val cycleEndFlag = true
         while (cycleEndFlag) {
 
-
             if (current == tmpCycleFlag && resultPathVertices.size > 1) {
                 break
             }
@@ -46,13 +44,13 @@ class FordBellman(graph: Graph) {
     }
 
     fun shortestPath(startVertexID: Int, endVertexID: Int) {
-        pathsLength[startVertexID - 1] = 0
+        pathsLength[startVertexID - 1] = 0f
         var curCycleFlag = -1
         for (i in 0 until verticesNumber) {
             curCycleFlag = -1
             for (j in 0 until edgesNumber) {
-                val firstVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1]
-                val secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1]
+                val firstVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1].toFloat()
+                val secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1].toFloat()
                 if (firstVertexPath < INF) {
                     if (secondVertexPath > firstVertexPath + curGraph.edges[j + 1]!!.weight) {
                         pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1] =
@@ -95,6 +93,3 @@ class FordBellman(graph: Graph) {
         } while (pathVertices[tmp - 1] != -1)
     }
 }
-
-
-

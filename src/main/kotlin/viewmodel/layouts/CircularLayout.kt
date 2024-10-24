@@ -2,15 +2,14 @@ package viewmodel.layouts
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.gephi.graph.api.GraphView
-import viewmodel.graph.GraphViewModel
-import viewmodel.graph.VertexViewModel
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 import kotlin.random.Random
+import viewmodel.graph.GraphViewModel
+import viewmodel.graph.VertexViewModel
 
-class CircularLayout: RepresentationStrategy {
+class CircularLayout : RepresentationStrategy {
     override fun place(width: Double, height: Double, graph: GraphViewModel) {
         val vertices = graph.verticesViewValues
         if (vertices.isEmpty()) {
@@ -28,31 +27,30 @@ class CircularLayout: RepresentationStrategy {
         first.y = point.second.dp
         first.color = Color.Gray
 
-        sorted
-            .drop(1)
-            .onEach {
-                point = point.rotate(center, angle)
-                it.x = point.first.dp
-                it.y = point.second.dp
-            }
+        sorted.drop(1).onEach {
+            point = point.rotate(center, angle)
+            it.x = point.first.dp
+            it.y = point.second.dp
+        }
     }
 
     override fun highlight(vertices: Collection<VertexViewModel>) {
-        vertices
-            .onEach {
-                it.color = if (Random.nextBoolean()) Color.Green else Color.Blue
-            }
+        vertices.onEach { it.color = if (Random.nextBoolean()) Color.Green else Color.Blue }
     }
 
-    private fun Pair<Double, Double>.rotate(pivot: Pair<Double, Double>, angle: Double): Pair<Double, Double> {
+    private fun Pair<Double, Double>.rotate(
+        pivot: Pair<Double, Double>,
+        angle: Double
+    ): Pair<Double, Double> {
         val sin = sin(angle)
         val cos = cos(angle)
 
         val diff = first - pivot.first to second - pivot.second
-        val rotated = Pair(
-            diff.first * cos - diff.second * sin,
-            diff.first * sin + diff.second * cos,
-        )
+        val rotated =
+            Pair(
+                diff.first * cos - diff.second * sin,
+                diff.first * sin + diff.second * cos,
+            )
         return rotated.first + pivot.first to rotated.second + pivot.second
     }
 }

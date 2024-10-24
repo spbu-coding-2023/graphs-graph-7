@@ -1,6 +1,5 @@
 package model.databases.sqlite.dao.verticesView
 
-
 import model.databases.sqlite.dao.vertices.Vertex
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

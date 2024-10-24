@@ -16,14 +16,16 @@ fun EdgeView(
 ) {
     Canvas(modifier = modifier.fillMaxSize().zIndex(-1f)) {
         drawLine(
-            start = Offset(
-                viewModel.u.x.toPx() + viewModel.u.radius.toPx(),
-                viewModel.u.y.toPx() + viewModel.u.radius.toPx(),
-            ),
-            end = Offset(
-                viewModel.v.x.toPx() + viewModel.v.radius.toPx(),
-                viewModel.v.y.toPx() + viewModel.v.radius.toPx(),
-            ),
+            start =
+                Offset(
+                    viewModel.u.x.toPx() + viewModel.u.radius.toPx(),
+                    viewModel.u.y.toPx() + viewModel.u.radius.toPx(),
+                ),
+            end =
+                Offset(
+                    viewModel.v.x.toPx() + viewModel.v.radius.toPx(),
+                    viewModel.v.y.toPx() + viewModel.v.radius.toPx(),
+                ),
             color = Color.Black
         )
     }

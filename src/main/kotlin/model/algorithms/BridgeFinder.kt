@@ -1,8 +1,7 @@
 package model.algorithms
 
-import model.graph.Graph
-import java.awt.geom.Point2D.distance
 import kotlin.math.min
+import model.graph.Graph
 
 class BridgeFinder(graph: Graph) {
     private val arraySize = graph.vertices.size
@@ -16,12 +15,17 @@ class BridgeFinder(graph: Graph) {
         var timer = 0
 
         fun isBridge(edgeID: Int): Int? {
-            val destination = curGraph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
+            val destination =
+                curGraph.edges[edgeID]?.vertices?.second ?: throw Exception("Incorrect Database")
             val bridge = curGraph.edges[edgeID]
             val bridges =
-                curGraph.vertices[bridge?.vertices?.first]?.incidentEdges ?: throw Exception("Incorrect Database")
+                curGraph.vertices[bridge?.vertices?.first]?.incidentEdges
+                    ?: throw Exception("Incorrect Database")
             for (curBridge in bridges) {
-                if (curGraph.edges[curBridge]!!.vertices.second == destination && curBridge != edgeID) {
+                if (
+                    curGraph.edges[curBridge]!!.vertices.second == destination &&
+                        curBridge != edgeID
+                ) {
                     return null
                 }
             }
@@ -36,11 +40,12 @@ class BridgeFinder(graph: Graph) {
             val incidentEdgesID = curGraph.vertices[vertexID + 1]!!.incidentEdges
             for (edgeID in incidentEdgesID) {
                 val edge = curGraph.edges[edgeID]!!.vertices
-                val newVertexID = if (vertexID == edge.first - 1) {
-                    edge.second - 1
-                } else {
-                    edge.first - 1
-                }
+                val newVertexID =
+                    if (vertexID == edge.first - 1) {
+                        edge.second - 1
+                    } else {
+                        edge.first - 1
+                    }
 
                 if (newVertexID == parent) continue
 

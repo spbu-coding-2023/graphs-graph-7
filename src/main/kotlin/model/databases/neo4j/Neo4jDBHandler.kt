@@ -11,9 +11,13 @@ class Neo4jHandler(private val repository: Neo4jRepository) {
 
         if (graph.isDirected) {
             for (edge in graph.getEdges()) {
-                repository.addDirectedEdge(edge.vertices.first, edge.vertices.second, edge.weight, edge.id)
+                repository.addDirectedEdge(
+                    edge.vertices.first,
+                    edge.vertices.second,
+                    edge.weight,
+                    edge.id
+                )
             }
-
         } else {
             for (edge in graph.getEdges()) {
                 repository.addEdge(edge.vertices.first, edge.vertices.second, edge.weight, edge.id)

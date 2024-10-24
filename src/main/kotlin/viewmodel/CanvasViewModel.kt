@@ -21,6 +21,5 @@ class CanvasViewModel(var graph: Graph, val representationStrategy: Representati
 
     init {
         representationStrategy.place(1280.0, 860.0, graphViewModel)
-
     }
 }
