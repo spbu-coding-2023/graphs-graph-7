@@ -21,15 +21,6 @@ git@github.com:spbu-coding-2023/graphs-graph-7.git
 ./gradlew run
 ```
 
-
-
-
-
-
-
-
-
-
 ## Раскладка графа
  Для раскладки графа используется алгоритм [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679).     
 
