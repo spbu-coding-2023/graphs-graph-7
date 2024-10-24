@@ -10,3 +10,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       - name: Check formatter
         run: ./gradlew ktfmtCheck
+        
