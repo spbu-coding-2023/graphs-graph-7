@@ -26,6 +26,8 @@ import model.databases.sqlite.SQLiteDBHandler
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
 import viewmodel.LoadGraphMenuViewModel
+import viewmodel.layouts.ForceAtlas2Layout
+import viewmodel.layouts.CircularLayout
 
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
@@ -181,8 +183,22 @@ fun Canvas(viewModel: CanvasViewModel) {
                         }
                         Text("Menu", modifier = Modifier.padding(16.dp))
                     }
-                    Divider()
-
+                    HorizontalDivider()
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Button(onClick = {
+                            viewModel.switchLayout(ForceAtlas2Layout())
+                        }) {
+                            Text("Force Atlas 2")
+                        }
+                        Button(onClick = {
+                            viewModel.switchLayout(CircularLayout())
+                        }) {
+                            Text("Circular Layout")
+                        }
+                    }
                     NavigationDrawerItem(
                         label = { Text(text = "Доступные алгоритмы") },
                         icon = { Icon(Icons.Filled.List, contentDescription = null) },
@@ -200,7 +216,7 @@ fun Canvas(viewModel: CanvasViewModel) {
             Scaffold(
                 floatingActionButton = {
                     ExtendedFloatingActionButton(
-                        text = { Text("Show drawer") },
+                        text = { Text("По приколу чисто") },
                         icon = { Icon(Icons.Filled.Add, contentDescription = "") },
                         onClick = {
                             scope.launch { drawerState.apply { if (isClosed) open() else close() } }

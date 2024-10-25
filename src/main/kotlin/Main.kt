@@ -11,6 +11,7 @@ import model.graph.Graph
 import view.Canvas
 import viewmodel.CanvasViewModel
 import viewmodel.layouts.ForceAtlas2Layout
+import viewmodel.layouts.CircularLayout
 
 val graph =
     Graph().apply {
@@ -67,10 +68,8 @@ val windowSizeStart = Pair(820, 640)
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        val canvasGraph = CanvasViewModel(graph, ForceAtlas2Layout())
+        val canvasGraph = CanvasViewModel(graph, CircularLayout())
         MaterialTheme { Canvas(canvasGraph) }
-    }
 }
 
 fun main() = application {
