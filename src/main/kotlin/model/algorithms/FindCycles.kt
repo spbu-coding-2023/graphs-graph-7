@@ -3,6 +3,7 @@ package algorithms
 import java.util.*
 import model.graph.Graph
 import model.graph.Vertex
+import model.algorithms.Kosaraju
 
 class AllCyclesInDirectedGraphJohnson {
     private var blockedSet: MutableSet<Vertex> = mutableSetOf()
@@ -16,10 +17,10 @@ class AllCyclesInDirectedGraphJohnson {
         stack = LinkedList<Vertex?>()
         allCycles = ArrayList<List<Vertex?>>()
         var startIndex = 1
-        val tarjan = TarjanStronglyConnectedComponent()
+        val kosaraju = Kosaraju(graph)
         while (startIndex <= graph.vertices.size) {
             val subGraph: Graph = createSubGraph(startIndex, graph)
-            val sccs: List<Set<Vertex>> = tarjan.scc(subGraph)
+            val sccs: List<List<Int>> = kosaraju.findStronglyConnectedComponents()
             val maybeLeastVertex: Vertex? = leastIndexSCC(sccs, subGraph)
             if (maybeLeastVertex != null) {
                 val leastVertex: Vertex = maybeLeastVertex
@@ -34,18 +35,18 @@ class AllCyclesInDirectedGraphJohnson {
         return allCycles
     }
 
-    private fun leastIndexSCC(sccs: List<Set<Vertex>>, subGraph: Graph): Vertex? {
+    private fun leastIndexSCC(sccs: List<List<Int>>, subGraph: Graph): Vertex? {
         var min = Int.MAX_VALUE
         var minVertex: Vertex? = null
-        var minScc: Set<Vertex?> = mutableSetOf()
+        var minScc: List<Int?> = mutableListOf()
         for (scc in sccs) {
             if (scc.size == 1) {
                 continue
             }
-            for (vertex in scc) {
-                if (vertex.id < min) {
-                    min = vertex.id
-                    minVertex = vertex
+            for (vertexId in scc) {
+                if (vertexId < min) {
+                    min = vertexId
+                    minVertex = subGraph.vertices[vertexId]
                     minScc = scc
                 }
             }
@@ -58,8 +59,8 @@ class AllCyclesInDirectedGraphJohnson {
         graphScc.isDirected = true
         for ((i, edge) in subGraph.getEdges().withIndex()) {
             if (
-                (subGraph.vertices[edge.vertices.first] in minScc) &&
-                    (subGraph.vertices[edge.vertices.second] in minScc)
+                (subGraph.vertices[edge.vertices.first]?.id in minScc) &&
+                    (subGraph.vertices[edge.vertices.second]?.id in minScc)
             ) {
                 graphScc.addVertex(edge.vertices.first, "")
                 graphScc.addVertex(edge.vertices.second, "")
