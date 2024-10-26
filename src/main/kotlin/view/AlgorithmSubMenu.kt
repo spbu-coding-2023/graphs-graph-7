@@ -10,6 +10,7 @@ import controller.GraphPainterByCycles
 import controller.GraphPainterByDjikstra
 import controller.GraphPainterByKosaraju
 import controller.GraphPainterByKruskal
+import controller.GraphSizerByCentrality
 import view.algos.bridgeHighlighter
 import viewmodel.CanvasViewModel
 
@@ -22,7 +23,11 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
 
     Column(Modifier.padding(start = 16.dp, end = 0.dp, top = 15.dp)) {
         Button(
-            onClick = { /*TODO*/},
+            onClick = {
+                val graph = viewModel.graph
+                val changer = GraphSizerByCentrality(graph, viewModel.graphViewModel)
+                changer.changeSize()
+            },
             enabled = true,
         ) {
             Text(
