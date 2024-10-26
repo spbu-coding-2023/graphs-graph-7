@@ -5,19 +5,18 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
+import java.io.File
+import model.databases.CSV.CSVFileHandler
 import model.databases.neo4j.Neo4jHandler
 import model.databases.neo4j.Neo4jRepository
 import model.databases.sqlite.SQLiteDBHandler
 import viewmodel.SaveGraphMenuViewModel
-import viewmodel.graph.GraphViewModel
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import java.io.File
-import model.databases.CSV.CSVFileHandler
 
 @Composable
 @ExperimentalStdlibApi
@@ -128,11 +127,16 @@ fun SaveGraph(viewModel: SaveGraphMenuViewModel) {
                                 val file = File(fileAddress)
                                 val csvHandler = CSVFileHandler()
                                 csvHandler.save(file, viewModel.canvasViewModel.graphViewModel)
-                                
+
                                 viewModel.canvasViewModel.isOpenSaveGraph.value = false
                             }
                             StorageType.NEO4J -> {
-                                val repo = Neo4jRepository(viewModel.uri.value, viewModel.login.value, viewModel.password.value)
+                                val repo =
+                                    Neo4jRepository(
+                                        viewModel.uri.value,
+                                        viewModel.login.value,
+                                        viewModel.password.value
+                                    )
                                 val handler = Neo4jHandler(repo)
                                 val wasGraphDirected = viewModel.canvasViewModel.graph.isDirected
                                 handler.saveGraphToNeo4j(viewModel.canvasViewModel.graph)

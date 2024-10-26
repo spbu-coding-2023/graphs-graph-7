@@ -7,7 +7,7 @@ class KruskalsMST {
     internal fun kruskals(graph: Graph): List<Int> {
         val numVertices = graph.getVertices().size
         if (numVertices <= 1) return emptyList()
-        
+
         val results = mutableListOf<Edge>()
         val subsets = mutableMapOf<Int, Subset>()
 

@@ -65,12 +65,14 @@ val graph =
 val windowSizeStart = Pair(820, 640)
 
 @Composable
+@ExperimentalStdlibApi
 @Preview
 fun App() {
     val canvasGraph = CanvasViewModel(graph, CircularLayout())
     MaterialTheme { Canvas(canvasGraph) }
 }
 
+@ExperimentalStdlibApi
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,

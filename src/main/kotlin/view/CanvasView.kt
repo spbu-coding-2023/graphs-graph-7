@@ -15,13 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import java.io.File
 import kotlinx.coroutines.launch
-import model.databases.neo4j.Neo4jHandler
-import model.databases.neo4j.Neo4jRepository
-import model.databases.sqlite.SQLiteDBHandler
 import view.graph.GraphView
 import viewmodel.CanvasViewModel
 import viewmodel.LoadGraphMenuViewModel
@@ -29,6 +23,7 @@ import viewmodel.SaveGraphMenuViewModel
 import viewmodel.layouts.CircularLayout
 import viewmodel.layouts.ForceAtlas2Layout
 
+@ExperimentalStdlibApi
 @Composable
 fun Canvas(viewModel: CanvasViewModel) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -72,7 +67,9 @@ fun Canvas(viewModel: CanvasViewModel) {
                     )
                     AnimatedVisibility(visible = showSubMenu.value) { AlgorithmSubMenu(viewModel) }
                     Button(onClick = { viewModel.isOpenLoadGraph = true }) { Text("Load graph") }
-                    Button(onClick = { viewModel.isOpenSaveGraph.value = true }) {Text(text = "Save Graph")}
+                    Button(onClick = { viewModel.isOpenSaveGraph.value = true }) {
+                        Text(text = "Save Graph")
+                    }
                 }
             },
         ) {

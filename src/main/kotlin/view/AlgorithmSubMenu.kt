@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import controller.GraphPainterByCommunity
+import controller.GraphPainterByCycles
 import controller.GraphPainterByDjikstra
 import controller.GraphPainterByKosaraju
 import controller.GraphPainterByKruskal
@@ -82,6 +83,18 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
         ) {
             Text(
                 text = "Построение минимального остовного дерева",
+            )
+        }
+        Button(
+            onClick = {
+                val graph = viewModel.graph
+                val painter = GraphPainterByCycles(graph, viewModel.graphViewModel)
+                painter.paint()
+            },
+            enabled = true,
+        ) {
+            Text(
+                text = "Поиск циклов",
             )
         }
         Button(
