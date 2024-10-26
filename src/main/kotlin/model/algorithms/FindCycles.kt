@@ -1,9 +1,9 @@
 package algorithms
 
 import java.util.*
+import model.algorithms.Kosaraju
 import model.graph.Graph
 import model.graph.Vertex
-import model.algorithms.Kosaraju
 
 class AllCyclesInDirectedGraphJohnson {
     private var blockedSet: MutableSet<Vertex> = mutableSetOf()

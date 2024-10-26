@@ -49,8 +49,10 @@ class FordBellman(graph: Graph) {
         for (i in 0 until verticesNumber) {
             curCycleFlag = -1
             for (j in 0 until edgesNumber) {
-                val firstVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1].toFloat()
-                val secondVertexPath = pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1].toFloat()
+                val firstVertexPath =
+                    pathsLength[curGraph.edges[j + 1]!!.vertices.first - 1].toFloat()
+                val secondVertexPath =
+                    pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1].toFloat()
                 if (firstVertexPath < INF) {
                     if (secondVertexPath > firstVertexPath + curGraph.edges[j + 1]!!.weight) {
                         pathsLength[curGraph.edges[j + 1]!!.vertices.second - 1] =
