@@ -5,7 +5,7 @@ import model.algorithms.Kosaraju
 import model.graph.Graph
 import model.graph.Vertex
 
-class AllCyclesInDirectedGraphJohnson {
+class FindCycles {
     private var blockedSet: MutableSet<Vertex> = mutableSetOf()
     private var blockedMap: MutableMap<Vertex, Set<Vertex>?> = mutableMapOf()
     private var stack: Deque<Vertex?> = LinkedList()
@@ -120,7 +120,10 @@ class AllCyclesInDirectedGraphJohnson {
     }
 
     private fun getBSet(v: Vertex): MutableSet<Vertex> {
-        return (blockedMap.computeIfAbsent(v) { HashSet<Vertex>() } as MutableSet<Vertex>?)!!
+        if (!blockedMap.containsKey(v)) {
+            blockedMap[v] = HashSet<Vertex>()
+        }
+        return (blockedMap[v] as MutableSet<Vertex>?)!!
     }
 
     private fun createSubGraph(startVertex: Int, graph: Graph): Graph {
