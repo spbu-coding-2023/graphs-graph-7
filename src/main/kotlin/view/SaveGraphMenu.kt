@@ -17,8 +17,10 @@ import viewmodel.SaveGraphMenuViewModel
 import viewmodel.graph.GraphViewModel
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import java.io.File
+import model.databases.CSV.CSVFileHandler
 
 @Composable
+@ExperimentalStdlibApi
 fun SaveGraph(viewModel: SaveGraphMenuViewModel) {
     var isWeighted by remember { mutableStateOf(false) }
     var isDirected by remember { mutableStateOf(false) }
@@ -122,16 +124,19 @@ fun SaveGraph(viewModel: SaveGraphMenuViewModel) {
                     onClick = {
                         when (viewModel.storageType.value) {
                             StorageType.FILE -> {
-                                // Логика сохранения в файл с использованием fileName и
-                                // isDirectedGraph
+                                val fileAddress = "saves/csv/${viewModel.fileName.value}.csv"
+                                val file = File(fileAddress)
+                                val csvHandler = CSVFileHandler()
+                                csvHandler.save(file, viewModel.canvasViewModel.graphViewModel)
+                                
+                                viewModel.canvasViewModel.isOpenSaveGraph.value = false
                             }
                             StorageType.NEO4J -> {
-                                // val repo = Neo4jRepository(uri.value, login.value, password.value)
-                                // val handler = Neo4jHandler(repo)
-                                // val wasGraphDirected = viewModel.graph.isDirected
-                                // viewModel.graph.isDirected = isDirectedGraph.value
-                                // handler.saveGraphToNeo4j(viewModel.graph)
-                                // viewModel.graph.isDirected = wasGraphDirected
+                                val repo = Neo4jRepository(viewModel.uri.value, viewModel.login.value, viewModel.password.value)
+                                val handler = Neo4jHandler(repo)
+                                val wasGraphDirected = viewModel.canvasViewModel.graph.isDirected
+                                handler.saveGraphToNeo4j(viewModel.canvasViewModel.graph)
+                                viewModel.canvasViewModel.graph.isDirected = wasGraphDirected
                             }
                             StorageType.SQLITE -> {
                                 val fileAddress = "saves/sqlite/${viewModel.fileName.value}"
