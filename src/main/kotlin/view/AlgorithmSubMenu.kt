@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import controller.GraphPainterByCommunity
 import controller.GraphPainterByDjikstra
 import controller.GraphPainterByKosaraju
+import controller.GraphPainterByKruskal
 import view.algos.bridgeHighlighter
 import viewmodel.CanvasViewModel
 
@@ -72,7 +73,11 @@ fun AlgorithmSubMenu(viewModel: CanvasViewModel) {
             bridgeHighlighter(viewModel.bridges)
         }
         Button(
-            onClick = { /*TODO*/},
+            onClick = {
+                val graph = viewModel.graph
+                val painter = GraphPainterByKruskal(graph, viewModel.graphViewModel)
+                painter.paint()
+            },
             enabled = true,
         ) {
             Text(
