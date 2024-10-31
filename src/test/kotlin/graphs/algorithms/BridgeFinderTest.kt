@@ -22,12 +22,12 @@ class BridgeFinderTest {
                 addVertex(6, "Arthur Shelby")
                 addVertex(7, "Ryan Gosling")
 
-                addEdge(1, 2, 1, 1)
-                addEdge(3, 4, 2, 2)
-                addEdge(1, 3, 3, 3)
-                addEdge(2, 4, 4, 4)
-                addEdge(2, 5, 5, 5)
-                addEdge(5, 7, 6, 6)
+                addEdge(1, 2, 1f, 1)
+                addEdge(3, 4, 2f, 2)
+                addEdge(1, 3, 3f, 3)
+                addEdge(2, 4, 4f, 4)
+                addEdge(2, 5, 5f, 5)
+                addEdge(5, 7, 6f, 6)
 
                 addVertex(8, "Pudge")
                 addVertex(9, "Tiny")
@@ -37,14 +37,14 @@ class BridgeFinderTest {
                 addVertex(13, "Sniper")
                 addVertex(14, "Roshan")
 
-                addEdge(14, 8, 7, 7)
-                addEdge(14, 9, 8, 8)
-                addEdge(14, 10, 9, 9)
-                addEdge(14, 11, 10, 10)
-                addEdge(14, 12, 11, 11)
-                addEdge(14, 13, 12, 12)
+                addEdge(14, 8, 7f, 7)
+                addEdge(14, 9, 8f, 8)
+                addEdge(14, 10, 9f, 9)
+                addEdge(14, 11, 10f, 10)
+                addEdge(14, 12, 11f, 11)
+                addEdge(14, 13, 12f, 12)
 
-                addEdge(14, 3, 0, 13)
+                addEdge(14, 3, 0f, 13)
             }
     }
 

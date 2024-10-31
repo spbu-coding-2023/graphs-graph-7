@@ -37,13 +37,13 @@ fun createSampleGraph2(): Graph {
     graph.addVertex(5, "E")
     graph.addVertex(6, "F")
 
-    graph.addEdge(1, 2, 10L, 1)
-    graph.addEdge(1, 3, 5L, 2)
-    graph.addEdge(2, 3, 5L, 3)
-    graph.addEdge(3, 4, 15L, 4)
-    graph.addEdge(4, 5, 5L, 5)
-    graph.addEdge(4, 6, 5L, 6)
-    graph.addEdge(5, 6, 10L, 7)
+    graph.addEdge(1, 2, 10f, 1)
+    graph.addEdge(1, 3, 5f, 2)
+    graph.addEdge(2, 3, 5f, 3)
+    graph.addEdge(3, 4, 15f, 4)
+    graph.addEdge(4, 5, 5f, 5)
+    graph.addEdge(4, 6, 5f, 6)
+    graph.addEdge(5, 6, 10f, 7)
     return graph
 }
 

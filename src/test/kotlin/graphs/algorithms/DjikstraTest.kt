@@ -25,13 +25,13 @@ fun createSampleGraphDjikstraDirected(): Graph {
     graph.addVertex(4, "D")
     graph.addVertex(5, "E")
 
-    graph.addEdge(1, 2, 10L, 0)
-    graph.addEdge(1, 5, 100L, 1)
-    graph.addEdge(1, 4, 30L, 2)
-    graph.addEdge(2, 3, 50L, 3)
-    graph.addEdge(3, 5, 10L, 4)
-    graph.addEdge(4, 3, 20L, 5)
-    graph.addEdge(4, 5, 60L, 6)
+    graph.addEdge(1, 2, 10f, 0)
+    graph.addEdge(1, 5, 100f, 1)
+    graph.addEdge(1, 4, 30f, 2)
+    graph.addEdge(2, 3, 50f, 3)
+    graph.addEdge(3, 5, 10f, 4)
+    graph.addEdge(4, 3, 20f, 5)
+    graph.addEdge(4, 5, 60f, 6)
 
     return graph
 }
@@ -46,13 +46,13 @@ fun createSampleGraphDjikstra(): Graph {
     graph.addVertex(4, "D")
     graph.addVertex(5, "E")
 
-    graph.addEdge(1, 2, 10L, 0)
-    graph.addEdge(1, 5, 100L, 1)
-    graph.addEdge(1, 4, 30L, 2)
-    graph.addEdge(2, 3, 50L, 3)
-    graph.addEdge(3, 5, 10L, 4)
-    graph.addEdge(4, 3, 20L, 5)
-    graph.addEdge(4, 5, 60L, 6)
+    graph.addEdge(1, 2, 10f, 0)
+    graph.addEdge(1, 5, 100f, 1)
+    graph.addEdge(1, 4, 30f, 2)
+    graph.addEdge(2, 3, 50f, 3)
+    graph.addEdge(3, 5, 10f, 4)
+    graph.addEdge(4, 3, 20f, 5)
+    graph.addEdge(4, 5, 60f, 6)
 
     return graph
 }
