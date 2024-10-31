@@ -26,7 +26,7 @@ fun EdgeView(
                     viewModel.v.x.toPx() + viewModel.v.radius.toPx(),
                     viewModel.v.y.toPx() + viewModel.v.radius.toPx(),
                 ),
-            color = Color.Black
+            color = viewModel.color
         )
     }
 }
