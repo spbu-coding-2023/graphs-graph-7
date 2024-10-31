@@ -3,6 +3,12 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    id("com.ncorti.ktfmt.gradle") version "0.18.0"
+}
+
+ktfmt {
+    // KotlinLang style - 4 space indentation - From kotlinlang.org/docs/coding-conventions.html
+    kotlinLangStyle()
 }
 
 group = "com.graph"
@@ -10,16 +16,28 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://raw.github.com/gephi/gephi/mvn-thirdparty-repo/")
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
 }
-
+val exposedVersion: String by project
+val neo4jDriverVersion = "4.4.5"
 dependencies {
-    // Note, if you develop a library, you should use compose.desktop.common.
-    // compose.desktop.currentOs should be used in launcher-sourceSet
-    // (in a separate module for demo project and in testMain).
-    // With compose.desktop.common you will also lose @Preview functionality
+    implementation("org.gephi", "gephi-toolkit", "0.10.1", classifier = "all")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation(compose.desktop.currentOs)
+    implementation(compose.material3)
+    implementation(compose.foundation)
+    implementation("org.slf4j:slf4j-nop:latest.release")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+    implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
+    implementation("org.neo4j.driver:neo4j-java-driver:$neo4jDriverVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
 
 compose.desktop {
@@ -31,5 +49,26 @@ compose.desktop {
             packageName = "graphhw"
             packageVersion = "1.0.0"
         }
+    }
+}
+
+tasks.named<Test>("test") {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+tasks.withType<Test> {
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+
+    tasks.register<Copy>("copyPreCommitHook") {
+        description = "Copy pre-commit git hook from the scripts to the .git/hooks folder."
+        group = "git hooks"
+        outputs.upToDateWhen { false }
+        from("$rootDir/scripts/pre-commit")
+        into("$rootDir/.git/hooks/")
+    }
+    tasks.build {
+        dependsOn("copyPreCommitHook")
     }
 }
