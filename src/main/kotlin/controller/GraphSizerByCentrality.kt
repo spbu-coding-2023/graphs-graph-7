@@ -12,7 +12,7 @@ class GraphSizerByCentrality(private val graph: Graph, private val graphViewMode
     
     fun changeSize() {
         for (vertex in centrality.keys) {
-            graphViewModel.verticesView[vertex]!!.radius = centrality[vertex]!!.dp
+            graphViewModel.verticesView[vertex]!!.radius += (centrality[vertex]!!*0.2).dp
             graphViewModel.verticesView[vertex]!!.x += 1.dp
         }
     }
