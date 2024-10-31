@@ -73,20 +73,8 @@ fun Canvas(viewModel: CanvasViewModel) {
                 }
             },
         ) {
-            Scaffold(
-                floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        text = { Text("По приколу чисто") },
-                        icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                        onClick = {
-                            scope.launch { drawerState.apply { if (isClosed) open() else close() } }
-                        }
-                    )
-                }
-            ) {
-                IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Меню")
-                }
+            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                Icon(Icons.Filled.Menu, contentDescription = "Меню")
             }
             GraphView(viewModel.graphViewModel)
         }
